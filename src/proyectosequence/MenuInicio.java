@@ -35,98 +35,154 @@ public class MenuInicio extends javax.swing.JFrame {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
+        jPanel1 = new javax.swing.JPanel();
         lblTitulo = new javax.swing.JLabel();
-        btnJugar = new javax.swing.JLabel();
-        btnConfiguracion = new javax.swing.JLabel();
-        btnReportes = new javax.swing.JLabel();
-        btnCerrarSesion = new javax.swing.JLabel();
-        btnUsers = new javax.swing.JLabel();
+        btnJugar = new javax.swing.JButton();
+        btnConfiguracion = new javax.swing.JButton();
+        btnReportes = new javax.swing.JButton();
+        btnCerrarSesion = new javax.swing.JButton();
+        btnReportes3 = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
+        jPanel1.setBackground(new java.awt.Color(255, 255, 255));
+
+        lblTitulo.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
+        lblTitulo.setForeground(new java.awt.Color(0, 0, 0));
         lblTitulo.setText("Menu Inicio");
 
+        btnJugar.setBackground(new java.awt.Color(0, 0, 102));
+        btnJugar.setFont(new java.awt.Font("Trajan Pro", 1, 24)); // NOI18N
+        btnJugar.setForeground(new java.awt.Color(255, 255, 255));
         btnJugar.setText("Jugar");
-        btnJugar.addMouseListener(new java.awt.event.MouseAdapter() {
-            public void mouseClicked(java.awt.event.MouseEvent evt) {
-                btnJugarMouseClicked(evt);
+        btnJugar.setBorder(javax.swing.BorderFactory.createEtchedBorder());
+        btnJugar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnJugarActionPerformed(evt);
             }
         });
 
-        btnConfiguracion.setText("Configuración");
-        btnConfiguracion.addMouseListener(new java.awt.event.MouseAdapter() {
-            public void mouseClicked(java.awt.event.MouseEvent evt) {
-                btnConfiguracionMouseClicked(evt);
+        btnConfiguracion.setBackground(new java.awt.Color(0, 0, 102));
+        btnConfiguracion.setFont(new java.awt.Font("Trajan Pro", 1, 24)); // NOI18N
+        btnConfiguracion.setForeground(new java.awt.Color(255, 255, 255));
+        btnConfiguracion.setText("Configuracion");
+        btnConfiguracion.setBorder(javax.swing.BorderFactory.createEtchedBorder());
+        btnConfiguracion.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnConfiguracionActionPerformed(evt);
             }
         });
 
+        btnReportes.setBackground(new java.awt.Color(0, 0, 102));
+        btnReportes.setFont(new java.awt.Font("Trajan Pro", 1, 24)); // NOI18N
+        btnReportes.setForeground(new java.awt.Color(255, 255, 255));
         btnReportes.setText("Reportes");
-        btnReportes.addMouseListener(new java.awt.event.MouseAdapter() {
-            public void mouseClicked(java.awt.event.MouseEvent evt) {
-                btnReportesMouseClicked(evt);
+        btnReportes.setBorder(javax.swing.BorderFactory.createEtchedBorder());
+        btnReportes.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnReportesActionPerformed(evt);
             }
         });
 
-        btnCerrarSesion.setText("Cerrar Sesión");
-        btnCerrarSesion.addMouseListener(new java.awt.event.MouseAdapter() {
-            public void mouseClicked(java.awt.event.MouseEvent evt) {
-                btnCerrarSesionMouseClicked(evt);
+        btnCerrarSesion.setBackground(new java.awt.Color(0, 0, 102));
+        btnCerrarSesion.setFont(new java.awt.Font("Trajan Pro", 1, 24)); // NOI18N
+        btnCerrarSesion.setForeground(new java.awt.Color(255, 255, 255));
+        btnCerrarSesion.setText("Cerrar Sesion");
+        btnCerrarSesion.setBorder(javax.swing.BorderFactory.createEtchedBorder());
+        btnCerrarSesion.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnCerrarSesionActionPerformed(evt);
             }
         });
 
-        btnUsers.setText("Cargar Usuarios (prueba)");
-        btnUsers.addMouseListener(new java.awt.event.MouseAdapter() {
-            public void mouseClicked(java.awt.event.MouseEvent evt) {
-                btnUsersMouseClicked(evt);
+        btnReportes3.setBackground(new java.awt.Color(0, 0, 102));
+        btnReportes3.setFont(new java.awt.Font("Trajan Pro", 1, 24)); // NOI18N
+        btnReportes3.setForeground(new java.awt.Color(255, 255, 255));
+        btnReportes3.setText("Cargar usuarios (prueba)");
+        btnReportes3.setBorder(javax.swing.BorderFactory.createEtchedBorder());
+        btnReportes3.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnReportes3ActionPerformed(evt);
             }
         });
+
+        javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
+        jPanel1.setLayout(jPanel1Layout);
+        jPanel1Layout.setHorizontalGroup(
+            jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel1Layout.createSequentialGroup()
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(jPanel1Layout.createSequentialGroup()
+                        .addGap(233, 233, 233)
+                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(btnCerrarSesion)
+                            .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
+                                    .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                        .addComponent(lblTitulo)
+                                        .addComponent(btnJugar, javax.swing.GroupLayout.PREFERRED_SIZE, 93, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                    .addGap(33, 33, 33))
+                                .addComponent(btnConfiguracion, javax.swing.GroupLayout.Alignment.TRAILING)
+                                .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
+                                    .addComponent(btnReportes)
+                                    .addGap(32, 32, 32)))))
+                    .addGroup(jPanel1Layout.createSequentialGroup()
+                        .addGap(16, 16, 16)
+                        .addComponent(btnReportes3)))
+                .addContainerGap(127, Short.MAX_VALUE))
+        );
+        jPanel1Layout.setVerticalGroup(
+            jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel1Layout.createSequentialGroup()
+                .addGap(17, 17, 17)
+                .addComponent(lblTitulo)
+                .addGap(18, 18, 18)
+                .addComponent(btnJugar)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(btnConfiguracion)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(btnReportes)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(btnCerrarSesion)
+                .addGap(27, 27, 27)
+                .addComponent(btnReportes3)
+                .addContainerGap(31, Short.MAX_VALUE))
+        );
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(btnCerrarSesion)
-                    .addComponent(btnReportes)
-                    .addComponent(btnConfiguracion)
-                    .addComponent(btnJugar))
-                .addGap(109, 109, 109))
-            .addGroup(layout.createSequentialGroup()
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(layout.createSequentialGroup()
-                        .addGap(162, 162, 162)
-                        .addComponent(lblTitulo))
-                    .addGroup(layout.createSequentialGroup()
-                        .addGap(22, 22, 22)
-                        .addComponent(btnUsers)))
-                .addGap(61, 198, Short.MAX_VALUE))
+            .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addGap(57, 57, 57)
-                .addComponent(lblTitulo)
-                .addGap(18, 18, 18)
-                .addComponent(btnUsers)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(btnJugar)
-                .addGap(32, 32, 32)
-                .addComponent(btnConfiguracion)
-                .addGap(30, 30, 30)
-                .addComponent(btnReportes)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 31, Short.MAX_VALUE)
-                .addComponent(btnCerrarSesion)
-                .addGap(24, 24, 24))
+                .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
         pack();
         setLocationRelativeTo(null);
     }// </editor-fold>//GEN-END:initComponents
 
-    private void btnCerrarSesionMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnCerrarSesionMouseClicked
+    private void btnJugarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnJugarActionPerformed
         // TODO add your handling code here:
+    }//GEN-LAST:event_btnJugarActionPerformed
+
+    private void btnConfiguracionActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnConfiguracionActionPerformed
+        Configuracion configuracion = new Configuracion(sistemaUsuarios);
+        configuracion.setVisible(true);
+        this.dispose();
+    }//GEN-LAST:event_btnConfiguracionActionPerformed
+
+    private void btnReportesActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnReportesActionPerformed
+        Reportes reportes = new Reportes(sistemaUsuarios);
+        reportes.setVisible(true);
+        this.dispose();
+    }//GEN-LAST:event_btnReportesActionPerformed
+
+    private void btnCerrarSesionActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCerrarSesionActionPerformed
         int opcion = JOptionPane.showConfirmDialog(this, "¿Estás seguro de que deseas cerrar sesión?", "Confirmación", JOptionPane.YES_NO_OPTION);
         if (opcion == JOptionPane.YES_OPTION) {
             MenuPrincipal menuPrincipal = new MenuPrincipal();
@@ -135,22 +191,9 @@ public class MenuInicio extends javax.swing.JFrame {
             menuPrincipal.setVisible(true);
             dispose();
         }
-    }//GEN-LAST:event_btnCerrarSesionMouseClicked
+    }//GEN-LAST:event_btnCerrarSesionActionPerformed
 
-    private void btnReportesMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnReportesMouseClicked
-        // TODO add your handling code here:
-    }//GEN-LAST:event_btnReportesMouseClicked
-
-    private void btnConfiguracionMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnConfiguracionMouseClicked
-        // TODO add your handling code here:
-    }//GEN-LAST:event_btnConfiguracionMouseClicked
-
-    private void btnJugarMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnJugarMouseClicked
-        // TODO add your handling code here:
-    }//GEN-LAST:event_btnJugarMouseClicked
-
-    private void btnUsersMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnUsersMouseClicked
-        // TODO add your handling code here:
+    private void btnReportes3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnReportes3ActionPerformed
         sistemaUsuarios.loadUserDataFromFile();
         String listaUsuarios = sistemaUsuarios.obtenerListaUsuarios();
 
@@ -159,15 +202,17 @@ public class MenuInicio extends javax.swing.JFrame {
         } else {
             JOptionPane.showMessageDialog(null, listaUsuarios, "Usuarios Registrados", JOptionPane.INFORMATION_MESSAGE);
         }
-    }//GEN-LAST:event_btnUsersMouseClicked
+        
+    }//GEN-LAST:event_btnReportes3ActionPerformed
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JLabel btnCerrarSesion;
-    private javax.swing.JLabel btnConfiguracion;
-    private javax.swing.JLabel btnJugar;
-    private javax.swing.JLabel btnReportes;
-    private javax.swing.JLabel btnUsers;
+    private javax.swing.JButton btnCerrarSesion;
+    private javax.swing.JButton btnConfiguracion;
+    private javax.swing.JButton btnJugar;
+    private javax.swing.JButton btnReportes;
+    private javax.swing.JButton btnReportes3;
+    private javax.swing.JPanel jPanel1;
     private javax.swing.JLabel lblTitulo;
     // End of variables declaration//GEN-END:variables
 }
