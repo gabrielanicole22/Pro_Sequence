@@ -4,27 +4,27 @@
  */
 package proyectosequence;
 
-import java.io.Serializable;
+import java.io.IOException;
+import java.io.RandomAccessFile;
 import java.util.Date;
 
 /**
  *
  * @author Gabriela Mejía
  */
-public class Usuario implements Serializable {
+public class Usuario {
 
     private String nombre;
     private String usuario;
     private String contrasena;
     private Date fechaCreacion;
     private double puntos = 0.0;
-    private static final long serialVersionUID = 1L;
 
-    public Usuario(String nombre, String usuario, String contrasena) {
+    public Usuario(String nombre, String usuario, String contrasena, Date fechaCreacion) {
         this.nombre = nombre.trim();
         this.usuario = usuario.trim();
         this.contrasena = contrasena.trim();
-        this.fechaCreacion = new Date();
+        this.fechaCreacion = fechaCreacion;
 
     }
 
@@ -69,4 +69,28 @@ public class Usuario implements Serializable {
     public boolean validarCredenciales(String usuario, String contrasena) {
         return (this.usuario.equals(usuario) && this.contrasena.equals(contrasena));
     }
+    public void escribirEnArchivo(RandomAccessFile file) throws IOException {
+        escribirCadenaEnArchivo(file, nombre);
+        escribirCadenaEnArchivo(file, usuario);
+        escribirCadenaEnArchivo(file, contrasena);
+        file.writeLong(fechaCreacion.getTime());
+    }
+
+    public static Usuario leerDeArchivo(RandomAccessFile file) throws IOException {
+        String nombre = leerCadenaDeArchivo(file);
+        String usuario = leerCadenaDeArchivo(file);
+        String contrasena = leerCadenaDeArchivo(file);
+        long fechaCreacionUsuario = file.readLong();
+        Date fechaCreacion = new Date(fechaCreacionUsuario);
+
+        return new Usuario(nombre, usuario, contrasena, fechaCreacion);
+    }
+
+    private static void escribirCadenaEnArchivo(RandomAccessFile file, String cadena) throws IOException {
+        file.writeUTF(cadena);
+    }
+
+    private static String leerCadenaDeArchivo(RandomAccessFile file) throws IOException {
+        return file.readUTF();
+    }    
 }

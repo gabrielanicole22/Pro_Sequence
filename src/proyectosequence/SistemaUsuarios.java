@@ -4,20 +4,18 @@
  */
 package proyectosequence;
 
-import java.io.FileInputStream;
-import java.io.FileOutputStream;
 import java.io.IOException;
-import java.io.ObjectInputStream;
-import java.io.ObjectOutputStream;
+import java.io.RandomAccessFile;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 
 /**
  *
  * @author Gabriela Mejía
  */
 public class SistemaUsuarios {
-
+    private static final String FILENAME = "user_data.bin";
     ArrayList<Usuario> usuariosActivos = new ArrayList<Usuario>();
     Usuario usuarioIniciado = null;
 
@@ -62,7 +60,8 @@ public class SistemaUsuarios {
     }
 
     public void registrarUsuario(String nombre, String usuario, String contrasena) {
-        Usuario nuevoUsuario = new Usuario(nombre, usuario, contrasena);
+        Date fechaCreacion = new Date();
+        Usuario nuevoUsuario = new Usuario(nombre, usuario, contrasena, fechaCreacion);
         usuariosActivos.add(nuevoUsuario);
         saveUserDataToFile(); // Guardar los datos actualizados en el archivo
     }
@@ -76,21 +75,13 @@ public class SistemaUsuarios {
     }
 
     private Usuario iniciarSesion(String usuario, String contrasena, int index) {
-        if (index >= usuariosActivos.size()) {
-            return null;
+        for (Usuario usuarioActual : usuariosActivos) {
+            if (usuarioActual.validarCredenciales(usuario, contrasena)) {
+                this.usuarioIniciado = usuarioActual;
+                return usuarioActual;
+            }
         }
-
-        Usuario usuarioActual = usuariosActivos.get(index);
-        if (usuarioActual == null) {
-            return iniciarSesion(usuario, contrasena, index + 1);
-        }
-
-        if (usuarioActual.validarCredenciales(usuario, contrasena)) {
-            this.usuarioIniciado = usuarioActual;
-            return usuarioActual;
-        }
-
-        return iniciarSesion(usuario, contrasena, index + 1);
+        return null;
     }
 
     //usuario que tiene sesión activa
@@ -98,11 +89,11 @@ public class SistemaUsuarios {
         return usuarioIniciado;
     }
 
-    private static final String FILENAME = "user_data.bin";
-
     public void saveUserDataToFile() {
-        try (ObjectOutputStream oos = new ObjectOutputStream(new FileOutputStream(FILENAME))) {
-            oos.writeObject(usuariosActivos);
+        try (RandomAccessFile file = new RandomAccessFile(FILENAME, "rw")) {
+            for (Usuario usuario : usuariosActivos) {
+                usuario.escribirEnArchivo(file);
+            }
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -110,9 +101,12 @@ public class SistemaUsuarios {
 
     @SuppressWarnings("unchecked")
     public void loadUserDataFromFile() {
-        try (ObjectInputStream ois = new ObjectInputStream(new FileInputStream(FILENAME))) {
-            usuariosActivos = (ArrayList<Usuario>) ois.readObject();
-        } catch (IOException | ClassNotFoundException e) {
+        usuariosActivos.clear();
+        try (RandomAccessFile file = new RandomAccessFile(FILENAME, "rw")) {
+            while (file.getFilePointer() < file.length()) {
+                usuariosActivos.add(Usuario.leerDeArchivo(file));
+            }
+        } catch (IOException e) {
             e.printStackTrace();
         }
     }
