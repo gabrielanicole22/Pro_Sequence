@@ -2,14 +2,24 @@ package proyectosequence;
 
 import javax.swing.*;
 import java.awt.*;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
-import java.awt.event.WindowAdapter;
-import java.awt.event.WindowEvent;
-import java.net.URL;
-import java.util.ArrayList;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
 
-public class PruebaTablero extends JFrame implements ActionListener {
+public class PruebaTablero extends JPanel {
+
+    private boolean hayCasillaSeleccionada = false;
+    private CasillaTablero casillaSeleccionada;
+    private CasillaTablero[][] casillas;
+    Juego gameWindow;
+    MenuInicio mainWindow;
+    private Image imagenFondo;
+
+    //para ponerle fondo
+    @Override
+    protected void paintComponent(Graphics g) {
+        super.paintComponent(g);
+        g.drawImage(imagenFondo, 0, 0, getWidth(), getHeight(), this);
+    }
 
     //URL urlBackground = getClass().getResource("/proyectosequence.Imagenes/background.png");
     //URL urlFicha = getClass().getResource("/proyectosequence.Imagenes/overlay.png");
@@ -18,60 +28,53 @@ public class PruebaTablero extends JFrame implements ActionListener {
     private JButton[][] botones;
     private JLabel[][] labels;
 
-    public PruebaTablero() {
-        JPanel tableroPanel = new JPanel();
+    public PruebaTablero(Juego gameWindow, MenuInicio mainWindow) {
+        this.gameWindow = gameWindow;
+        this.mainWindow = mainWindow;
 
-        //Para que se detenga el programa cuando se da a la x
-        addWindowListener(new WindowAdapter() {
-            @Override
-            public void windowClosing(WindowEvent e) {
-                System.exit(0);
-            }
-        });
-        tableroPanel.setLayout(new GridLayout(10, 10));
-        botones = new JButton[10][10];
-        labels = new JLabel[10][10];
+        // Cargar la imagen de fondo
+        ImageIcon imagenIcono = new ImageIcon("src/proyectosequence/Imagenes/fondo.jpg");
+        imagenFondo = imagenIcono.getImage();
 
-        //Poner los botones
-        for (int fila = 0; fila < 10; fila++) {
-            for (int columna = 0; columna < 10; columna++) {
-                JButton boton = new JButton();
-                JLabel label = new JLabel();
-                label.setPreferredSize(new Dimension(70,70));
-                label.putClientProperty("x", fila);
-                label.putClientProperty("y", columna);
-                
-                
-                boton.setPreferredSize(new Dimension(75, 75));
-                boton.putClientProperty("x", fila);
-                boton.putClientProperty("y", columna);
-                boton.setText("(" + fila + ", " + columna + ")");
-                boton.addActionListener(this);
-                botones[fila][columna] = boton;
-                tableroPanel.add(boton);
-
+        // Crear e inicializar la matriz de casillas
+        casillas = new CasillaTablero[10][10];
+        for (int row = 0; row < 10; row++) {
+            for (int column = 0; column < 10; column++) {
+                casillas[row][column] = new CasillaTablero(row, column); // Initialize with appropriate values
+                add(casillas[row][column].label);
             }
         }
-        //botones[0][0].setIcon(background);
-        //labels[0][0].setIcon(ficha);
-        add(tableroPanel);
-        pack();
-        setLocationRelativeTo(null);
+        setLayout(new GridLayout(10, 10));
+
+        GestorCartas gestorCartas = new GestorCartas();
+        gestorCartas.asignarCartasACasillas(casillas);
+
+        // Manejar eventos de clic en las etiquetas
+        MouseAdapter mouseAdapter = new MouseAdapter() {
+            @Override
+            public void mouseClicked(MouseEvent e) {
+                JLabel label = (JLabel) e.getSource();
+
+                // Obtener la posición de la etiqueta en la cuadrícula
+                for (int i = 0; i < 10; i++) {
+                    for (int j = 0; j < 10; j++) {
+                        if (casillas[i][j].label == label) {
+                            if (!hayCasillaSeleccionada) {
+                                casillaSeleccionada = casillas[i][j];
+                                casillaSeleccionada.mostrarInfo(gestorCartas);
+                            }
+                        }
+                    }
+                }
+            }
+        };
+        // Agregar el manejador de eventos a las etiquetas
+        for (int row = 0; row < 10; row++) {
+            for (int column = 0; column < 10; column++) {
+                casillas[row][column].label.addMouseListener(mouseAdapter);
+            }
+        }
         setVisible(true);
+        repaint();
     }
-
-    //Que pasa cuando se presiona un boton
-    public void actionPerformed(ActionEvent e) {
-        JButton botonClickeado = (JButton) e.getSource();
-        int fila = (int) botonClickeado.getClientProperty("x");
-        int columna = (int) botonClickeado.getClientProperty("y");
-        //Imprimir la posicion clickeada
-        System.out.println("Boton clickeado: (" + fila + ", " + columna + ")");
-
-    }
-
-    public static void main(String[] args) {
-        SwingUtilities.invokeLater(() -> new PruebaTablero());
-    }
-
 }
