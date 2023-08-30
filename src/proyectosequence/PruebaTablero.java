@@ -32,15 +32,15 @@ public class PruebaTablero extends JPanel {
         this.gameWindow = gameWindow;
         this.mainWindow = mainWindow;
 
-        // Cargar la imagen de fondo
+        // Carga la imagen de fondo
         ImageIcon imagenIcono = new ImageIcon("src/proyectosequence/Imagenes/fondo.jpg");
         imagenFondo = imagenIcono.getImage();
 
-        // Crear e inicializar la matriz de casillas
+        // Crea e inicializar la matriz de casillas
         casillas = new CasillaTablero[10][10];
         for (int row = 0; row < 10; row++) {
             for (int column = 0; column < 10; column++) {
-                casillas[row][column] = new CasillaTablero(row, column); // Initialize with appropriate values
+                casillas[row][column] = new CasillaTablero(row, column);
                 add(casillas[row][column].label);
             }
         }
@@ -49,13 +49,13 @@ public class PruebaTablero extends JPanel {
         GestorCartas gestorCartas = new GestorCartas();
         gestorCartas.asignarCartasACasillas(casillas);
 
-        // Manejar eventos de clic en las etiquetas
+        // Maneja eventos de clic en las etiquetas
         MouseAdapter mouseAdapter = new MouseAdapter() {
             @Override
             public void mouseClicked(MouseEvent e) {
                 JLabel label = (JLabel) e.getSource();
 
-                // Obtener la posición de la etiqueta en la cuadrícula
+                // Obtiene la posición de la etiqueta en la cuadrícula
                 for (int i = 0; i < 10; i++) {
                     for (int j = 0; j < 10; j++) {
                         if (casillas[i][j].label == label) {
@@ -68,7 +68,6 @@ public class PruebaTablero extends JPanel {
                 }
             }
         };
-        // Agregar el manejador de eventos a las etiquetas
         for (int row = 0; row < 10; row++) {
             for (int column = 0; column < 10; column++) {
                 casillas[row][column].label.addMouseListener(mouseAdapter);
