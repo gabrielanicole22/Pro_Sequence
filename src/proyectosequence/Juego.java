@@ -6,6 +6,7 @@ package proyectosequence;
 
 import java.awt.Dimension;
 import java.awt.GridLayout;
+import javax.swing.JLabel;
 import static javax.swing.WindowConstants.DISPOSE_ON_CLOSE;
 
 /**
@@ -17,7 +18,7 @@ public class Juego extends javax.swing.JFrame {
     /**
      * Creates new form Juego
      */
-        PruebaTablero tablero;
+    PruebaTablero tablero;
 
     public Juego(MenuInicio mainWindow) {
         initComponents();
@@ -28,6 +29,11 @@ public class Juego extends javax.swing.JFrame {
         gamePanel.add(tablero);
         gamePanel.repaint();
         setVisible(true);
+        tablero.startTurnTimer();
+    }
+
+    public JLabel getTimerLabel() {
+        return timer;
     }
 
     /**
@@ -40,6 +46,7 @@ public class Juego extends javax.swing.JFrame {
     private void initComponents() {
 
         jPanel1 = new javax.swing.JPanel();
+        timer = new javax.swing.JLabel();
         gamePanel = new javax.swing.JPanel();
         jLabel1 = new javax.swing.JLabel();
 
@@ -47,6 +54,11 @@ public class Juego extends javax.swing.JFrame {
 
         jPanel1.setBackground(new java.awt.Color(102, 0, 0));
         jPanel1.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
+
+        timer.setFont(new java.awt.Font("Rockwell Condensed", 0, 24)); // NOI18N
+        timer.setForeground(new java.awt.Color(255, 204, 255));
+        timer.setText("jLabel3");
+        jPanel1.add(timer, new org.netbeans.lib.awtextra.AbsoluteConstraints(740, 50, -1, -1));
 
         gamePanel.setBackground(new java.awt.Color(204, 204, 204));
 
@@ -118,5 +130,6 @@ public class Juego extends javax.swing.JFrame {
     private javax.swing.JPanel gamePanel;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JPanel jPanel1;
+    private javax.swing.JLabel timer;
     // End of variables declaration//GEN-END:variables
 }
