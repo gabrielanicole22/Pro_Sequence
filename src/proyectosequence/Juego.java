@@ -1,13 +1,15 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/GUIForms/JFrame.java to edit this template
- */
 package proyectosequence;
 
 import java.awt.Dimension;
 import java.awt.GridLayout;
+import java.net.MalformedURLException;
+import java.net.URL;
+import java.util.HashMap;
 import java.util.List;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.swing.ImageIcon;
+import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import static javax.swing.WindowConstants.DISPOSE_ON_CLOSE;
@@ -18,18 +20,45 @@ import static javax.swing.WindowConstants.DISPOSE_ON_CLOSE;
  */
 public class Juego extends javax.swing.JFrame {
 
-    /**
-     * Creates new form Juego
-     */
     Tablero tablero;
     List<CartasBaraja> jugador1;
     List<CartasBaraja> jugador2;
+    JButton[] mano1;
+    List<JButton> mano2;
+    List<JButton> mano3;
+    List<JButton> mano4;
 
     //Imagen de parte trasera de la baraja
     ImageIcon imagenTrasero;
+    ImageIcon A_corazones;
+    ImageIcon A_diamantes;
+    ImageIcon A_picas;
+    ImageIcon A_trebol;
+     HashMap<String, String> cartasConImagenes = new HashMap<>();
 
-    public Juego(MenuInicio mainWindow) {
+     //Poner las urls de acuerdo con su nombre
+     private void asociarCartasConImagenes(){
+         cartasConImagenes.put("A de Corazones", "/src/img/corazon/As_corazones.png");
+         cartasConImagenes.put("A de Trebol", "/src/img/trebol/As_trebol.png");
+         cartasConImagenes.put("A de Picas", "/src/img/picas/As_picas.png");
+         cartasConImagenes.put("A de Diamantes", "/src/img/diamantes/As_diamantes.png");
+         cartasConImagenes.put("2 de Corazones", "/src/img/corazon/2_corazones.png");
+         cartasConImagenes.put("2 de Treboles", "/src/img/trebol/2_trebol.png");
+         cartasConImagenes.put("2 de Picas", "/src/img/picas/2_picas.png");
+         cartasConImagenes.put("2 de Diamantes", "/src/img/diamantes/2_diamantes.png");
+         
+         
+     }   
+    public Juego(MenuInicio mainWindow) throws MalformedURLException {
         initComponents();
+        mano1 = new JButton[7];
+        mano1[1]=carta1;
+        mano1[2]=carta2;
+        mano1[3]=carta3;
+        mano1[4]=carta4;
+        mano1[5]=carta5;
+        mano1[6]=carta6;
+        asociarCartasConImagenes();
         setDefaultCloseOperation(DISPOSE_ON_CLOSE);
         gamePanel.setLayout(new GridLayout(1, 1));
         setResizable(false);
@@ -45,25 +74,29 @@ public class Juego extends javax.swing.JFrame {
         jugador1 = baraja.repartir(6);
         jugador2 = baraja.repartir(6);
 
+        ponerManoAlInicio();
+        ponerImagenMano(carta1);
+        ponerImagenMano(carta2);
+        ponerImagenMano(carta3);
+        ponerImagenMano(carta4);
+        ponerImagenMano(carta5);
+        ponerImagenMano(carta6);
 
-        ponerMano();
-        
         //Textos de la mano del jugador1
-        String textoJ1carta1 = jugador1.get(1-1).toString();
-        String textoJ1carta2 = jugador1.get(2-1).toString();
-        String textoJ1carta3 = jugador1.get(3-1).toString();
-        String textoJ1carta4 = jugador1.get(4-1).toString();
-        String textoJ1carta5 = jugador1.get(5-1).toString();
-        String textoJ1carta6 = jugador1.get(6-1).toString();
-        
+        String textoJ1carta1 = jugador1.get(1 - 1).toString();
+        String textoJ1carta2 = jugador1.get(2 - 1).toString();
+        String textoJ1carta3 = jugador1.get(3 - 1).toString();
+        String textoJ1carta4 = jugador1.get(4 - 1).toString();
+        String textoJ1carta5 = jugador1.get(5 - 1).toString();
+        String textoJ1carta6 = jugador1.get(6 - 1).toString();
+
         //Textos de la mano del jugador2
-        String textoJ2carta1 = jugador2.get(1-1).toString();
-        String textoJ2carta2 = jugador2.get(2-1).toString();
-        String textoJ2carta3 = jugador2.get(3-1).toString();
-        String textoJ2carta4 = jugador2.get(4-1).toString();
-        String textoJ2carta5 = jugador2.get(5-1).toString();
-        String textoJ2carta6 = jugador2.get(6-1).toString();
-        
+        String textoJ2carta1 = jugador2.get(1 - 1).toString();
+        String textoJ2carta2 = jugador2.get(2 - 1).toString();
+        String textoJ2carta3 = jugador2.get(3 - 1).toString();
+        String textoJ2carta4 = jugador2.get(4 - 1).toString();
+        String textoJ2carta5 = jugador2.get(5 - 1).toString();
+        String textoJ2carta6 = jugador2.get(6 - 1).toString();
 
     }
 
@@ -151,27 +184,22 @@ public class Juego extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void carta1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_carta1ActionPerformed
-        
+
         //La idea es que se iluminen las cartas
         String textocarta1 = carta1.getText();
-         for (int i = 0; i < 10; i++) {
-                    for (int j = 0; j < 10; j++) {
-                        if(tablero.casillas[i][j].carta.getNombre().equals(textocarta1)){
-                            //tablero.casillas[i][j].
-                        }
-                    }
-         }
+        for (int i = 0; i < 10; i++) {
+            for (int j = 0; j < 10; j++) {
+                if (tablero.casillas[i][j].carta.getNombre().equals(textocarta1)) {
+                    //tablero.casillas[i][j].
+                }
+            }
+        }
     }//GEN-LAST:event_carta1ActionPerformed
 
     /**
      * @param args the command line arguments
      */
     public static void main(String args[]) {
-        /* Set the Nimbus look and feel */
-        //<editor-fold defaultstate="collapsed" desc=" Look and feel setting code (optional) ">
-        /* If Nimbus (introduced in Java SE 6) is not available, stay with the default look and feel.
-         * For details see http://download.oracle.com/javase/tutorial/uiswing/lookandfeel/plaf.html 
-         */
         try {
             for (javax.swing.UIManager.LookAndFeelInfo info : javax.swing.UIManager.getInstalledLookAndFeels()) {
                 if ("Nimbus".equals(info.getName())) {
@@ -193,12 +221,16 @@ public class Juego extends javax.swing.JFrame {
         /* Create and display the form */
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
-                new Juego(null).setVisible(true);
+                try {
+                    new Juego(null).setVisible(true);
+                } catch (MalformedURLException ex) {
+                    Logger.getLogger(Juego.class.getName()).log(Level.SEVERE, null, ex);
+                }
             }
         });
     }
 
-    private void ponerMano() {
+    private void ponerManoAlInicio() {
         carta1.setText(jugador1.get(1 - 1).toString());
         carta2.setText(jugador1.get(2 - 1).toString());
         carta3.setText(jugador1.get(3 - 1).toString());
@@ -206,10 +238,24 @@ public class Juego extends javax.swing.JFrame {
         carta5.setText(jugador1.get(5 - 1).toString());
         carta6.setText(jugador1.get(6 - 1).toString());
     }
-    
-    private void ponerImagenMano(String carta){
-        //if(carta.equals())
+
+    private void ponerImagenMano(JButton boton) {
+    for (int i = 0; i < mano1.length; i++) {
+        String textoDeCartaAgarrada = boton.getText();
+        if (cartasConImagenes.containsKey(textoDeCartaAgarrada)) {
+            String rutaImagen = cartasConImagenes.get(textoDeCartaAgarrada);
+            // Crear una URL de archivo a partir de la ruta de imagen
+            URL urlCartaAgarrada = getClass().getResource(rutaImagen);
+            if (urlCartaAgarrada != null) {
+                ImageIcon imagenCarta = new ImageIcon(urlCartaAgarrada);
+                mano1[i].setIcon(imagenCarta);
+            } else {
+                System.err.println("No se pudo encontrar la imagen en la ruta: " + rutaImagen);
+            }
+        }
     }
+}
+
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JLabel barajaDeCartas;
