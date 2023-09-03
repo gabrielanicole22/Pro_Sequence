@@ -7,11 +7,11 @@ import java.awt.event.ActionListener;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 
-public class PruebaTablero extends JPanel {
+public class Tablero extends JPanel {
 
     private boolean hayCasillaSeleccionada = false;
     private CasillaTablero casillaSeleccionada;
-    private CasillaTablero[][] casillas;
+    public CasillaTablero[][] casillas;
     Juego gameWindow;
     MenuInicio mainWindow;
     private Image imagenFondo;
@@ -43,7 +43,7 @@ public class PruebaTablero extends JPanel {
     private int imagenWidth = 50;
     private int imagenHeight = 50;
 
-    public PruebaTablero(Juego gameWindow, MenuInicio mainWindow) {
+    public Tablero(Juego gameWindow, MenuInicio mainWindow) {
         this.gameWindow = gameWindow;
         this.mainWindow = mainWindow;
 
@@ -171,5 +171,9 @@ public class PruebaTablero extends JPanel {
         int minutes = timeRemaining / 60;
         int seconds = timeRemaining % 60;
         timerLabel.setText(String.format("Tiempo restante: %02d:%02d", minutes, seconds));
+    }
+    
+    public void iluminarCartas(String carta){
+        
     }
 }

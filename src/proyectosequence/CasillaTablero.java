@@ -38,6 +38,9 @@ public class CasillaTablero {
             label.repaint();
         }
     }
+    
+    
+    
 
     public int getRow() {
         return row;
@@ -46,4 +49,5 @@ public class CasillaTablero {
     public int getColumn() {
         return column;
     }
+    
 }

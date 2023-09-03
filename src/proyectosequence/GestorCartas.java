@@ -27,11 +27,11 @@ public class GestorCartas {
         cartas.add(new Carta("9 de picas"));
         cartas.add(new Carta("ESQUINA"));
 
-        cartas.add(new Carta("6 de tréboles"));
-        cartas.add(new Carta("5 de tréboles"));
-        cartas.add(new Carta("4 de tréboles"));
-        cartas.add(new Carta("3 de tréboles"));
-        cartas.add(new Carta("2 de tréboles"));
+        cartas.add(new Carta("6 de treboles"));
+        cartas.add(new Carta("5 de treboles"));
+        cartas.add(new Carta("4 de treboles"));
+        cartas.add(new Carta("3 de treboles"));
+        cartas.add(new Carta("2 de treboles"));
         cartas.add(new Carta("corazon negro A"));
         cartas.add(new Carta("Rey de corazones"));
         cartas.add(new Carta("Reina de corazones"));
@@ -49,20 +49,20 @@ public class GestorCartas {
         cartas.add(new Carta("9 de corazones"));
         cartas.add(new Carta("Reina de picas"));
 
-        cartas.add(new Carta("8 de tréboles"));
+        cartas.add(new Carta("8 de treboles"));
         cartas.add(new Carta("Rey de picas"));
-        cartas.add(new Carta("6 de tréboles"));
-        cartas.add(new Carta("5 de tréboles"));
-        cartas.add(new Carta("4 de tréboles"));
-        cartas.add(new Carta("3 de tréboles"));
-        cartas.add(new Carta("2 de tréboles"));
+        cartas.add(new Carta("6 de treboles"));
+        cartas.add(new Carta("5 de treboles"));
+        cartas.add(new Carta("4 de treboles"));
+        cartas.add(new Carta("3 de treboles"));
+        cartas.add(new Carta("2 de treboles"));
         cartas.add(new Carta("8 de diamantes"));
         cartas.add(new Carta("8 de corazones"));
         cartas.add(new Carta("Rey de picas"));
 
-        cartas.add(new Carta("9 de tréboles"));
+        cartas.add(new Carta("9 de treboles"));
         cartas.add(new Carta("Reina de picas"));
-        cartas.add(new Carta("7 de tréboles"));
+        cartas.add(new Carta("7 de treboles"));
         cartas.add(new Carta("6 de corazones"));
         cartas.add(new Carta("5 de corazones"));
         cartas.add(new Carta("4 de corazones"));
@@ -71,9 +71,9 @@ public class GestorCartas {
         cartas.add(new Carta("7 de diamantes"));
         cartas.add(new Carta("corazon negro A"));
 
-        cartas.add(new Carta("10 de tréboles"));
+        cartas.add(new Carta("10 de treboles"));
         cartas.add(new Carta("10 de picas"));
-        cartas.add(new Carta("8 de tréboles"));
+        cartas.add(new Carta("8 de treboles"));
         cartas.add(new Carta("7 de corazones"));
         cartas.add(new Carta("2 de corazones"));
         cartas.add(new Carta("3 de corazones"));
@@ -82,7 +82,7 @@ public class GestorCartas {
         cartas.add(new Carta("6 de corazones"));
         cartas.add(new Carta("2 de diamantes"));
 
-        cartas.add(new Carta("Reina de tréboles"));
+        cartas.add(new Carta("Reina de treboles"));
         cartas.add(new Carta("9 de picas"));
         cartas.add(new Carta("9 de tréboles"));
         cartas.add(new Carta("8 de corazones"));
@@ -93,18 +93,18 @@ public class GestorCartas {
         cartas.add(new Carta("5 de corazones"));
         cartas.add(new Carta("3 de diamantes"));
 
-        cartas.add(new Carta("Rey de tréboles"));
+        cartas.add(new Carta("Rey de treboles"));
         cartas.add(new Carta("8 de picas"));
-        cartas.add(new Carta("10 de tréboles"));
-        cartas.add(new Carta("Reina de tréboles"));
-        cartas.add(new Carta("Rey de tréboles"));
-        cartas.add(new Carta("As de tréboles"));
+        cartas.add(new Carta("10 de treboles"));
+        cartas.add(new Carta("Reina de treboles"));
+        cartas.add(new Carta("Rey de treboles"));
+        cartas.add(new Carta("As de treboles"));
         cartas.add(new Carta("As de diamantes"));
         cartas.add(new Carta("Rey de diamantes"));
         cartas.add(new Carta("4 de corazones"));
         cartas.add(new Carta("4 de diamantes"));
 
-        cartas.add(new Carta("As de tréboles"));
+        cartas.add(new Carta("As de treboles"));
         cartas.add(new Carta("7 de picas"));
         cartas.add(new Carta("6 de picas"));
         cartas.add(new Carta("5 de picas"));

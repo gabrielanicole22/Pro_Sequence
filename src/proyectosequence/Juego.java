@@ -6,6 +6,9 @@ package proyectosequence;
 
 import java.awt.Dimension;
 import java.awt.GridLayout;
+import java.util.List;
+import javax.swing.ImageIcon;
+import javax.swing.JFrame;
 import javax.swing.JLabel;
 import static javax.swing.WindowConstants.DISPOSE_ON_CLOSE;
 
@@ -18,18 +21,50 @@ public class Juego extends javax.swing.JFrame {
     /**
      * Creates new form Juego
      */
-    PruebaTablero tablero;
+    Tablero tablero;
+    List<CartasBaraja> jugador1;
+    List<CartasBaraja> jugador2;
+
+    //Imagen de parte trasera de la baraja
+    ImageIcon imagenTrasero;
 
     public Juego(MenuInicio mainWindow) {
         initComponents();
         setDefaultCloseOperation(DISPOSE_ON_CLOSE);
         gamePanel.setLayout(new GridLayout(1, 1));
-        gamePanel.setPreferredSize(new Dimension(700, 1000));
-        tablero = new PruebaTablero(this, mainWindow);
+        setResizable(false);
+        tablero = new Tablero(this, mainWindow);
         gamePanel.add(tablero);
         gamePanel.repaint();
+        setExtendedState(JFrame.MAXIMIZED_BOTH);
         setVisible(true);
         tablero.startTurnTimer();
+        Baraja baraja = new Baraja();
+        baraja.barajar();
+
+        jugador1 = baraja.repartir(6);
+        jugador2 = baraja.repartir(6);
+
+
+        ponerMano();
+        
+        //Textos de la mano del jugador1
+        String textoJ1carta1 = jugador1.get(1-1).toString();
+        String textoJ1carta2 = jugador1.get(2-1).toString();
+        String textoJ1carta3 = jugador1.get(3-1).toString();
+        String textoJ1carta4 = jugador1.get(4-1).toString();
+        String textoJ1carta5 = jugador1.get(5-1).toString();
+        String textoJ1carta6 = jugador1.get(6-1).toString();
+        
+        //Textos de la mano del jugador2
+        String textoJ2carta1 = jugador2.get(1-1).toString();
+        String textoJ2carta2 = jugador2.get(2-1).toString();
+        String textoJ2carta3 = jugador2.get(3-1).toString();
+        String textoJ2carta4 = jugador2.get(4-1).toString();
+        String textoJ2carta5 = jugador2.get(5-1).toString();
+        String textoJ2carta6 = jugador2.get(6-1).toString();
+        
+
     }
 
     public JLabel getTimerLabel() {
@@ -48,17 +83,23 @@ public class Juego extends javax.swing.JFrame {
         jPanel1 = new javax.swing.JPanel();
         timer = new javax.swing.JLabel();
         gamePanel = new javax.swing.JPanel();
-        jLabel1 = new javax.swing.JLabel();
+        carta1 = new javax.swing.JButton();
+        carta6 = new javax.swing.JButton();
+        carta2 = new javax.swing.JButton();
+        carta3 = new javax.swing.JButton();
+        carta4 = new javax.swing.JButton();
+        carta5 = new javax.swing.JButton();
+        barajaDeCartas = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
-        jPanel1.setBackground(new java.awt.Color(102, 0, 0));
+        jPanel1.setBackground(new java.awt.Color(0, 0, 102));
         jPanel1.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
         timer.setFont(new java.awt.Font("Rockwell Condensed", 0, 24)); // NOI18N
         timer.setForeground(new java.awt.Color(255, 204, 255));
         timer.setText("jLabel3");
-        jPanel1.add(timer, new org.netbeans.lib.awtextra.AbsoluteConstraints(740, 50, -1, -1));
+        jPanel1.add(timer, new org.netbeans.lib.awtextra.AbsoluteConstraints(1110, 90, -1, -1));
 
         gamePanel.setBackground(new java.awt.Color(204, 204, 204));
 
@@ -66,30 +107,61 @@ public class Juego extends javax.swing.JFrame {
         gamePanel.setLayout(gamePanelLayout);
         gamePanelLayout.setHorizontalGroup(
             gamePanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 480, Short.MAX_VALUE)
+            .addGap(0, 590, Short.MAX_VALUE)
         );
         gamePanelLayout.setVerticalGroup(
             gamePanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 580, Short.MAX_VALUE)
+            .addGap(0, 670, Short.MAX_VALUE)
         );
 
-        jPanel1.add(gamePanel, new org.netbeans.lib.awtextra.AbsoluteConstraints(240, 20, 480, 580));
-        jPanel1.add(jLabel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 1000, 620));
+        jPanel1.add(gamePanel, new org.netbeans.lib.awtextra.AbsoluteConstraints(470, 10, 590, 670));
+
+        carta1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                carta1ActionPerformed(evt);
+            }
+        });
+        jPanel1.add(carta1, new org.netbeans.lib.awtextra.AbsoluteConstraints(450, 690, 100, 110));
+        jPanel1.add(carta6, new org.netbeans.lib.awtextra.AbsoluteConstraints(1000, 690, 100, 110));
+        jPanel1.add(carta2, new org.netbeans.lib.awtextra.AbsoluteConstraints(560, 690, 100, 110));
+        jPanel1.add(carta3, new org.netbeans.lib.awtextra.AbsoluteConstraints(670, 690, 100, 110));
+        jPanel1.add(carta4, new org.netbeans.lib.awtextra.AbsoluteConstraints(780, 690, 100, 110));
+        jPanel1.add(carta5, new org.netbeans.lib.awtextra.AbsoluteConstraints(890, 690, 100, 110));
+
+        barajaDeCartas.setBackground(new java.awt.Color(255, 255, 255));
+        barajaDeCartas.setForeground(new java.awt.Color(0, 0, 0));
+        barajaDeCartas.setText("parte trasera mazo");
+        barajaDeCartas.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
+        barajaDeCartas.setOpaque(true);
+        jPanel1.add(barajaDeCartas, new org.netbeans.lib.awtextra.AbsoluteConstraints(330, 690, 100, 110));
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+            .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, 1213, Short.MAX_VALUE)
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+            .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, 806, Short.MAX_VALUE)
         );
 
         pack();
         setLocationRelativeTo(null);
     }// </editor-fold>//GEN-END:initComponents
+
+    private void carta1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_carta1ActionPerformed
+        
+        //La idea es que se iluminen las cartas
+        String textocarta1 = carta1.getText();
+         for (int i = 0; i < 10; i++) {
+                    for (int j = 0; j < 10; j++) {
+                        if(tablero.casillas[i][j].carta.getNombre().equals(textocarta1)){
+                            //tablero.casillas[i][j].
+                        }
+                    }
+         }
+    }//GEN-LAST:event_carta1ActionPerformed
 
     /**
      * @param args the command line arguments
@@ -126,9 +198,28 @@ public class Juego extends javax.swing.JFrame {
         });
     }
 
+    private void ponerMano() {
+        carta1.setText(jugador1.get(1 - 1).toString());
+        carta2.setText(jugador1.get(2 - 1).toString());
+        carta3.setText(jugador1.get(3 - 1).toString());
+        carta4.setText(jugador1.get(4 - 1).toString());
+        carta5.setText(jugador1.get(5 - 1).toString());
+        carta6.setText(jugador1.get(6 - 1).toString());
+    }
+    
+    private void ponerImagenMano(String carta){
+        //if(carta.equals())
+    }
+
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JLabel barajaDeCartas;
+    private javax.swing.JButton carta1;
+    private javax.swing.JButton carta2;
+    private javax.swing.JButton carta3;
+    private javax.swing.JButton carta4;
+    private javax.swing.JButton carta5;
+    private javax.swing.JButton carta6;
     private javax.swing.JPanel gamePanel;
-    private javax.swing.JLabel jLabel1;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JLabel timer;
     // End of variables declaration//GEN-END:variables
