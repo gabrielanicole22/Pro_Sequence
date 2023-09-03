@@ -172,7 +172,7 @@ public class Tablero extends JPanel {
         int seconds = timeRemaining % 60;
         timerLabel.setText(String.format("Tiempo restante: %02d:%02d", minutes, seconds));
     }
-    
+
     public void iluminarCartas(String carta){
         
     }

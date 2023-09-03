@@ -1,5 +1,6 @@
 package proyectosequence;
 
+import java.awt.Color;
 import java.awt.GridLayout;
 import java.awt.Image;
 import java.net.MalformedURLException;
@@ -154,10 +155,40 @@ public class Juego extends javax.swing.JFrame {
             }
         });
         jPanel1.add(carta1, new org.netbeans.lib.awtextra.AbsoluteConstraints(470, 610, 100, 110));
+
+        carta6.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                carta6ActionPerformed(evt);
+            }
+        });
         jPanel1.add(carta6, new org.netbeans.lib.awtextra.AbsoluteConstraints(1020, 610, 100, 110));
+
+        carta2.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                carta2ActionPerformed(evt);
+            }
+        });
         jPanel1.add(carta2, new org.netbeans.lib.awtextra.AbsoluteConstraints(580, 610, 100, 110));
+
+        carta3.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                carta3ActionPerformed(evt);
+            }
+        });
         jPanel1.add(carta3, new org.netbeans.lib.awtextra.AbsoluteConstraints(690, 610, 100, 110));
+
+        carta4.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                carta4ActionPerformed(evt);
+            }
+        });
         jPanel1.add(carta4, new org.netbeans.lib.awtextra.AbsoluteConstraints(800, 610, 100, 110));
+
+        carta5.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                carta5ActionPerformed(evt);
+            }
+        });
         jPanel1.add(carta5, new org.netbeans.lib.awtextra.AbsoluteConstraints(910, 610, 100, 110));
 
         barajaDeCartas.setBackground(new java.awt.Color(255, 255, 255));
@@ -183,17 +214,39 @@ public class Juego extends javax.swing.JFrame {
 
     private void carta1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_carta1ActionPerformed
 
-        //La idea es que se iluminen las cartas
         String textocarta1 = carta1.getText();
+        // itera a través de las casillas del tablero
         for (int i = 0; i < 10; i++) {
             for (int j = 0; j < 10; j++) {
-                if (tablero.casillas[i][j].carta.getNombre().equals(textocarta1)) {
-                    //tablero.casillas[i][j].
+                if (tablero.casillas[i][j].carta != null && tablero.casillas[i][j].carta.getNombre().equals(textocarta1)) {
+                    // si la casilla del tablero coincide con el texto del botón clickeado, se pone azul
+                    tablero.casillas[i][j].label.setBackground(Color.BLUE);
+                    tablero.casillas[i][j].label.setOpaque(true);
                 }
             }
         }
     }//GEN-LAST:event_carta1ActionPerformed
 
+    private void carta2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_carta2ActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_carta2ActionPerformed
+
+    private void carta3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_carta3ActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_carta3ActionPerformed
+
+    private void carta4ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_carta4ActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_carta4ActionPerformed
+
+    private void carta5ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_carta5ActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_carta5ActionPerformed
+
+    private void carta6ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_carta6ActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_carta6ActionPerformed
+    
     /**
      * @param args the command line arguments
      */
@@ -239,7 +292,6 @@ public class Juego extends javax.swing.JFrame {
 
     private void ponerImagenMano(JButton boton) {
         String textoDeCartaAgarrada = boton.getText();
-
         //ruta de la imagen
         String rutaImagen = "/img/" + textoDeCartaAgarrada + ".png";
 

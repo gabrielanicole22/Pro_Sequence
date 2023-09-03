@@ -68,7 +68,7 @@ public class GestorCartas {
         cartas.add(new Carta("4_corazones"));
         cartas.add(new Carta("As_corazones"));
         cartas.add(new Carta("9_diamantes"));
-        cartas.add(new Carta("7_diamantes"));
+        cartas.add(new Carta("7_corazones"));
         cartas.add(new Carta("As_picas"));
 
         cartas.add(new Carta("10_trebol"));
