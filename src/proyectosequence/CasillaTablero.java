@@ -39,9 +39,6 @@ public class CasillaTablero {
         }
     }
     
-    
-    
-
     public int getRow() {
         return row;
     }
@@ -49,5 +46,4 @@ public class CasillaTablero {
     public int getColumn() {
         return column;
     }
-    
 }

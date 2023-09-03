@@ -1,7 +1,7 @@
 package proyectosequence;
 
-import java.awt.Dimension;
 import java.awt.GridLayout;
+import java.awt.Image;
 import java.net.MalformedURLException;
 import java.net.URL;
 import java.util.HashMap;
@@ -34,10 +34,11 @@ public class Juego extends javax.swing.JFrame {
     ImageIcon A_diamantes;
     ImageIcon A_picas;
     ImageIcon A_trebol;
-     HashMap<String, String> cartasConImagenes = new HashMap<>();
+    HashMap<String, String> cartasConImagenes = new HashMap<>();
 
-     //Poner las urls de acuerdo con su nombre
-     private void asociarCartasConImagenes(){
+    /*
+    //Poner las urls de acuerdo con su nombre
+    private void asociarCartasConImagenes(){
          cartasConImagenes.put("A de Corazones", "/src/img/corazon/As_corazones.png");
          cartasConImagenes.put("A de Trebol", "/src/img/trebol/As_trebol.png");
          cartasConImagenes.put("A de Picas", "/src/img/picas/As_picas.png");
@@ -46,19 +47,18 @@ public class Juego extends javax.swing.JFrame {
          cartasConImagenes.put("2 de Treboles", "/src/img/trebol/2_trebol.png");
          cartasConImagenes.put("2 de Picas", "/src/img/picas/2_picas.png");
          cartasConImagenes.put("2 de Diamantes", "/src/img/diamantes/2_diamantes.png");
-         
-         
-     }   
+    }   */
+    
     public Juego(MenuInicio mainWindow) throws MalformedURLException {
         initComponents();
         mano1 = new JButton[7];
-        mano1[1]=carta1;
-        mano1[2]=carta2;
-        mano1[3]=carta3;
-        mano1[4]=carta4;
-        mano1[5]=carta5;
-        mano1[6]=carta6;
-        asociarCartasConImagenes();
+        mano1[1] = carta1;
+        mano1[2] = carta2;
+        mano1[3] = carta3;
+        mano1[4] = carta4;
+        mano1[5] = carta5;
+        mano1[6] = carta6;
+        //asociarCartasConImagenes();
         setDefaultCloseOperation(DISPOSE_ON_CLOSE);
         gamePanel.setLayout(new GridLayout(1, 1));
         setResizable(false);
@@ -97,7 +97,6 @@ public class Juego extends javax.swing.JFrame {
         String textoJ2carta4 = jugador2.get(4 - 1).toString();
         String textoJ2carta5 = jugador2.get(5 - 1).toString();
         String textoJ2carta6 = jugador2.get(6 - 1).toString();
-
     }
 
     public JLabel getTimerLabel() {
@@ -144,29 +143,28 @@ public class Juego extends javax.swing.JFrame {
         );
         gamePanelLayout.setVerticalGroup(
             gamePanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 670, Short.MAX_VALUE)
+            .addGap(0, 580, Short.MAX_VALUE)
         );
 
-        jPanel1.add(gamePanel, new org.netbeans.lib.awtextra.AbsoluteConstraints(470, 10, 590, 670));
+        jPanel1.add(gamePanel, new org.netbeans.lib.awtextra.AbsoluteConstraints(470, 10, 590, 580));
 
         carta1.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 carta1ActionPerformed(evt);
             }
         });
-        jPanel1.add(carta1, new org.netbeans.lib.awtextra.AbsoluteConstraints(450, 690, 100, 110));
-        jPanel1.add(carta6, new org.netbeans.lib.awtextra.AbsoluteConstraints(1000, 690, 100, 110));
-        jPanel1.add(carta2, new org.netbeans.lib.awtextra.AbsoluteConstraints(560, 690, 100, 110));
-        jPanel1.add(carta3, new org.netbeans.lib.awtextra.AbsoluteConstraints(670, 690, 100, 110));
-        jPanel1.add(carta4, new org.netbeans.lib.awtextra.AbsoluteConstraints(780, 690, 100, 110));
-        jPanel1.add(carta5, new org.netbeans.lib.awtextra.AbsoluteConstraints(890, 690, 100, 110));
+        jPanel1.add(carta1, new org.netbeans.lib.awtextra.AbsoluteConstraints(470, 610, 100, 110));
+        jPanel1.add(carta6, new org.netbeans.lib.awtextra.AbsoluteConstraints(1020, 610, 100, 110));
+        jPanel1.add(carta2, new org.netbeans.lib.awtextra.AbsoluteConstraints(580, 610, 100, 110));
+        jPanel1.add(carta3, new org.netbeans.lib.awtextra.AbsoluteConstraints(690, 610, 100, 110));
+        jPanel1.add(carta4, new org.netbeans.lib.awtextra.AbsoluteConstraints(800, 610, 100, 110));
+        jPanel1.add(carta5, new org.netbeans.lib.awtextra.AbsoluteConstraints(910, 610, 100, 110));
 
         barajaDeCartas.setBackground(new java.awt.Color(255, 255, 255));
-        barajaDeCartas.setForeground(new java.awt.Color(0, 0, 0));
         barajaDeCartas.setText("parte trasera mazo");
         barajaDeCartas.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
         barajaDeCartas.setOpaque(true);
-        jPanel1.add(barajaDeCartas, new org.netbeans.lib.awtextra.AbsoluteConstraints(330, 690, 100, 110));
+        jPanel1.add(barajaDeCartas, new org.netbeans.lib.awtextra.AbsoluteConstraints(350, 610, 100, 110));
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -240,22 +238,24 @@ public class Juego extends javax.swing.JFrame {
     }
 
     private void ponerImagenMano(JButton boton) {
-    for (int i = 0; i < mano1.length; i++) {
         String textoDeCartaAgarrada = boton.getText();
-        if (cartasConImagenes.containsKey(textoDeCartaAgarrada)) {
-            String rutaImagen = cartasConImagenes.get(textoDeCartaAgarrada);
-            // Crear una URL de archivo a partir de la ruta de imagen
-            URL urlCartaAgarrada = getClass().getResource(rutaImagen);
-            if (urlCartaAgarrada != null) {
-                ImageIcon imagenCarta = new ImageIcon(urlCartaAgarrada);
-                mano1[i].setIcon(imagenCarta);
-            } else {
-                System.err.println("No se pudo encontrar la imagen en la ruta: " + rutaImagen);
-            }
+
+        //ruta de la imagen
+        String rutaImagen = "/img/" + textoDeCartaAgarrada + ".png";
+
+        URL urlCartaAgarrada = getClass().getResource(rutaImagen);
+
+        if (urlCartaAgarrada != null) {
+            ImageIcon imagenCarta = new ImageIcon(urlCartaAgarrada);
+            int nuevoAncho = 90;
+            int nuevoAlto = 100;
+            Image imagenRedimensionada = imagenCarta.getImage().getScaledInstance(nuevoAncho, nuevoAlto, Image.SCALE_SMOOTH);
+
+            boton.setIcon(new ImageIcon(imagenRedimensionada));
+        } else {
+            System.err.println("No se pudo encontrar la imagen en la ruta: " + rutaImagen);
         }
     }
-}
-
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JLabel barajaDeCartas;

@@ -9,6 +9,7 @@ package proyectosequence;
  * @author danie
  */
 public class CartasBaraja {
+
     private String palo;
     private String valor;
 
@@ -19,6 +20,6 @@ public class CartasBaraja {
 
     @Override
     public String toString() {
-        return valor + " de " + palo;
+        return valor + "_" + palo;
     }
 }
