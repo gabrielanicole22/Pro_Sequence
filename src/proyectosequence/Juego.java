@@ -68,6 +68,7 @@ public class Juego extends javax.swing.JFrame {
 
         ponerTextoMano();
         ponerImagenesEnMano();
+        actualizarLabelTurno();
 
     }
 
@@ -94,7 +95,7 @@ public class Juego extends javax.swing.JFrame {
         carta4 = new javax.swing.JButton();
         carta5 = new javax.swing.JButton();
         barajaDeCartas = new javax.swing.JLabel();
-        jugadores = new javax.swing.JLabel();
+        lblturno = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -169,10 +170,10 @@ public class Juego extends javax.swing.JFrame {
         barajaDeCartas.setOpaque(true);
         jPanel1.add(barajaDeCartas, new org.netbeans.lib.awtextra.AbsoluteConstraints(350, 610, 100, 110));
 
-        jugadores.setFont(new java.awt.Font("Rockwell Condensed", 0, 24)); // NOI18N
-        jugadores.setForeground(new java.awt.Color(255, 204, 255));
-        jugadores.setText("dos jugadores");
-        jPanel1.add(jugadores, new org.netbeans.lib.awtextra.AbsoluteConstraints(1110, 90, -1, -1));
+        lblturno.setFont(new java.awt.Font("Rockwell Condensed", 0, 24)); // NOI18N
+        lblturno.setForeground(new java.awt.Color(255, 204, 255));
+        lblturno.setText("dos jugadores");
+        jPanel1.add(lblturno, new org.netbeans.lib.awtextra.AbsoluteConstraints(1110, 90, -1, -1));
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -189,6 +190,9 @@ public class Juego extends javax.swing.JFrame {
         setLocationRelativeTo(null);
     }// </editor-fold>//GEN-END:initComponents
 
+    public void actualizarLabelTurno(){
+        lblturno.setText("Turno de jugador "+turno);
+    }
     private void carta1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_carta1ActionPerformed
 
         // itera a través de las casillas del tablero para quitar las cartas resaltadas
@@ -426,6 +430,7 @@ public class Juego extends javax.swing.JFrame {
         }
         ponerTextoMano();
         ponerImagenesEnMano();
+        actualizarLabelTurno();
 
     }
 
@@ -470,7 +475,7 @@ public class Juego extends javax.swing.JFrame {
     private javax.swing.JButton carta6;
     private javax.swing.JPanel gamePanel;
     private javax.swing.JPanel jPanel1;
-    private javax.swing.JLabel jugadores;
+    private javax.swing.JLabel lblturno;
     private javax.swing.JLabel timer;
     // End of variables declaration//GEN-END:variables
 }
