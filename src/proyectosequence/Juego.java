@@ -24,10 +24,10 @@ public class Juego extends javax.swing.JFrame {
     Tablero tablero;
     List<CartasBaraja> jugador1;
     List<CartasBaraja> jugador2;
-    JButton[] mano1;
-    List<JButton> mano2;
-    List<JButton> mano3;
-    List<JButton> mano4;
+
+    JButton[] mano;
+    String cartaSeleccionadaTexto;
+    public int turno;
 
     //Imagen de parte trasera de la baraja
     ImageIcon imagenTrasero;
@@ -36,29 +36,20 @@ public class Juego extends javax.swing.JFrame {
     ImageIcon A_picas;
     ImageIcon A_trebol;
     HashMap<String, String> cartasConImagenes = new HashMap<>();
+    Baraja baraja = new Baraja();
 
-    /*
-    //Poner las urls de acuerdo con su nombre
-    private void asociarCartasConImagenes(){
-         cartasConImagenes.put("A de Corazones", "/src/img/corazon/As_corazones.png");
-         cartasConImagenes.put("A de Trebol", "/src/img/trebol/As_trebol.png");
-         cartasConImagenes.put("A de Picas", "/src/img/picas/As_picas.png");
-         cartasConImagenes.put("A de Diamantes", "/src/img/diamantes/As_diamantes.png");
-         cartasConImagenes.put("2 de Corazones", "/src/img/corazon/2_corazones.png");
-         cartasConImagenes.put("2 de Treboles", "/src/img/trebol/2_trebol.png");
-         cartasConImagenes.put("2 de Picas", "/src/img/picas/2_picas.png");
-         cartasConImagenes.put("2 de Diamantes", "/src/img/diamantes/2_diamantes.png");
-    }   */
-    
     public Juego(MenuInicio mainWindow) throws MalformedURLException {
         initComponents();
-        mano1 = new JButton[7];
-        mano1[1] = carta1;
-        mano1[2] = carta2;
-        mano1[3] = carta3;
-        mano1[4] = carta4;
-        mano1[5] = carta5;
-        mano1[6] = carta6;
+        
+        this.turno = 1;
+        mano = new JButton[7];
+        mano[1] = carta1;
+        mano[2] = carta2;
+        mano[3] = carta3;
+        mano[4] = carta4;
+        mano[5] = carta5;
+        mano[6] = carta6;
+
         //asociarCartasConImagenes();
         setDefaultCloseOperation(DISPOSE_ON_CLOSE);
         gamePanel.setLayout(new GridLayout(1, 1));
@@ -69,35 +60,15 @@ public class Juego extends javax.swing.JFrame {
         setExtendedState(JFrame.MAXIMIZED_BOTH);
         setVisible(true);
         tablero.startTurnTimer();
-        Baraja baraja = new Baraja();
+
         baraja.barajar();
 
         jugador1 = baraja.repartir(6);
         jugador2 = baraja.repartir(6);
 
-        ponerManoAlInicio();
-        ponerImagenMano(carta1);
-        ponerImagenMano(carta2);
-        ponerImagenMano(carta3);
-        ponerImagenMano(carta4);
-        ponerImagenMano(carta5);
-        ponerImagenMano(carta6);
+        ponerTextoMano();
+        ponerImagenesEnMano();
 
-        //Textos de la mano del jugador1
-        String textoJ1carta1 = jugador1.get(1 - 1).toString();
-        String textoJ1carta2 = jugador1.get(2 - 1).toString();
-        String textoJ1carta3 = jugador1.get(3 - 1).toString();
-        String textoJ1carta4 = jugador1.get(4 - 1).toString();
-        String textoJ1carta5 = jugador1.get(5 - 1).toString();
-        String textoJ1carta6 = jugador1.get(6 - 1).toString();
-
-        //Textos de la mano del jugador2
-        String textoJ2carta1 = jugador2.get(1 - 1).toString();
-        String textoJ2carta2 = jugador2.get(2 - 1).toString();
-        String textoJ2carta3 = jugador2.get(3 - 1).toString();
-        String textoJ2carta4 = jugador2.get(4 - 1).toString();
-        String textoJ2carta5 = jugador2.get(5 - 1).toString();
-        String textoJ2carta6 = jugador2.get(6 - 1).toString();
     }
 
     public JLabel getTimerLabel() {
@@ -123,6 +94,7 @@ public class Juego extends javax.swing.JFrame {
         carta4 = new javax.swing.JButton();
         carta5 = new javax.swing.JButton();
         barajaDeCartas = new javax.swing.JLabel();
+        jugadores = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -131,8 +103,8 @@ public class Juego extends javax.swing.JFrame {
 
         timer.setFont(new java.awt.Font("Rockwell Condensed", 0, 24)); // NOI18N
         timer.setForeground(new java.awt.Color(255, 204, 255));
-        timer.setText("jLabel3");
-        jPanel1.add(timer, new org.netbeans.lib.awtextra.AbsoluteConstraints(1110, 90, -1, -1));
+        timer.setText("temporizador");
+        jPanel1.add(timer, new org.netbeans.lib.awtextra.AbsoluteConstraints(160, 50, -1, -1));
 
         gamePanel.setBackground(new java.awt.Color(204, 204, 204));
 
@@ -197,6 +169,11 @@ public class Juego extends javax.swing.JFrame {
         barajaDeCartas.setOpaque(true);
         jPanel1.add(barajaDeCartas, new org.netbeans.lib.awtextra.AbsoluteConstraints(350, 610, 100, 110));
 
+        jugadores.setFont(new java.awt.Font("Rockwell Condensed", 0, 24)); // NOI18N
+        jugadores.setForeground(new java.awt.Color(255, 204, 255));
+        jugadores.setText("dos jugadores");
+        jPanel1.add(jugadores, new org.netbeans.lib.awtextra.AbsoluteConstraints(1110, 90, -1, -1));
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
@@ -214,11 +191,21 @@ public class Juego extends javax.swing.JFrame {
 
     private void carta1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_carta1ActionPerformed
 
-        String textocarta1 = carta1.getText();
+        // itera a través de las casillas del tablero para quitar las cartas resaltadas
+        for (int i = 0; i < 10; i++) {
+            for (int j = 0; j < 10; j++) {
+                tablero.casillas[i][j].label.setBackground(null);
+                tablero.casillas[i][j].label.setOpaque(false);
+            }
+        }
+
+        String textocarta = carta1.getText();
+        cartaSeleccionadaTexto = textocarta;
+
         // itera a través de las casillas del tablero
         for (int i = 0; i < 10; i++) {
             for (int j = 0; j < 10; j++) {
-                if (tablero.casillas[i][j].carta != null && tablero.casillas[i][j].carta.getNombre().equals(textocarta1)) {
+                if (tablero.casillas[i][j].carta != null && tablero.casillas[i][j].carta.getNombre().equals(textocarta)) {
                     // si la casilla del tablero coincide con el texto del botón clickeado, se pone azul
                     tablero.casillas[i][j].label.setBackground(Color.BLUE);
                     tablero.casillas[i][j].label.setOpaque(true);
@@ -227,26 +214,147 @@ public class Juego extends javax.swing.JFrame {
         }
     }//GEN-LAST:event_carta1ActionPerformed
 
+    public void eliminarYAgregarCarta() {
+               
+        for (int i = 0; i < 6; i++) {
+            if (turno == 1) {
+                if (jugador1.get(i).toString().equals(cartaSeleccionadaTexto)) {
+                    jugador1.remove(i);
+                    CartasBaraja nuevaCarta = baraja.repartir(1).get(0); // sacar la nueva carta de la baraja
+                    jugador1.add(nuevaCarta);
+                    ponerTextoMano();
+                    ponerImagenesEnMano();
+                    break;
+                }
+            }else if(turno ==2){
+               if (jugador2.get(i).toString().equals(cartaSeleccionadaTexto)) {
+                    jugador2.remove(i);
+                    CartasBaraja nuevaCarta = baraja.repartir(1).get(0); // sacar la nueva carta de la baraja
+                    jugador2.add(nuevaCarta);
+                    ponerTextoMano();
+                    ponerImagenesEnMano();
+                    break;
+                } 
+            }
+        }
+    }
+
     private void carta2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_carta2ActionPerformed
-        // TODO add your handling code here:
+        // itera a través de las casillas del tablero para quitar las cartas resaltadas
+        for (int i = 0; i < 10; i++) {
+            for (int j = 0; j < 10; j++) {
+                tablero.casillas[i][j].label.setBackground(null);
+                tablero.casillas[i][j].label.setOpaque(false);
+            }
+        }
+
+        String textocarta = carta2.getText();
+        cartaSeleccionadaTexto = textocarta;
+        // itera a través de las casillas del tablero
+        for (int i = 0; i < 10; i++) {
+            for (int j = 0; j < 10; j++) {
+                if (tablero.casillas[i][j].carta != null && tablero.casillas[i][j].carta.getNombre().equals(textocarta)) {
+                    // si la casilla del tablero coincide con el texto del botón clickeado, se pone azul
+                    tablero.casillas[i][j].label.setBackground(Color.BLUE);
+                    tablero.casillas[i][j].label.setOpaque(true);
+                }
+            }
+        }
     }//GEN-LAST:event_carta2ActionPerformed
 
     private void carta3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_carta3ActionPerformed
-        // TODO add your handling code here:
+        // itera a través de las casillas del tablero para quitar las cartas resaltadas
+        for (int i = 0; i < 10; i++) {
+            for (int j = 0; j < 10; j++) {
+                tablero.casillas[i][j].label.setBackground(null);
+                tablero.casillas[i][j].label.setOpaque(false);
+            }
+        }
+
+        String textocarta = carta3.getText();
+        cartaSeleccionadaTexto = textocarta;
+        // itera a través de las casillas del tablero
+        for (int i = 0; i < 10; i++) {
+            for (int j = 0; j < 10; j++) {
+                if (tablero.casillas[i][j].carta != null && tablero.casillas[i][j].carta.getNombre().equals(textocarta)) {
+                    // si la casilla del tablero coincide con el texto del botón clickeado, se pone azul
+                    tablero.casillas[i][j].label.setBackground(Color.BLUE);
+                    tablero.casillas[i][j].label.setOpaque(true);
+                }
+            }
+        }
     }//GEN-LAST:event_carta3ActionPerformed
 
     private void carta4ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_carta4ActionPerformed
-        // TODO add your handling code here:
+        // itera a través de las casillas del tablero para quitar las cartas resaltadas
+        for (int i = 0; i < 10; i++) {
+            for (int j = 0; j < 10; j++) {
+                tablero.casillas[i][j].label.setBackground(null);
+                tablero.casillas[i][j].label.setOpaque(false);
+            }
+        }
+
+        String textocarta = carta4.getText();
+        cartaSeleccionadaTexto = textocarta;
+        // itera a través de las casillas del tablero
+        for (int i = 0; i < 10; i++) {
+            for (int j = 0; j < 10; j++) {
+                if (tablero.casillas[i][j].carta != null && tablero.casillas[i][j].carta.getNombre().equals(textocarta)) {
+                    // si la casilla del tablero coincide con el texto del botón clickeado, se pone azul
+                    tablero.casillas[i][j].label.setBackground(Color.BLUE);
+                    tablero.casillas[i][j].label.setOpaque(true);
+                }
+            }
+        }
     }//GEN-LAST:event_carta4ActionPerformed
 
     private void carta5ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_carta5ActionPerformed
-        // TODO add your handling code here:
+
+        // itera a través de las casillas del tablero para quitar las cartas resaltadas
+        for (int i = 0; i < 10; i++) {
+            for (int j = 0; j < 10; j++) {
+                tablero.casillas[i][j].label.setBackground(null);
+                tablero.casillas[i][j].label.setOpaque(false);
+            }
+        }
+
+        String textocarta = carta5.getText();
+        cartaSeleccionadaTexto = textocarta;
+        // itera a través de las casillas del tablero
+        for (int i = 0; i < 10; i++) {
+            for (int j = 0; j < 10; j++) {
+                if (tablero.casillas[i][j].carta != null && tablero.casillas[i][j].carta.getNombre().equals(textocarta)) {
+                    // si la casilla del tablero coincide con el texto del botón clickeado, se pone azul
+                    tablero.casillas[i][j].label.setBackground(Color.BLUE);
+                    tablero.casillas[i][j].label.setOpaque(true);
+                }
+            }
+        }
     }//GEN-LAST:event_carta5ActionPerformed
 
     private void carta6ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_carta6ActionPerformed
-        // TODO add your handling code here:
+        // itera a través de las casillas del tablero para quitar las cartas resaltadas
+        for (int i = 0; i < 10; i++) {
+            for (int j = 0; j < 10; j++) {
+                tablero.casillas[i][j].label.setBackground(null);
+                tablero.casillas[i][j].label.setOpaque(false);
+            }
+        }
+
+        String textocarta = carta6.getText();
+        cartaSeleccionadaTexto = textocarta;
+        // itera a través de las casillas del tablero
+        for (int i = 0; i < 10; i++) {
+            for (int j = 0; j < 10; j++) {
+                if (tablero.casillas[i][j].carta != null && tablero.casillas[i][j].carta.getNombre().equals(textocarta)) {
+                    // si la casilla del tablero coincide con el texto del botón clickeado, se pone azul
+                    tablero.casillas[i][j].label.setBackground(Color.BLUE);
+                    tablero.casillas[i][j].label.setOpaque(true);
+                }
+            }
+        }
     }//GEN-LAST:event_carta6ActionPerformed
-    
+
     /**
      * @param args the command line arguments
      */
@@ -281,15 +389,47 @@ public class Juego extends javax.swing.JFrame {
         });
     }
 
-    private void ponerManoAlInicio() {
-        carta1.setText(jugador1.get(1 - 1).toString());
-        carta2.setText(jugador1.get(2 - 1).toString());
-        carta3.setText(jugador1.get(3 - 1).toString());
-        carta4.setText(jugador1.get(4 - 1).toString());
-        carta5.setText(jugador1.get(5 - 1).toString());
-        carta6.setText(jugador1.get(6 - 1).toString());
+    //Solo pone el texto a los botones 
+    private void ponerTextoMano() {
+        if (turno == 1) {
+            carta1.setText(jugador1.get(1 - 1).toString());
+            carta2.setText(jugador1.get(2 - 1).toString());
+            carta3.setText(jugador1.get(3 - 1).toString());
+            carta4.setText(jugador1.get(4 - 1).toString());
+            carta5.setText(jugador1.get(5 - 1).toString());
+            carta6.setText(jugador1.get(6 - 1).toString());
+        }
+        if (turno == 2) {
+            carta1.setText(jugador2.get(1 - 1).toString());
+            carta2.setText(jugador2.get(2 - 1).toString());
+            carta3.setText(jugador2.get(3 - 1).toString());
+            carta4.setText(jugador2.get(4 - 1).toString());
+            carta5.setText(jugador2.get(5 - 1).toString());
+            carta6.setText(jugador2.get(6 - 1).toString());
+        }
+
     }
 
+    public void cambioDeTurno() {
+        // itera a través de las casillas del tablero para quitar las cartas resaltadas
+        for (int i = 0; i < 10; i++) {
+            for (int j = 0; j < 10; j++) {
+                tablero.casillas[i][j].label.setBackground(null);
+                tablero.casillas[i][j].label.setOpaque(false);
+            }
+        }
+        eliminarYAgregarCarta();
+        turno++;
+        //Reiniciar el turno
+        if (turno > 2) {
+            turno = 1;
+        }
+        ponerTextoMano();
+        ponerImagenesEnMano();
+
+    }
+
+    //Poner imagenes a los botones de la mano
     private void ponerImagenMano(JButton boton) {
         String textoDeCartaAgarrada = boton.getText();
         //ruta de la imagen
@@ -309,6 +449,17 @@ public class Juego extends javax.swing.JFrame {
         }
     }
 
+    //Poner imagen a cada boton
+    private void ponerImagenesEnMano() {
+        ponerImagenMano(carta1);
+        ponerImagenMano(carta2);
+        ponerImagenMano(carta3);
+        ponerImagenMano(carta4);
+        ponerImagenMano(carta5);
+        ponerImagenMano(carta6);
+    }
+
+
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JLabel barajaDeCartas;
     private javax.swing.JButton carta1;
@@ -319,6 +470,7 @@ public class Juego extends javax.swing.JFrame {
     private javax.swing.JButton carta6;
     private javax.swing.JPanel gamePanel;
     private javax.swing.JPanel jPanel1;
+    private javax.swing.JLabel jugadores;
     private javax.swing.JLabel timer;
     // End of variables declaration//GEN-END:variables
 }

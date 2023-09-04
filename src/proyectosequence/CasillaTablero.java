@@ -29,6 +29,7 @@ public class CasillaTablero {
     public void setCarta(Carta carta) {
         this.carta = carta;
     }
+    
 
     public void mostrarInfo(GestorCartas gestorCartas) {
         if (label != null && carta != null) {
@@ -37,6 +38,14 @@ public class CasillaTablero {
             //label.setText(info);
             label.repaint();
         }
+    }
+        public String getNombreCarta(GestorCartas gestorCartas) {
+        String info="";
+            if (label != null && carta != null) {
+            info = gestorCartas.getInformacionDeCarta(carta);
+            label.repaint();
+        }
+        return info;
     }
     
     public int getRow() {

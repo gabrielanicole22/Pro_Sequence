@@ -83,6 +83,7 @@ public class Tablero extends JPanel {
             for (int column = 0; column < 10; column++) {
                 casillas[row][column] = new CasillaTablero(row, column);
                 add(casillas[row][column].label);
+
             }
         }
         setLayout(new GridLayout(10, 10));
@@ -113,13 +114,30 @@ public class Tablero extends JPanel {
 
                                 // Valida que no haya una ficha en la casilla
                                 if (casillaSeleccionada.label.getIcon() == null) {
-                                    Image imagenOriginal = imagenes[indiceImagenActual].getImage();
-                                    Image imagenEscalada = imagenOriginal.getScaledInstance(imagenWidth, imagenHeight, Image.SCALE_SMOOTH);
-                                    ImageIcon imagenEscaladaIcon = new ImageIcon(imagenEscalada);
+                                    if (casillaSeleccionada.getNombreCarta(gestorCartas).equals(gameWindow.cartaSeleccionadaTexto)) {
+                                        //Pone imagen roja para el jugador 1
+                                        if (gameWindow.turno == 1) {
+                                            Image imagenOriginal = imagenes[0].getImage();
+                                            Image imagenEscalada = imagenOriginal.getScaledInstance(imagenWidth, imagenHeight, Image.SCALE_SMOOTH);
+                                            ImageIcon imagenEscaladaIcon = new ImageIcon(imagenEscalada);
+                                            // pone la ficha en la casilla
+                                            casillaSeleccionada.label.setIcon(imagenEscaladaIcon);
 
-                                    // pone la ficha en la casilla
-                                    casillaSeleccionada.label.setIcon(imagenEscaladaIcon);
-                                    indiceImagenActual = (indiceImagenActual + 1) % imagenes.length;
+                                            //Pone imagen verde para el jugador 2
+                                        } else if (gameWindow.turno == 2) {
+                                            Image imagenOriginal = imagenes[1].getImage();
+                                            Image imagenEscalada = imagenOriginal.getScaledInstance(imagenWidth, imagenHeight, Image.SCALE_SMOOTH);
+                                            ImageIcon imagenEscaladaIcon = new ImageIcon(imagenEscalada);
+
+                                            // pone la ficha en la casilla
+                                            casillaSeleccionada.label.setIcon(imagenEscaladaIcon);
+                                        }
+                                        //indiceImagenActual = (indiceImagenActual + 1) % imagenes.length;
+                                        //Cambia de turno y de de mano
+                                        gameWindow.cambioDeTurno();
+                                    } else {
+                                        JOptionPane.showMessageDialog(null, "Pon la ficha en la carta que has seleccionado.");
+                                    }
 
                                 } else {
                                     JOptionPane.showMessageDialog(null, "Ya hay una ficha en la carta.");
@@ -173,7 +191,4 @@ public class Tablero extends JPanel {
         timerLabel.setText(String.format("Tiempo restante: %02d:%02d", minutes, seconds));
     }
 
-    public void iluminarCartas(String carta){
-        
-    }
 }
