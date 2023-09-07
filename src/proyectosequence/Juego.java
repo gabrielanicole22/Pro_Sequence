@@ -96,6 +96,7 @@ public class Juego extends javax.swing.JFrame {
         carta5 = new javax.swing.JButton();
         barajaDeCartas = new javax.swing.JLabel();
         lblturno = new javax.swing.JLabel();
+        btnDescartarCarta = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -174,6 +175,14 @@ public class Juego extends javax.swing.JFrame {
         lblturno.setForeground(new java.awt.Color(255, 204, 255));
         lblturno.setText("dos jugadores");
         jPanel1.add(lblturno, new org.netbeans.lib.awtextra.AbsoluteConstraints(1110, 90, -1, -1));
+
+        btnDescartarCarta.setText("Descartar Carta");
+        btnDescartarCarta.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnDescartarCartaActionPerformed(evt);
+            }
+        });
+        jPanel1.add(btnDescartarCarta, new org.netbeans.lib.awtextra.AbsoluteConstraints(340, 580, -1, -1));
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -359,6 +368,13 @@ public class Juego extends javax.swing.JFrame {
         }
     }//GEN-LAST:event_carta6ActionPerformed
 
+    private void btnDescartarCartaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnDescartarCartaActionPerformed
+        eliminarYAgregarCarta();
+        ponerTextoMano();
+        ponerImagenesEnMano();
+        
+    }//GEN-LAST:event_btnDescartarCartaActionPerformed
+
     /**
      * @param args the command line arguments
      */
@@ -467,6 +483,7 @@ public class Juego extends javax.swing.JFrame {
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JLabel barajaDeCartas;
+    private javax.swing.JButton btnDescartarCarta;
     private javax.swing.JButton carta1;
     private javax.swing.JButton carta2;
     private javax.swing.JButton carta3;
