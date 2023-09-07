@@ -13,6 +13,7 @@ import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 import static javax.swing.WindowConstants.DISPOSE_ON_CLOSE;
 
 /**
@@ -369,9 +370,14 @@ public class Juego extends javax.swing.JFrame {
     }//GEN-LAST:event_carta6ActionPerformed
 
     private void btnDescartarCartaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnDescartarCartaActionPerformed
+        if(cartaSeleccionadaTexto==null){
+            JOptionPane.showMessageDialog(null, "Seleccione primero una carta y luego dele a descartar.");
+        }else{
         eliminarYAgregarCarta();
         ponerTextoMano();
         ponerImagenesEnMano();
+            
+        }
         
     }//GEN-LAST:event_btnDescartarCartaActionPerformed
 
