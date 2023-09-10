@@ -53,7 +53,7 @@ public class Tablero extends JPanel {
 
         //fichas
         imagenes = new ImageIcon[4];
-        imagenes[0] = new ImageIcon("src/fichas/rojo.png");
+        imagenes[0] = new ImageIcon("src/fichas/redTV.png");
         imagenes[1] = new ImageIcon("src/fichas/verde.png");
         imagenes[2] = new ImageIcon("src/fichas/azul.png");
         imagenes[3] = new ImageIcon("src/fichas/amarillo.png");
