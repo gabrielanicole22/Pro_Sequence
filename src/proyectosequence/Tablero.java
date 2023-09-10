@@ -12,7 +12,7 @@ public class Tablero extends JPanel {
     private boolean hayCasillaSeleccionada = false;
     private CasillaTablero casillaSeleccionada;
     public CasillaTablero[][] casillas;
-    Juego gameWindow;
+    Juego2Jugadores gameWindow;
     MenuInicio mainWindow;
     private Image imagenFondo;
 
@@ -43,7 +43,7 @@ public class Tablero extends JPanel {
     private int imagenWidth = 50;
     private int imagenHeight = 50;
 
-    public Tablero(Juego gameWindow, MenuInicio mainWindow) {
+    public Tablero(Juego2Jugadores gameWindow, MenuInicio mainWindow) {
         this.gameWindow = gameWindow;
         this.mainWindow = mainWindow;
 
@@ -165,6 +165,8 @@ public class Tablero extends JPanel {
         repaint();
     }
 
+    
+    
     //hay código que se puede simplicar pero nomas es de prueba
     private boolean verificarSecuencia(CasillaTablero casilla, int jugador) {
         int fila = casilla.getRow();

@@ -14,7 +14,7 @@ import java.util.List;
 
 public class Baraja {
 
-    private List<CartasBaraja> cartas;
+    public List<CartasBaraja> cartas;
 
     public Baraja() {
         cartas = new ArrayList<>();
@@ -43,7 +43,7 @@ public class Baraja {
         List<CartasBaraja> mano = new ArrayList<>();
         for (int i = 0; i < cantidad; i++) {
             if (!cartas.isEmpty()) {
-                mano.add(cartas.remove(0));
+                mano.add(cartas.remove(i));
             }
         }
         return mano;
