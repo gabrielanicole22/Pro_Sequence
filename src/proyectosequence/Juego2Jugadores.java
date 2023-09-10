@@ -25,9 +25,12 @@ public class Juego2Jugadores extends javax.swing.JFrame {
     Tablero tablero;
     List<CartasBaraja> jugador1;
     List<CartasBaraja> jugador2;
+    int posx;
+    int posy;
 
     JButton[] mano;
-    String cartaSeleccionadaTexto;
+    public String cartaSeleccionadaTexto;
+    
     public int turno;
 
     //Imagen de parte trasera de la baraja
@@ -104,13 +107,13 @@ public class Juego2Jugadores extends javax.swing.JFrame {
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
-        jPanel1.setBackground(new java.awt.Color(0, 0, 102));
+        jPanel1.setBackground(new java.awt.Color(0, 153, 51));
         jPanel1.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
         timer.setFont(new java.awt.Font("Rockwell Condensed", 0, 24)); // NOI18N
-        timer.setForeground(new java.awt.Color(255, 204, 255));
+        timer.setForeground(new java.awt.Color(0, 0, 0));
         timer.setText("temporizador");
-        jPanel1.add(timer, new org.netbeans.lib.awtextra.AbsoluteConstraints(170, 60, -1, -1));
+        jPanel1.add(timer, new org.netbeans.lib.awtextra.AbsoluteConstraints(240, 10, -1, -1));
 
         gamePanel.setBackground(new java.awt.Color(204, 204, 204));
 
@@ -170,9 +173,9 @@ public class Juego2Jugadores extends javax.swing.JFrame {
         jPanel1.add(carta5, new org.netbeans.lib.awtextra.AbsoluteConstraints(910, 610, 100, 110));
 
         lblturno.setFont(new java.awt.Font("Rockwell Condensed", 0, 24)); // NOI18N
-        lblturno.setForeground(new java.awt.Color(255, 204, 255));
-        lblturno.setText("dos jugadores");
-        jPanel1.add(lblturno, new org.netbeans.lib.awtextra.AbsoluteConstraints(1110, 90, -1, -1));
+        lblturno.setForeground(new java.awt.Color(0, 0, 0));
+        lblturno.setText("turno");
+        jPanel1.add(lblturno, new org.netbeans.lib.awtextra.AbsoluteConstraints(720, 730, -1, -1));
 
         btnDescartarCarta.setText("Descartar Carta");
         btnDescartarCarta.addActionListener(new java.awt.event.ActionListener() {
@@ -187,20 +190,26 @@ public class Juego2Jugadores extends javax.swing.JFrame {
         barajaDeCartas.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
         barajaDeCartas.setOpaque(true);
         jPanel1.add(barajaDeCartas, new org.netbeans.lib.awtextra.AbsoluteConstraints(350, 610, 100, 110));
+
+        ultimaCartaPuesta.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                ultimaCartaPuestaActionPerformed(evt);
+            }
+        });
         jPanel1.add(ultimaCartaPuesta, new org.netbeans.lib.awtextra.AbsoluteConstraints(330, 250, 100, 110));
 
         jugadorQuePusoLaCarta.setFont(new java.awt.Font("Rockwell Condensed", 0, 24)); // NOI18N
-        jugadorQuePusoLaCarta.setForeground(new java.awt.Color(255, 204, 255));
+        jugadorQuePusoLaCarta.setForeground(new java.awt.Color(0, 0, 0));
         jugadorQuePusoLaCarta.setText("Nadie ha jugado");
         jPanel1.add(jugadorQuePusoLaCarta, new org.netbeans.lib.awtextra.AbsoluteConstraints(330, 370, -1, -1));
 
         lbl1.setFont(new java.awt.Font("Rockwell Condensed", 0, 24)); // NOI18N
-        lbl1.setForeground(new java.awt.Color(255, 204, 255));
+        lbl1.setForeground(new java.awt.Color(0, 0, 0));
         lbl1.setText("Ultima carta jugada");
         jPanel1.add(lbl1, new org.netbeans.lib.awtextra.AbsoluteConstraints(300, 210, -1, -1));
 
         lbl2.setFont(new java.awt.Font("Rockwell Condensed", 0, 24)); // NOI18N
-        lbl2.setForeground(new java.awt.Color(255, 204, 255));
+        lbl2.setForeground(new java.awt.Color(0, 0, 0));
         lbl2.setText("Jugada por: ");
         jPanel1.add(lbl2, new org.netbeans.lib.awtextra.AbsoluteConstraints(230, 370, -1, -1));
 
@@ -446,6 +455,10 @@ public class Juego2Jugadores extends javax.swing.JFrame {
         }
 
     }//GEN-LAST:event_btnDescartarCartaActionPerformed
+
+    private void ultimaCartaPuestaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_ultimaCartaPuestaActionPerformed
+        tablero.casillas[posx][posy].label.setBackground(Color.YELLOW);
+    }//GEN-LAST:event_ultimaCartaPuestaActionPerformed
 
     /**
      * @param args the command line arguments

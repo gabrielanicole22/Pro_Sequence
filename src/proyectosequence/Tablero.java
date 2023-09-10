@@ -102,7 +102,7 @@ public class Tablero extends JPanel {
                     for (int j = 0; j < 10; j++) {
                         if (casillas[i][j].label == label) {
                             System.out.println("Casilla clickeada: [" + i + "][" + j + "]");
-
+                            
                             if (!hayCasillaSeleccionada) {
                                 if (turnTimer.isRunning()) {
                                     turnTimer.stop();
@@ -140,11 +140,15 @@ public class Tablero extends JPanel {
                                                 JOptionPane.showMessageDialog(null, "¡Felicidades Jugador " + gameWindow.turno + ", has formado una secuencia!");
                                             }
                                         }
-
+                                        gameWindow.posx=i;
+                                        gameWindow.posy=j;
                                         // Cambia de turno y de mano
                                         gameWindow.cambioDeTurno();
                                     } else {
+                                        if(gameWindow.cartaSeleccionadaTexto != (null)){
                                         JOptionPane.showMessageDialog(null, "Pon la ficha en la carta que has seleccionado.");
+                                        }
+                                        
                                     }
                                 } else {
                                     JOptionPane.showMessageDialog(null, "Ya hay una ficha en la casilla.");
