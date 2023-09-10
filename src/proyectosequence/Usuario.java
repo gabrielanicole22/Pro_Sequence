@@ -4,93 +4,105 @@
  */
 package proyectosequence;
 
+import java.io.File;
 import java.io.IOException;
 import java.io.RandomAccessFile;
+import java.io.Serializable;
+import java.text.SimpleDateFormat;
 import java.util.Date;
+import javax.imageio.ImageIO;
+import javax.swing.ImageIcon;
 
 /**
  *
  * @author Gabriela Mejía
  */
-public class Usuario {
+public abstract class Usuario implements Serializable {
 
-    private String nombre;
-    private String usuario;
-    private String contrasena;
-    private Date fechaCreacion;
-    private double puntos = 0.0;
+    public String usuario, contra, nombreCompleto;
+    public int puntos, cantJugadores;
+    File fichaFile;
+    ImageIcon fichaIcon;
+    Date fechaCreacion;
 
-    public Usuario(String nombre, String usuario, String contrasena, Date fechaCreacion) {
-        this.nombre = nombre.trim();
-        this.usuario = usuario.trim();
-        this.contrasena = contrasena.trim();
-        this.fechaCreacion = fechaCreacion;
+    public Usuario(String usuario, String contra, String nombreCompleto, long fechaCreacion, int puntos, String fichaFilename, int cantJugadores) {
+        this.usuario = usuario;
+        this.contra = contra;
+        this.nombreCompleto = nombreCompleto;
+        this.fechaCreacion = new Date();
+        this.fechaCreacion.setTime(fechaCreacion);
+        this.puntos = puntos;
+        this.fichaFile = new File("src/fichas/" + fichaFilename);
+        this.cantJugadores = cantJugadores;
+        try {
+            this.fichaIcon = new ImageIcon(ImageIO.read(fichaFile));
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+    public abstract void addPuntos(int cantidad);
 
+    public void guardarUsuario(RandomAccessFile raf) throws IOException {
+        raf.seek(raf.length());
+        raf.writeUTF(usuario);
+        raf.writeUTF(contra);
+        raf.writeUTF(nombreCompleto);
+        raf.writeLong(fechaCreacion.getTime());
+        raf.writeInt(puntos);
+        raf.writeUTF(fichaFile.getName());
+        raf.writeInt(cantJugadores);
     }
 
-    public String getNombre() {
-        return nombre;
-    }
-
-    public void setNombre(String nombre) {
-        if (!nombre.trim().isEmpty()) {
-            this.nombre = nombre.trim();
+    public void setIcon(String iconName) {
+        iconName += ".png";
+        this.fichaFile = new File("src/fichas/" + iconName);
+        try {
+            this.fichaIcon = new ImageIcon(ImageIO.read(fichaFile));
+        } catch (Exception e) {
+            e.printStackTrace();
         }
     }
 
-    public String getUsuario() {
+    public String getFormattedFechaCreacion() {
+        SimpleDateFormat dateFormat = new SimpleDateFormat("MM/dd/yyyy HH:mm:ss");
+        return dateFormat.format(fechaCreacion);
+    }
+
+    public void setNombreCompleto(String nombreCompleto) {
+        this.nombreCompleto = nombreCompleto;
+    }
+
+    public String getNombreCompleto() {
+        return nombreCompleto;
+    }
+
+    public void setUsername(String username) {
+        this.usuario = username;
+    }
+
+    public String getUsername() {
         return usuario;
     }
 
-    public void setUsuario(String usuario) {
-        if (!usuario.trim().isEmpty()) {
-            this.usuario = usuario.trim();
-        }
+    public void setPassword(String password) {
+        this.contra = password;
     }
 
-    public String getContrasena() {
-        return contrasena;
+    public String getPassword() {
+        return contra;
     }
 
-    public void setContrasena(String contrasena) {
-        if (!contrasena.trim().isEmpty()) {
-            this.contrasena = contrasena.trim();
-        }
+    public String toString() {
+        String mensaje = "Uusario: " + usuario + "\n";
+        mensaje += "Contraseña: " + contra + "\n";
+        mensaje += "Nombre: " + nombreCompleto + "\n";
+        mensaje += "Cant jugadores: " + cantJugadores + "\n";
+        mensaje += "Ficha: " + fichaFile.getName() + "\n";
+        mensaje += "Puntos: " + puntos + "\n";
+        return mensaje;
     }
 
-    public Date getFechaCreacion() {
-        return fechaCreacion;
-    }
-
-    public double getPuntos() {
+    public int getPuntos() {
         return puntos;
     }
-
-    public boolean validarCredenciales(String usuario, String contrasena) {
-        return (this.usuario.equals(usuario) && this.contrasena.equals(contrasena));
-    }
-    public void escribirEnArchivo(RandomAccessFile file) throws IOException {
-        escribirCadenaEnArchivo(file, nombre);
-        escribirCadenaEnArchivo(file, usuario);
-        escribirCadenaEnArchivo(file, contrasena);
-        file.writeLong(fechaCreacion.getTime());
-    }
-
-    public static Usuario leerDeArchivo(RandomAccessFile file) throws IOException {
-        String nombre = leerCadenaDeArchivo(file);
-        String usuario = leerCadenaDeArchivo(file);
-        String contrasena = leerCadenaDeArchivo(file);
-        long fechaCreacionUsuario = file.readLong();
-        Date fechaCreacion = new Date(fechaCreacionUsuario);
-
-        return new Usuario(nombre, usuario, contrasena, fechaCreacion);
-    }
-
-    private static void escribirCadenaEnArchivo(RandomAccessFile file, String cadena) throws IOException {
-        file.writeUTF(cadena);
-    }
-
-    private static String leerCadenaDeArchivo(RandomAccessFile file) throws IOException {
-        return file.readUTF();
-    }    
 }

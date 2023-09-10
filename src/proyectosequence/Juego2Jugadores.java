@@ -5,10 +5,9 @@ import java.awt.GridLayout;
 import java.awt.Image;
 import java.net.MalformedURLException;
 import java.net.URL;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JFrame;
@@ -30,7 +29,7 @@ public class Juego2Jugadores extends javax.swing.JFrame {
 
     JButton[] mano;
     public String cartaSeleccionadaTexto;
-    
+
     public int turno;
 
     //Imagen de parte trasera de la baraja
@@ -41,9 +40,11 @@ public class Juego2Jugadores extends javax.swing.JFrame {
     ImageIcon A_trebol;
     HashMap<String, String> cartasConImagenes = new HashMap<>();
     Baraja baraja = new Baraja();
+    private int turnoAnterior;
 
-    public Juego2Jugadores(MenuInicio mainWindow) throws MalformedURLException {
+    public Juego2Jugadores(ArrayList<Equipos> teams, int numCartas) throws MalformedURLException {
         initComponents();
+        this.turnoAnterior = this.turno;
         this.turno = 1;
         mano = new JButton[7];
         mano[1] = carta1;
@@ -52,27 +53,25 @@ public class Juego2Jugadores extends javax.swing.JFrame {
         mano[4] = carta4;
         mano[5] = carta5;
         mano[6] = carta6;
-        
         //asociarCartasConImagenes();
         setDefaultCloseOperation(DISPOSE_ON_CLOSE);
         gamePanel.setLayout(new GridLayout(1, 1));
         setResizable(false);
-        tablero = new Tablero(this, mainWindow);
+        tablero = new Tablero(this, teams, numCartas);
         gamePanel.add(tablero);
         gamePanel.repaint();
         setExtendedState(JFrame.MAXIMIZED_BOTH);
         setVisible(true);
         tablero.startTurnTimer();
-
         baraja.barajar();
-
         jugador1 = baraja.repartir(6);
         jugador2 = baraja.repartir(6);
-
         ponerTextoMano();
         ponerImagenesEnMano();
-        actualizarLabelTurno();
-
+        //actualizarLabelTurno();
+        tablero.cambioTurno();
+        tablero.actualizarLabelUltimaJugada();
+        setDefaultCloseOperation(DISPOSE_ON_CLOSE);
     }
 
     public JLabel getTimerLabel() {
@@ -111,7 +110,6 @@ public class Juego2Jugadores extends javax.swing.JFrame {
         jPanel1.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
         timer.setFont(new java.awt.Font("Rockwell Condensed", 0, 24)); // NOI18N
-        timer.setForeground(new java.awt.Color(0, 0, 0));
         timer.setText("temporizador");
         jPanel1.add(timer, new org.netbeans.lib.awtextra.AbsoluteConstraints(240, 10, -1, -1));
 
@@ -173,9 +171,8 @@ public class Juego2Jugadores extends javax.swing.JFrame {
         jPanel1.add(carta5, new org.netbeans.lib.awtextra.AbsoluteConstraints(910, 610, 100, 110));
 
         lblturno.setFont(new java.awt.Font("Rockwell Condensed", 0, 24)); // NOI18N
-        lblturno.setForeground(new java.awt.Color(0, 0, 0));
         lblturno.setText("turno");
-        jPanel1.add(lblturno, new org.netbeans.lib.awtextra.AbsoluteConstraints(720, 730, -1, -1));
+        jPanel1.add(lblturno, new org.netbeans.lib.awtextra.AbsoluteConstraints(140, 650, -1, -1));
 
         btnDescartarCarta.setText("Descartar Carta");
         btnDescartarCarta.addActionListener(new java.awt.event.ActionListener() {
@@ -199,19 +196,16 @@ public class Juego2Jugadores extends javax.swing.JFrame {
         jPanel1.add(ultimaCartaPuesta, new org.netbeans.lib.awtextra.AbsoluteConstraints(330, 250, 100, 110));
 
         jugadorQuePusoLaCarta.setFont(new java.awt.Font("Rockwell Condensed", 0, 24)); // NOI18N
-        jugadorQuePusoLaCarta.setForeground(new java.awt.Color(0, 0, 0));
         jugadorQuePusoLaCarta.setText("Nadie ha jugado");
-        jPanel1.add(jugadorQuePusoLaCarta, new org.netbeans.lib.awtextra.AbsoluteConstraints(330, 370, -1, -1));
+        jPanel1.add(jugadorQuePusoLaCarta, new org.netbeans.lib.awtextra.AbsoluteConstraints(320, 390, -1, -1));
 
         lbl1.setFont(new java.awt.Font("Rockwell Condensed", 0, 24)); // NOI18N
-        lbl1.setForeground(new java.awt.Color(0, 0, 0));
         lbl1.setText("Ultima carta jugada");
         jPanel1.add(lbl1, new org.netbeans.lib.awtextra.AbsoluteConstraints(300, 210, -1, -1));
 
         lbl2.setFont(new java.awt.Font("Rockwell Condensed", 0, 24)); // NOI18N
-        lbl2.setForeground(new java.awt.Color(0, 0, 0));
         lbl2.setText("Jugada por: ");
-        jPanel1.add(lbl2, new org.netbeans.lib.awtextra.AbsoluteConstraints(230, 370, -1, -1));
+        jPanel1.add(lbl2, new org.netbeans.lib.awtextra.AbsoluteConstraints(220, 390, -1, -1));
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -228,18 +222,15 @@ public class Juego2Jugadores extends javax.swing.JFrame {
         setLocationRelativeTo(null);
     }// </editor-fold>//GEN-END:initComponents
 
-    public void actualizarLabelTurno() {
+    /*public void actualizarLabelTurno() {
         lblturno.setText("Turno de jugador " + turno);
     }
+     */
+ /*public void actualizarLabelUltimaJugada() {
+        String nombreTurnoAnterior = (turnoAnterior == 1) ? "Jugador1" : "Jugador2";
+        lblturno.setText("Turno de jugador " + turno + ". Turno anterior: " + nombreTurnoAnterior);
+    }*/
 
-    public void actualizarLabelUltimaJugada() {
-        if (turno == 1) {
-            jugadorQuePusoLaCarta.setText("Jugador1");
-        } else {
-            jugadorQuePusoLaCarta.setText("Jugador2");
-
-        }
-    }
     private void carta1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_carta1ActionPerformed
 
         // itera a través de las casillas del tablero para quitar las cartas resaltadas
@@ -264,12 +255,12 @@ public class Juego2Jugadores extends javax.swing.JFrame {
             }
         }
     }//GEN-LAST:event_carta1ActionPerformed
-    
-    public void reiniciarMazo(){
+
+    public void reiniciarMazo() {
         //Crea una nueva baraja 
         baraja = new Baraja();
         baraja.barajar();
-        
+
         //Elimina las cartas del mazo que ya estan en la mano
         CartasBaraja carta1 = jugador1.get(1);
         CartasBaraja carta2 = jugador1.get(2);
@@ -277,32 +268,30 @@ public class Juego2Jugadores extends javax.swing.JFrame {
         CartasBaraja carta4 = jugador1.get(4);
         CartasBaraja carta5 = jugador1.get(5);
         CartasBaraja carta6 = jugador1.get(6);
-        
+
         baraja.cartas.remove(carta1);
         baraja.cartas.remove(carta2);
         baraja.cartas.remove(carta3);
         baraja.cartas.remove(carta4);
         baraja.cartas.remove(carta5);
         baraja.cartas.remove(carta6);
-        
+
         carta1 = jugador2.get(1);
         carta2 = jugador2.get(2);
         carta3 = jugador2.get(3);
         carta4 = jugador2.get(4);
         carta5 = jugador2.get(5);
         carta6 = jugador2.get(6);
-        
+
         baraja.cartas.remove(carta1);
         baraja.cartas.remove(carta2);
         baraja.cartas.remove(carta3);
         baraja.cartas.remove(carta4);
         baraja.cartas.remove(carta5);
         baraja.cartas.remove(carta6);
-        
-            
-        
+
     }
-    
+
     public void eliminarYAgregarCarta() {
 
         for (int i = 0; i < 6; i++) {
@@ -451,9 +440,7 @@ public class Juego2Jugadores extends javax.swing.JFrame {
             eliminarYAgregarCarta();
             ponerTextoMano();
             ponerImagenesEnMano();
-
         }
-
     }//GEN-LAST:event_btnDescartarCartaActionPerformed
 
     private void ultimaCartaPuestaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_ultimaCartaPuestaActionPerformed
@@ -486,11 +473,7 @@ public class Juego2Jugadores extends javax.swing.JFrame {
         /* Create and display the form */
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
-                try {
-                    new Juego2Jugadores(null).setVisible(true);
-                } catch (MalformedURLException ex) {
-                    Logger.getLogger(Juego2Jugadores.class.getName()).log(Level.SEVERE, null, ex);
-                }
+
             }
         });
     }
@@ -526,20 +509,19 @@ public class Juego2Jugadores extends javax.swing.JFrame {
         }
         eliminarYAgregarCarta();
         ponerUltimaCartaJugada();
-        actualizarLabelUltimaJugada();
+        //actualizarLabelUltimaJugada();
         turno++;
         //Reiniciar el turno
         if (turno > 2) {
             turno = 1;
         }
-        System.out.println("Cartas restantes en mazo: "+baraja.cartas.size());
-        if(baraja.cartas.isEmpty()){
+        System.out.println("Cartas restantes en mazo: " + baraja.cartas.size());
+        if (baraja.cartas.isEmpty()) {
             reiniciarMazo();
         }
         ponerTextoMano();
         ponerImagenesEnMano();
-        actualizarLabelTurno();
-
+        //actualizarLabelTurno();
     }
 
     //Poner imagenes a los botones de la mano
@@ -580,8 +562,7 @@ public class Juego2Jugadores extends javax.swing.JFrame {
             ponerImagen(ultimaCartaPuesta);
         }
     }
-
-
+    
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JLabel barajaDeCartas;
     private javax.swing.JButton btnDescartarCarta;
@@ -593,10 +574,10 @@ public class Juego2Jugadores extends javax.swing.JFrame {
     private javax.swing.JButton carta6;
     private javax.swing.JPanel gamePanel;
     private javax.swing.JPanel jPanel1;
-    private javax.swing.JLabel jugadorQuePusoLaCarta;
+    public javax.swing.JLabel jugadorQuePusoLaCarta;
     private javax.swing.JLabel lbl1;
     private javax.swing.JLabel lbl2;
-    private javax.swing.JLabel lblturno;
+    public javax.swing.JLabel lblturno;
     private javax.swing.JLabel timer;
     private javax.swing.JButton ultimaCartaPuesta;
     // End of variables declaration//GEN-END:variables

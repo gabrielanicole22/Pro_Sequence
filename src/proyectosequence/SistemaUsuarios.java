@@ -4,9 +4,9 @@
  */
 package proyectosequence;
 
+import java.io.File;
 import java.io.IOException;
 import java.io.RandomAccessFile;
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 
@@ -15,113 +15,237 @@ import java.util.Date;
  * @author Gabriela Mejía
  */
 public class SistemaUsuarios {
-    private static final String FILENAME = "user_data.bin";
-    ArrayList<Usuario> usuariosActivos = new ArrayList<Usuario>();
-    Usuario usuarioIniciado = null;
+
+    private ArrayList<Jugador> jugadores;
+    private static final String USUARIOS_FOLDER = "players";
+    private static final String USUARIOS_FILE = USUARIOS_FOLDER + "/usuarios.uwu";
+
+    private Jugador usuarioLogeado;
 
     public SistemaUsuarios() {
-        loadUserDataFromFile(); // Cargar los datos al iniciar
+        jugadores = new ArrayList<Jugador>();
+        searchVerification();
+        loadUsers();
     }
 
-    public boolean esUsuarioUnico(String usuario) {
-        for (Usuario user : usuariosActivos) {
-            if (user.getUsuario().equals(usuario)) {
-                return false; // El usuario ya existe
+    public Jugador getUsuarioLogeado() {
+        return usuarioLogeado;
+    }
+
+    private boolean isValidUsername(String username) {
+        for (Jugador p : jugadores) {
+            if (p.getUsername().equals(username)) {
+                return false;
             }
         }
-        return true; // El usuario es único
+        return true;
     }
 
-    public Usuario getUsuario(String username) {
-        for (Usuario user : usuariosActivos) {
-            if (user.getUsuario().equals(username)) {
-                return user;
+    private void searchVerification() {
+        File folder = new File(USUARIOS_FOLDER);
+        if (!folder.exists()) {
+            folder.mkdir();
+        }
+        File file = new File(USUARIOS_FILE);
+        if (!file.exists()) {
+            try {
+                file.createNewFile();
+            } catch (IOException e) {
+                e.printStackTrace();
             }
         }
-        return null;
-    }
-
-    public boolean verificarEspaciosUsuario(String usuario) {
-        return verificarEspaciosUsuario(usuario, 0);
-    }
-
-    private boolean verificarEspaciosUsuario(String usuario, int index) {
-        if (index >= usuario.length()) {
-            return true;
+        File logged = new File("players/logged.uwu");
+        if (!logged.exists()) {
+            try {
+                logged.createNewFile();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
         }
+    }
 
-        char charActual = usuario.charAt(index);
+    public void loadUsers() {
+        RandomAccessFile raf = null;
+        RandomAccessFile loggedRaf = null;
+        try {
+            raf = new RandomAccessFile(USUARIOS_FILE, "rw");
+            raf.seek(0);
 
-        if (charActual == ' ') {
+            while (raf.getFilePointer() < raf.length()) {
+                String usuario = raf.readUTF();
+                String contra = raf.readUTF();
+                String nombre = raf.readUTF();
+                long fechaCreacion = raf.readLong();
+                int puntos = raf.readInt();
+                String fichaDirec = raf.readUTF();
+                int cantJugadorews = raf.readInt();
+                Jugador p = new Jugador(usuario, contra, nombre, fechaCreacion, puntos, fichaDirec, cantJugadorews);
+                jugadores.add(p);
+            }
+            raf.close();
+            loggedRaf = new RandomAccessFile("players/logged.uwu", "r");
+            loggedRaf.seek(0);
+            if (loggedRaf.length() == 0) {
+                usuarioLogeado = null;
+                loggedRaf.close();
+                return;
+            }
+            String username = loggedRaf.readUTF();
+            usuarioLogeado = buscarUsuario(username);
+            loggedRaf.close();
+        } catch (IOException e) {
+            searchVerification();
+            e.printStackTrace();
+        } finally {
+            try {
+                if (raf != null) {
+                    raf.close();
+                }
+            } catch (Exception ex) {
+            }
+        }
+    }
+
+    public boolean guardarPlayer(String name, String password, String completeName) {
+        if (!isValidUsername(name)) {
             return false;
         }
-
-        return verificarEspaciosUsuario(usuario, index + 1);
+        long fechaCreacion = new Date().getTime();
+        Jugador p = new Jugador(name, password, completeName, fechaCreacion, 0, obtenerRuta(), 4);
+        jugadores.add(p);
+        RandomAccessFile raf = null;
+        try {
+            raf = new RandomAccessFile(USUARIOS_FILE, "rw");
+            raf.seek(raf.length());
+            p.guardarUsuario(raf);
+            File userFolder = new File("players/" + name);
+            userFolder.mkdirs();
+        } catch (IOException e) {
+            searchVerification();
+            e.printStackTrace();
+            return false;
+        } finally {
+            try {
+                if (raf != null) {
+                    raf.close();
+                }
+            } catch (Exception ex) {
+                ex.printStackTrace();
+                return false;
+            }
+        }
+        return true;
     }
 
-    public void registrarUsuario(String nombre, String usuario, String contrasena) {
-        Date fechaCreacion = new Date();
-        Usuario nuevoUsuario = new Usuario(nombre, usuario, contrasena, fechaCreacion);
-        usuariosActivos.add(nuevoUsuario);
-        saveUserDataToFile(); // Guardar los datos actualizados en el archivo
-    }
-
-    public Usuario[] getUsuariosActivos() {
-        return usuariosActivos.toArray(new Usuario[0]);
-    }
-
-    public Usuario iniciarSesion(String usuario, String contrasena) {
-        return iniciarSesion(usuario, contrasena, 0);
-    }
-
-    private Usuario iniciarSesion(String usuario, String contrasena, int index) {
-        for (Usuario usuarioActual : usuariosActivos) {
-            if (usuarioActual.validarCredenciales(usuario, contrasena)) {
-                this.usuarioIniciado = usuarioActual;
-                return usuarioActual;
+    public Jugador buscarUsuario(String username) {
+        for (Jugador p : jugadores) {
+            if (p.usuario.equals(username)) {
+                return p;
             }
         }
         return null;
     }
 
-    //usuario que tiene sesión activa
-    public Usuario getUsuarioActual() {
-        return usuarioIniciado;
+    public ArrayList<String> getFichasDisponibles() {
+        try {
+            ArrayList<String> fichaPaths = new ArrayList<>();
+            for (File icon : new File("src/fichas").listFiles()) {
+                fichaPaths.add(icon.getName());
+            }
+            for (Jugador p : jugadores) {
+                fichaPaths.remove(p.fichaFile.getName());
+            }
+            if (fichaPaths.isEmpty()) {
+                return null;
+            }
+            return fichaPaths;
+        } catch (Exception e) {
+            e.printStackTrace();
+            return null;
+        }
     }
 
-    public void saveUserDataToFile() {
-        try (RandomAccessFile file = new RandomAccessFile(FILENAME, "rw")) {
-            for (Usuario usuario : usuariosActivos) {
-                usuario.escribirEnArchivo(file);
+    public ArrayList<String> getFichas() {
+        try {
+            ArrayList<String> fichaNombre = new ArrayList<>();
+
+            for (File icon : new File("src/fichas").listFiles()) {
+                fichaNombre.add(icon.getName());
             }
-        } catch (IOException e) {
+            for (Jugador p : jugadores) {
+                if (p.usuario.equals(usuarioLogeado.usuario)) {
+                    continue;
+                }
+                fichaNombre.remove(p.fichaFile.getName());
+            }
+            return fichaNombre;
+        } catch (Exception e) {
+            e.printStackTrace();
+            return null;
+        }
+    }
+
+    private String obtenerRuta() {
+        return getFichasDisponibles().get(0);
+    }
+
+    public int getPlayersConfig() {
+        return getUsuarioLogeado().cantJugadores;
+    }
+
+    public ArrayList<Jugador> getListaUsuarios() {
+        return jugadores;
+    }
+
+    public void setPlayersConfig(int players) {
+        try {
+            usuarioLogeado.cantJugadores = players;
+            guardarJugadores();
+        } catch (Exception e) {
             e.printStackTrace();
         }
     }
 
-    @SuppressWarnings("unchecked")
-    public void loadUserDataFromFile() {
-        usuariosActivos.clear();
-        try (RandomAccessFile file = new RandomAccessFile(FILENAME, "rw")) {
-            while (file.getFilePointer() < file.length()) {
-                usuariosActivos.add(Usuario.leerDeArchivo(file));
+    public int getTotalPlayers() {
+        return jugadores.size();
+    }
+
+    public void setUsuarioLogeado(Jugador usuarioLogeado) {
+        try {
+            File f = new File("players/logged.uwu");
+            if (f.exists()) {
+                f.delete();
+                f.createNewFile();
             }
-        } catch (IOException e) {
+            if (usuarioLogeado == null) {
+                return;
+            }
+            RandomAccessFile raf = new RandomAccessFile("players/logged.uwu", "rw");
+            usuarioLogeado.guardarUsuario(raf);
+            this.usuarioLogeado = usuarioLogeado;
+            raf.close();
+            loadUsers();
+        } catch (Exception e) {
             e.printStackTrace();
         }
     }
 
-    //solo es para visualizar los usuarios guardados
-    public String obtenerListaUsuarios() {
-        StringBuilder listaUsuarios = new StringBuilder();
-        SimpleDateFormat dateFormat = new SimpleDateFormat("dd-MM-yyyy HH:mm:ss"); // Formato de fecha
+    public void setusuarioLogeadoFicha(String iconName) {
+        usuarioLogeado.setIcon(iconName);
+        guardarJugadores();
+    }
 
-        for (Usuario usuario : usuariosActivos) {
-            listaUsuarios.append("Nombre: ").append(usuario.getNombre()).append("\n");
-            listaUsuarios.append("Usuario: ").append(usuario.getUsuario()).append("\n");
-            listaUsuarios.append("Puntos: ").append(usuario.getPuntos()).append("\n");
-            listaUsuarios.append("Fecha de Creación: ").append(dateFormat.format(usuario.getFechaCreacion())).append("\n\n");
+    public void guardarJugadores() {
+        try {
+            File f = new File(USUARIOS_FILE);
+            f.delete();
+            RandomAccessFile raf = new RandomAccessFile(USUARIOS_FILE, "rw");
+            for (Jugador p : jugadores) {
+                p.guardarUsuario(raf);
+            }
+            raf.close();
+        } catch (Exception e) {
+            e.printStackTrace();
         }
-        return listaUsuarios.toString();
     }
 }

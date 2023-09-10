@@ -1,18 +1,17 @@
 package proyectosequence;
 
-
 /**
  *
  * @author danie
  */
 public class Reportes extends javax.swing.JFrame {
-    
+
     SistemaUsuarios sistemausuarios;
+
     public Reportes(SistemaUsuarios sistemausuarios) {
         initComponents();
-        this.sistemausuarios=sistemausuarios;
-                
-        
+        this.sistemausuarios = sistemausuarios;
+        setDefaultCloseOperation(DISPOSE_ON_CLOSE);
         tahistorialjuegos.setEditable(false);
         setResizable(false);
         setLocationRelativeTo(this);
@@ -47,7 +46,6 @@ public class Reportes extends javax.swing.JFrame {
 
         btnregresarconfig.setBackground(new java.awt.Color(153, 0, 0));
         btnregresarconfig.setFont(new java.awt.Font("Segoe UI Black", 1, 24)); // NOI18N
-        btnregresarconfig.setForeground(new java.awt.Color(0, 0, 0));
         btnregresarconfig.setText("Regresar");
         btnregresarconfig.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -62,10 +60,8 @@ public class Reportes extends javax.swing.JFrame {
         jLabel6.setText("Descripcion de mis ultimos juegos");
         jPanel1.add(jLabel6, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 60, 680, 60));
 
-        tahistorialjuegos.setBackground(new java.awt.Color(255, 255, 255));
         tahistorialjuegos.setColumns(20);
         tahistorialjuegos.setFont(new java.awt.Font("Segoe UI", 3, 24)); // NOI18N
-        tahistorialjuegos.setForeground(new java.awt.Color(0, 0, 0));
         tahistorialjuegos.setRows(5);
         jScrollPane2.setViewportView(tahistorialjuegos);
 
@@ -83,10 +79,11 @@ public class Reportes extends javax.swing.JFrame {
         );
 
         pack();
+        setLocationRelativeTo(null);
     }// </editor-fold>//GEN-END:initComponents
 
     private void btnregresarconfigActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnregresarconfigActionPerformed
-        MenuInicio menuinicio = new MenuInicio(sistemausuarios);
+        MenuInicio menuinicio = new MenuInicio();
         menuinicio.setVisible(true);
         this.dispose();
     }//GEN-LAST:event_btnregresarconfigActionPerformed

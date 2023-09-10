@@ -13,16 +13,9 @@ public class MenuPrincipal extends javax.swing.JFrame {
     /**
      * Creates new form MenuPrincipal
      */
-    SistemaUsuarios sistemaUsuarios;
-
     public MenuPrincipal() {
         initComponents();
-        sistemaUsuarios = new SistemaUsuarios();
         setDefaultCloseOperation(DISPOSE_ON_CLOSE);
-    }
-
-    public void setSistemaUsuarios(SistemaUsuarios sistema) {
-        sistemaUsuarios = sistema;
     }
 
     /**
@@ -104,12 +97,14 @@ public class MenuPrincipal extends javax.swing.JFrame {
 
     private void btnInicioSesionMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnInicioSesionMouseClicked
         // TODO add your handling code here:
-        new MenuLogin(sistemaUsuarios, this).setVisible(true);
+        MenuLogin login = new MenuLogin();
+        login.setVisible(true);
+        this.dispose();
     }//GEN-LAST:event_btnInicioSesionMouseClicked
 
     private void btnRegistroUsuariosMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnRegistroUsuariosMouseClicked
         // TODO add your handling code here:
-        new MenuRegistrarse(sistemaUsuarios, this).setVisible(true);
+        new MenuRegistrarse().setVisible(true);
     }//GEN-LAST:event_btnRegistroUsuariosMouseClicked
 
     private void btnSalirMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnSalirMouseClicked

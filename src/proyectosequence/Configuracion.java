@@ -4,6 +4,10 @@
  */
 package proyectosequence;
 
+import java.awt.Color;
+import java.util.ArrayList;
+import javax.swing.JOptionPane;
+
 /**
  *
  * @author danie
@@ -12,9 +16,42 @@ public class Configuracion extends javax.swing.JFrame {
 
     SistemaUsuarios sistemaUsuarios;
 
-    public Configuracion(SistemaUsuarios sistemaUsuarios) {
+    public Configuracion() {
         initComponents();
-        this.sistemaUsuarios = sistemaUsuarios;
+        setDefaultCloseOperation(DISPOSE_ON_CLOSE);
+        sistemaUsuarios = new SistemaUsuarios();
+        int configCantJugadores = sistemaUsuarios.getPlayersConfig();
+        ColorItem renderer = new ColorItem();
+        cb_Color.setRenderer(renderer);
+        ArrayList<String> fichasDisponibles = sistemaUsuarios.getFichas();
+         
+        for (String ficha : fichasDisponibles) {
+            String name = ficha.split(".png")[0];
+            cb_Color.addItem(name);
+        }
+        for (int i = 0; i < cb_Color.getItemCount(); i++) {
+            boolean isSelectedIcon = cb_Color.getItemAt(i).equals(sistemaUsuarios.getUsuarioLogeado().fichaFile.getName().split(".png")[0]);
+            if (isSelectedIcon) {
+                cb_Color.setSelectedIndex(i);
+            }
+        }
+        
+        switch (configCantJugadores) {
+            case 2:
+                btn2players.setBackground(Color.PINK);
+                break;
+            case 3:
+                btn3players.setBackground(Color.PINK);
+                break;
+            case 4:
+                btn4players.setBackground(Color.PINK);
+                break;
+            case 6:
+                btn6players.setBackground(Color.PINK);
+                break;
+            case 8:
+                btn8players.setBackground(Color.PINK);
+        }
     }
 
     /**
@@ -31,12 +68,13 @@ public class Configuracion extends javax.swing.JFrame {
         btn8players = new javax.swing.JButton();
         btnRegresarAMenuPrincipal = new javax.swing.JButton();
         jLabel2 = new javax.swing.JLabel();
-        btncolorficha = new javax.swing.JButton();
         btn3players = new javax.swing.JButton();
         btn4players = new javax.swing.JButton();
         btn6players = new javax.swing.JButton();
         jLabel3 = new javax.swing.JLabel();
         btn2players = new javax.swing.JButton();
+        cb_Color = new javax.swing.JComboBox<>();
+        btnGuardar = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -69,25 +107,13 @@ public class Configuracion extends javax.swing.JFrame {
                 btnRegresarAMenuPrincipalActionPerformed(evt);
             }
         });
-        jPanel1.add(btnRegresarAMenuPrincipal, new org.netbeans.lib.awtextra.AbsoluteConstraints(580, 300, 150, 63));
+        jPanel1.add(btnRegresarAMenuPrincipal, new org.netbeans.lib.awtextra.AbsoluteConstraints(580, 300, 150, 70));
 
         jLabel2.setBackground(new java.awt.Color(102, 102, 102));
         jLabel2.setFont(new java.awt.Font("Tahoma", 3, 24)); // NOI18N
         jLabel2.setForeground(new java.awt.Color(255, 255, 255));
         jLabel2.setText("Configuracion");
         jPanel1.add(jLabel2, new org.netbeans.lib.awtextra.AbsoluteConstraints(300, 10, 170, 30));
-
-        btncolorficha.setBackground(new java.awt.Color(0, 0, 102));
-        btncolorficha.setFont(new java.awt.Font("Trajan Pro", 1, 24)); // NOI18N
-        btncolorficha.setForeground(new java.awt.Color(255, 255, 255));
-        btncolorficha.setText("Color");
-        btncolorficha.setBorder(javax.swing.BorderFactory.createEtchedBorder());
-        btncolorficha.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btncolorfichaActionPerformed(evt);
-            }
-        });
-        jPanel1.add(btncolorficha, new org.netbeans.lib.awtextra.AbsoluteConstraints(250, 240, 120, 70));
 
         btn3players.setBackground(new java.awt.Color(0, 0, 102));
         btn3players.setFont(new java.awt.Font("Trajan Pro", 1, 24)); // NOI18N
@@ -143,6 +169,18 @@ public class Configuracion extends javax.swing.JFrame {
         });
         jPanel1.add(btn2players, new org.netbeans.lib.awtextra.AbsoluteConstraints(80, 110, 120, 70));
 
+        jPanel1.add(cb_Color, new org.netbeans.lib.awtextra.AbsoluteConstraints(250, 270, 190, -1));
+
+        btnGuardar.setBackground(new java.awt.Color(255, 51, 51));
+        btnGuardar.setFont(new java.awt.Font("Segoe UI Black", 1, 18)); // NOI18N
+        btnGuardar.setText("Guardar");
+        btnGuardar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnGuardarActionPerformed(evt);
+            }
+        });
+        jPanel1.add(btnGuardar, new org.netbeans.lib.awtextra.AbsoluteConstraints(410, 300, 150, 70));
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
@@ -159,40 +197,52 @@ public class Configuracion extends javax.swing.JFrame {
         );
 
         pack();
+        setLocationRelativeTo(null);
     }// </editor-fold>//GEN-END:initComponents
 
+    private void configurarJugadores(int numJugadores) {
+        sistemaUsuarios.setPlayersConfig(numJugadores);
+        JOptionPane.showMessageDialog(null, "Configuración guardada exitosamente", "Slayy", JOptionPane.INFORMATION_MESSAGE);
+        this.dispose();
+    }
+
     private void btn8playersActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn8playersActionPerformed
+        configurarJugadores(8);
     }//GEN-LAST:event_btn8playersActionPerformed
 
     private void btnRegresarAMenuPrincipalActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnRegresarAMenuPrincipalActionPerformed
-        MenuInicio menuinicio = new MenuInicio(sistemaUsuarios);
+        MenuInicio menuinicio = new MenuInicio();
         menuinicio.setVisible(true);
         this.dispose();
     }//GEN-LAST:event_btnRegresarAMenuPrincipalActionPerformed
 
-    private void btncolorfichaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btncolorfichaActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_btncolorfichaActionPerformed
-
     private void btn3playersActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn3playersActionPerformed
         // TODO add your handling code here:
+        configurarJugadores(3);
     }//GEN-LAST:event_btn3playersActionPerformed
 
     private void btn4playersActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn4playersActionPerformed
         // TODO add your handling code here:
+        configurarJugadores(4);
     }//GEN-LAST:event_btn4playersActionPerformed
 
     private void btn6playersActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn6playersActionPerformed
         // TODO add your handling code here:
+        configurarJugadores(6);
     }//GEN-LAST:event_btn6playersActionPerformed
 
     private void btn2playersActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn2playersActionPerformed
         // TODO add your handling code here:
+        configurarJugadores(2);
     }//GEN-LAST:event_btn2playersActionPerformed
 
-    /**
-     * @param args the command line arguments
-     */
+    private void btnGuardarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnGuardarActionPerformed
+        // TODO add your handling code here:
+        String selectedIcon = (String) cb_Color.getSelectedItem();
+        sistemaUsuarios.setusuarioLogeadoFicha(selectedIcon);
+        JOptionPane.showMessageDialog(null, "Ficha actualizada correctamente!");
+        this.dispose();
+    }//GEN-LAST:event_btnGuardarActionPerformed
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btn2players;
@@ -200,8 +250,9 @@ public class Configuracion extends javax.swing.JFrame {
     private javax.swing.JButton btn4players;
     private javax.swing.JButton btn6players;
     private javax.swing.JButton btn8players;
+    private javax.swing.JButton btnGuardar;
     private javax.swing.JButton btnRegresarAMenuPrincipal;
-    private javax.swing.JButton btncolorficha;
+    private javax.swing.JComboBox<String> cb_Color;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;

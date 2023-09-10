@@ -4,6 +4,8 @@
  */
 package proyectosequence;
 
+import java.util.ArrayList;
+import java.util.Date;
 import javax.swing.JOptionPane;
 
 /**
@@ -15,13 +17,13 @@ public class MenuInicio extends javax.swing.JFrame {
     /**
      * Creates new form MenuInicio
      */
-    private Usuario usuario;
     SistemaUsuarios sistemaUsuarios;
+    ArrayList<Equipos> equipos;
 
-    public MenuInicio(SistemaUsuarios sistemaUsuarios) {
+    public MenuInicio() {
         initComponents();
-        this.sistemaUsuarios = sistemaUsuarios;
-        usuario = sistemaUsuarios.getUsuarioActual();
+        equipos = new ArrayList<>();
+        sistemaUsuarios = new SistemaUsuarios();
         setResizable(false);
         setDefaultCloseOperation(DISPOSE_ON_CLOSE);
     }
@@ -48,7 +50,6 @@ public class MenuInicio extends javax.swing.JFrame {
         jPanel1.setBackground(new java.awt.Color(255, 255, 255));
 
         lblTitulo.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
-        lblTitulo.setForeground(new java.awt.Color(0, 0, 0));
         lblTitulo.setText("Menu Inicio");
 
         btnJugar.setBackground(new java.awt.Color(0, 0, 102));
@@ -168,41 +169,45 @@ public class MenuInicio extends javax.swing.JFrame {
 
     private void btnJugarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnJugarActionPerformed
         // TODO add your handling code here:
+        if (sistemaUsuarios.getTotalPlayers() < sistemaUsuarios.getPlayersConfig()) {
+            JOptionPane.showMessageDialog(null, "Cantidad insuficiente de usuarios registrados (" + sistemaUsuarios.getTotalPlayers() + "). Necesitas " + sistemaUsuarios.getPlayersConfig() + " usuarios.");
+            return;
+        }
+        new TeamSelection().setVisible(true);
     }//GEN-LAST:event_btnJugarActionPerformed
 
     private void btnConfiguracionActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnConfiguracionActionPerformed
-        Configuracion configuracion = new Configuracion(sistemaUsuarios);
+        Configuracion configuracion = new Configuracion();
         configuracion.setVisible(true);
-        this.dispose();
     }//GEN-LAST:event_btnConfiguracionActionPerformed
 
     private void btnReportesActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnReportesActionPerformed
         Reportes reportes = new Reportes(sistemaUsuarios);
         reportes.setVisible(true);
-        this.dispose();
     }//GEN-LAST:event_btnReportesActionPerformed
 
     private void btnCerrarSesionActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCerrarSesionActionPerformed
-        int opcion = JOptionPane.showConfirmDialog(this, "¿Estás seguro de que deseas cerrar sesión?", "Confirmación", JOptionPane.YES_NO_OPTION);
-        if (opcion == JOptionPane.YES_OPTION) {
-            MenuPrincipal menuPrincipal = new MenuPrincipal();
-            sistemaUsuarios.usuarioIniciado = null;
-            menuPrincipal.setSistemaUsuarios(sistemaUsuarios);
-            menuPrincipal.setVisible(true);
-            dispose();
-        }
+        int opcion = JOptionPane.showConfirmDialog(this, "¿Estás seguro de que quieres cerrar sesión?", "CERRAR SESIÓN", JOptionPane.OK_CANCEL_OPTION);
+        if (opcion == JOptionPane.OK_OPTION) {
+            sistemaUsuarios.setUsuarioLogeado(null);
+            MenuPrincipal menu = new MenuPrincipal();
+            menu.setVisible(true);
+        }            
+        this.dispose();
     }//GEN-LAST:event_btnCerrarSesionActionPerformed
 
     private void btnReportes3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnReportes3ActionPerformed
-        sistemaUsuarios.loadUserDataFromFile();
-        String listaUsuarios = sistemaUsuarios.obtenerListaUsuarios();
+        ArrayList<Jugador> usuarios = sistemaUsuarios.getListaUsuarios();
+        StringBuilder usuariosText = new StringBuilder("Usuarios existentes:\n\n");
 
-        if (listaUsuarios.isEmpty()) {
-            JOptionPane.showMessageDialog(null, "No hay usuarios registrados.");
-        } else {
-            JOptionPane.showMessageDialog(null, listaUsuarios, "Usuarios Registrados", JOptionPane.INFORMATION_MESSAGE);
+        for (Usuario usuario : usuarios) {
+            usuariosText.append("Usuario: ").append(usuario.getUsername()).append("\n");
+            usuariosText.append("Nombre: ").append(usuario.getNombreCompleto()).append("\n");
+            usuariosText.append("Fecha de Creación: ").append(usuario.getFormattedFechaCreacion()).append("\n");
+            usuariosText.append("Ficha Dirección: ").append(usuario.fichaFile.getAbsolutePath()).append("\n");
+            usuariosText.append("Cantidad de Jugadores: ").append(usuario.cantJugadores).append("\n\n");
         }
-        
+        JOptionPane.showMessageDialog(this, usuariosText.toString(), "Lista de Usuarios", JOptionPane.INFORMATION_MESSAGE);
     }//GEN-LAST:event_btnReportes3ActionPerformed
 
 

@@ -4,7 +4,6 @@
  */
 package proyectosequence;
 
-import javax.swing.JFrame;
 import javax.swing.JOptionPane;
 
 /**
@@ -17,12 +16,10 @@ public class MenuLogin extends javax.swing.JFrame {
      * Creates new form MenuLogin
      */
     SistemaUsuarios sistemaUsuarios;
-    JFrame menuPrincipal = null;
 
-    public MenuLogin(SistemaUsuarios sistema, MenuPrincipal menuPrincipal) {
+    public MenuLogin() {
         initComponents();
-        this.menuPrincipal = menuPrincipal;
-        this.sistemaUsuarios = sistema;
+        sistemaUsuarios = new SistemaUsuarios();
         setDefaultCloseOperation(DISPOSE_ON_CLOSE);
     }
 
@@ -104,23 +101,32 @@ public class MenuLogin extends javax.swing.JFrame {
 
     private void btnIngresarMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnIngresarMouseClicked
         // TODO add your handling code here:
-        String username = txtUsuario.getText().trim();
-        String password = new String(txtContraseña.getPassword());
-        sistemaUsuarios.loadUserDataFromFile();
+        if (txtUsuario.getText().isEmpty() || txtContraseña.getText().isEmpty()) {
+            JOptionPane.showMessageDialog(null, "No puede dejar campos vacios");
+        } else {
+            String username = txtUsuario.getText();
+            String password = txtContraseña.getText();
 
-        Usuario usuarioActual = sistemaUsuarios.iniciarSesion(username, password);
-
-        if (usuarioActual == null) {
-            JOptionPane.showMessageDialog(null, "Error: Credenciales incorrectas.");
-            return;
+            Jugador user = sistemaUsuarios.buscarUsuario(username);
+            if (user != null) {
+                if (user.getPassword().equals(password)) {
+                    sistemaUsuarios.setUsuarioLogeado(user);
+                    MenuInicio menu = new MenuInicio();
+                    menu.setVisible(true);
+                    txtUsuario.setText("");
+                    txtContraseña.setText("");
+                    this.dispose();
+                } else {
+                    JOptionPane.showMessageDialog(null, "Error: Contraseña Incorrecta.");
+                }
+            } else {
+                JOptionPane.showMessageDialog(null, "Error: Usuario no existente.");
+                MenuPrincipal menuP = new MenuPrincipal();
+                menuP.setVisible(true);
+                this.dispose();
+            }
         }
-
-        MenuInicio menuInicio = new MenuInicio(sistemaUsuarios);
-        menuPrincipal.dispose();
-        menuInicio.setVisible(true);
-        this.dispose();
     }//GEN-LAST:event_btnIngresarMouseClicked
-
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JLabel btnIngresar;
