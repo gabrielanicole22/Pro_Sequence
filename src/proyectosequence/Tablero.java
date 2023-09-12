@@ -40,7 +40,6 @@ public class Tablero extends JPanel {
 
     //temporizador
     private Timer turnTimer;
-    public int turnTimeInSeconds = 12;
     private JLabel timerLabel;
 
     private ImageIcon[] imagenes; // Lista de fichas
@@ -175,7 +174,7 @@ public class Tablero extends JPanel {
 
     public void temporizador() {
         //Duración inicial del turno - 2 mints
-        int turnTime = 1 * 60 * 1000;
+        int turnTime = 2 * 60 * 1000;
 
         gameWindow.timer.setText("Tiempo restante: 2:00");
         if (turnTimer == null) {
