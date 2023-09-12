@@ -26,7 +26,8 @@ public class Juego2Jugadores extends javax.swing.JFrame {
     List<CartasBaraja> jugador2;
     int posx;
     int posy;
-
+    boolean puedeDescartarCarta = false;
+    String textoCartaQueSePuedeDescartar;
     JButton[] mano;
     public String cartaSeleccionadaTexto;
 
@@ -249,7 +250,14 @@ public class Juego2Jugadores extends javax.swing.JFrame {
 
         String textocarta = carta1.getText();
         cartaSeleccionadaTexto = textocarta;
+        System.out.println(cartaSeleccionadaTexto);
 
+        if (cartaSeleccionadaTexto.equals("J_diamantes") || cartaSeleccionadaTexto.equals("J_trebol")) {
+            JOptionPane.showMessageDialog(null, "JACK DE 2 OJOS - Coloca una ficha donde tu quieras!");
+        } else if (cartaSeleccionadaTexto.equals("J_picas") || cartaSeleccionadaTexto.equals("J_corazones")) {
+            JOptionPane.showMessageDialog(null, "JACK DE 1 OJO - Selecciona una ficha enemiga para destrozarla.");
+        }
+        
         // itera a través de las casillas del tablero
         for (int i = 0; i < 10; i++) {
             for (int j = 0; j < 10; j++) {
@@ -260,7 +268,28 @@ public class Juego2Jugadores extends javax.swing.JFrame {
                 }
             }
         }
+
     }//GEN-LAST:event_carta1ActionPerformed
+    //Para verificar si la carta que se quiere usar ya tiene fichas puestas en ambas casillas
+    public void verificarEspaciosVacios() {
+        String textocarta = carta1.getText();
+        cartaSeleccionadaTexto = textocarta;
+        int contadorFichasOcupadas = 0;
+        for (int i = 0; i < 10; i++) {
+            for (int j = 0; j < 10; j++) {
+                // Revisa a ver si hay fichas 
+                if (tablero.casillas[i][j].label.getIcon() != null && tablero.casillas[i][j].carta.getNombre().equals(cartaSeleccionadaTexto)) {
+                    contadorFichasOcupadas++;
+                }
+            }
+        }
+        if (contadorFichasOcupadas == 2) {
+            puedeDescartarCarta = true;
+            textoCartaQueSePuedeDescartar = textocarta;
+        } else {
+            puedeDescartarCarta = false;
+        }
+    }
 
     public void reiniciarMazo() {
         //Crea una nueva baraja 
@@ -324,6 +353,8 @@ public class Juego2Jugadores extends javax.swing.JFrame {
     }
 
     private void carta2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_carta2ActionPerformed
+        
+
         // itera a través de las casillas del tablero para quitar las cartas resaltadas
         for (int i = 0; i < 10; i++) {
             for (int j = 0; j < 10; j++) {
@@ -334,6 +365,13 @@ public class Juego2Jugadores extends javax.swing.JFrame {
 
         String textocarta = carta2.getText();
         cartaSeleccionadaTexto = textocarta;
+        System.out.println(cartaSeleccionadaTexto);
+        
+        if (cartaSeleccionadaTexto.equals("J_diamantes") || cartaSeleccionadaTexto.equals("J_trebol")) {
+            JOptionPane.showMessageDialog(null, "JACK DE 2 OJOS - Coloca una ficha donde tu quieras!");
+        } else if (cartaSeleccionadaTexto.equals("J_picas") || cartaSeleccionadaTexto.equals("J_corazones")) {
+            JOptionPane.showMessageDialog(null, "JACK DE 1 OJO - Selecciona una ficha enemiga para destrozarla.");
+        }
         // itera a través de las casillas del tablero
         for (int i = 0; i < 10; i++) {
             for (int j = 0; j < 10; j++) {
@@ -357,6 +395,14 @@ public class Juego2Jugadores extends javax.swing.JFrame {
 
         String textocarta = carta3.getText();
         cartaSeleccionadaTexto = textocarta;
+        System.out.println(cartaSeleccionadaTexto);
+        
+        if (cartaSeleccionadaTexto.equals("J_diamantes") || cartaSeleccionadaTexto.equals("J_trebol")) {
+            JOptionPane.showMessageDialog(null, "JACK DE 2 OJOS - Coloca una ficha donde tu quieras!");
+        } else if (cartaSeleccionadaTexto.equals("J_picas") || cartaSeleccionadaTexto.equals("J_corazones")) {
+            JOptionPane.showMessageDialog(null, "JACK DE 1 OJO - Selecciona una ficha enemiga para destrozarla.");
+        }
+        
         // itera a través de las casillas del tablero
         for (int i = 0; i < 10; i++) {
             for (int j = 0; j < 10; j++) {
@@ -380,6 +426,14 @@ public class Juego2Jugadores extends javax.swing.JFrame {
 
         String textocarta = carta4.getText();
         cartaSeleccionadaTexto = textocarta;
+        System.out.println(cartaSeleccionadaTexto);
+        
+        if (cartaSeleccionadaTexto.equals("J_diamantes") || cartaSeleccionadaTexto.equals("J_trebol")) {
+            JOptionPane.showMessageDialog(null, "JACK DE 2 OJOS - Coloca una ficha donde tu quieras!");
+        } else if (cartaSeleccionadaTexto.equals("J_picas") || cartaSeleccionadaTexto.equals("J_corazones")) {
+            JOptionPane.showMessageDialog(null, "JACK DE 1 OJO - Selecciona una ficha enemiga para destrozarla.");
+        }
+        
         // itera a través de las casillas del tablero
         for (int i = 0; i < 10; i++) {
             for (int j = 0; j < 10; j++) {
@@ -404,6 +458,14 @@ public class Juego2Jugadores extends javax.swing.JFrame {
 
         String textocarta = carta5.getText();
         cartaSeleccionadaTexto = textocarta;
+        System.out.println(cartaSeleccionadaTexto);
+        
+        if (cartaSeleccionadaTexto.equals("J_diamantes") || cartaSeleccionadaTexto.equals("J_trebol")) {
+            JOptionPane.showMessageDialog(null, "JACK DE 2 OJOS - Coloca una ficha donde tu quieras!");
+        } else if (cartaSeleccionadaTexto.equals("J_picas") || cartaSeleccionadaTexto.equals("J_corazones")) {
+            JOptionPane.showMessageDialog(null, "JACK DE 1 OJO - Selecciona una ficha enemiga para destrozarla.");
+        }
+        
         // itera a través de las casillas del tablero
         for (int i = 0; i < 10; i++) {
             for (int j = 0; j < 10; j++) {
@@ -427,6 +489,14 @@ public class Juego2Jugadores extends javax.swing.JFrame {
 
         String textocarta = carta6.getText();
         cartaSeleccionadaTexto = textocarta;
+        System.out.println(cartaSeleccionadaTexto);
+        
+        if (cartaSeleccionadaTexto.equals("J_diamantes") || cartaSeleccionadaTexto.equals("J_trebol")) {
+            JOptionPane.showMessageDialog(null, "JACK DE 2 OJOS - Coloca una ficha donde tu quieras!");
+        } else if (cartaSeleccionadaTexto.equals("J_picas") || cartaSeleccionadaTexto.equals("J_corazones")) {
+            JOptionPane.showMessageDialog(null, "JACK DE 1 OJO - Selecciona una ficha enemiga para destrozarla.");
+        }
+        
         // itera a través de las casillas del tablero
         for (int i = 0; i < 10; i++) {
             for (int j = 0; j < 10; j++) {
@@ -442,10 +512,18 @@ public class Juego2Jugadores extends javax.swing.JFrame {
     private void btnDescartarCartaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnDescartarCartaActionPerformed
         if (cartaSeleccionadaTexto == null) {
             JOptionPane.showMessageDialog(null, "Seleccione primero una carta y luego dele a descartar.");
+        } else if (puedeDescartarCarta == true && textoCartaQueSePuedeDescartar.equals(cartaSeleccionadaTexto)) {
+            int respuesta = JOptionPane.showConfirmDialog(null, "Desea descartar " + cartaSeleccionadaTexto);
+
+            if (respuesta == JOptionPane.YES_OPTION) {
+                eliminarYAgregarCarta();
+                ponerTextoMano();
+                ponerImagenesEnMano();
+                puedeDescartarCarta = false;
+            }
+
         } else {
-            eliminarYAgregarCarta();
-            ponerTextoMano();
-            ponerImagenesEnMano();
+            JOptionPane.showMessageDialog(null, "No puedes eliminar cartas que aun pueden ser usadas.");
         }
     }//GEN-LAST:event_btnDescartarCartaActionPerformed
 
@@ -568,7 +646,7 @@ public class Juego2Jugadores extends javax.swing.JFrame {
             ponerImagen(ultimaCartaPuesta);
         }
     }
-    
+
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JLabel barajaDeCartas;
     private javax.swing.JButton btnDescartarCarta;

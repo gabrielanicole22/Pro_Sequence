@@ -113,8 +113,61 @@ public class Tablero extends JPanel {
                                 ImageIcon fichaIcon = JugadorActualTurn.getFichaIcon();
                                 Image fichaImage = fichaIcon.getImage().getScaledInstance(imagenWidth, imagenHeight, Image.SCALE_SMOOTH);
                                 ImageIcon fichaEscalada = new ImageIcon(fichaImage);
+
+                                //Para cuando se usa un jack que elimina
+                                if (gameWindow.cartaSeleccionadaTexto.equals("J_picas") || gameWindow.cartaSeleccionadaTexto.equals("J_corazones")) {
+                                    if (casillaSeleccionada.label != null) {
+                                        casillaSeleccionada.label.setIcon(null);
+                                        // Cambia de turno y de mano
+                                        gameWindow.cambioDeTurno();
+                                        cambioTurno();
+                                        actualizarLabelUltimaJugada();
+                                    } else {
+                                        JOptionPane.showMessageDialog(null, "Selecciona una carta que si tenga una ficha!");
+                                    }
+                                }
+
                                 // Valida que no haya una ficha en la casilla
                                 if (casillaSeleccionada.label.getIcon() == null) {
+
+                                    //Verificar si es un jack el que se usa
+                                    if (gameWindow.cartaSeleccionadaTexto.equals("J_trebol") || gameWindow.cartaSeleccionadaTexto.equals("J_diamantes")) {
+                                        // Pone imagen roja para el jugador 1
+                                        if (gameWindow.turno == 1) {
+                                            //Image imagenOriginal = imagenes[0].getImage();
+                                            //Image imagenEscalada = imagenOriginal.getScaledInstance(imagenWidth, imagenHeight, Image.SCALE_SMOOTH);
+                                            //ImageIcon imagenEscaladaIcon = new ImageIcon(imagenEscalada);
+
+                                            // Pone la ficha en la casilla
+                                            casillaSeleccionada.label.setIcon(fichaEscalada);
+
+                                            // Pone imagen verde para el jugador 2
+                                        } else if (gameWindow.turno == 2) {
+                                            Image imagenOriginal = imagenes[1].getImage();
+                                            Image imagenEscalada = imagenOriginal.getScaledInstance(imagenWidth, imagenHeight, Image.SCALE_SMOOTH);
+                                            ImageIcon imagenEscaladaIcon = new ImageIcon(imagenEscalada);
+
+                                            // Pone la ficha en la casilla
+                                            casillaSeleccionada.label.setIcon(fichaEscalada);
+                                        }
+
+                                        // Aquí verifica si hay una secuencia
+                                        if (casillaSeleccionada.label.getIcon() != null) {
+                                            // Verificar si hay una secuencia
+                                            if (verificarSecuencia(casillaSeleccionada, gameWindow.turno)) {
+                                                JOptionPane.showMessageDialog(null, "¡Felicidades Jugador " + gameWindow.turno + ", has formado una secuencia!");
+                                            }
+                                        }
+                                        gameWindow.posx = i;
+                                        gameWindow.posy = j;
+                                        // Cambia de turno y de mano
+                                        gameWindow.cambioDeTurno();
+                                        cambioTurno();
+                                        actualizarLabelUltimaJugada();
+                                    }
+                                    
+
+                                    //Cuando se pone una carta normal
                                     if (casillaSeleccionada.getNombreCarta(gestorCartas).equals(gameWindow.cartaSeleccionadaTexto)) {
                                         // Pone imagen roja para el jugador 1
                                         if (gameWindow.turno == 1) {
