@@ -88,7 +88,7 @@ public class MenuInicio extends javax.swing.JFrame {
         btnCerrarSesion.setBackground(new java.awt.Color(0, 0, 102));
         btnCerrarSesion.setFont(new java.awt.Font("Trajan Pro", 1, 24)); // NOI18N
         btnCerrarSesion.setForeground(new java.awt.Color(255, 255, 255));
-        btnCerrarSesion.setText("Cerrar Sesion");
+        btnCerrarSesion.setText("Cerrar Sesión");
         btnCerrarSesion.setBorder(javax.swing.BorderFactory.createEtchedBorder());
         btnCerrarSesion.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {

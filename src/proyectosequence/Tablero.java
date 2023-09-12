@@ -130,17 +130,20 @@ public class Tablero extends JPanel {
                                 startTurnTimer();
                                 casillaSeleccionada = casillas[i][j];
                                 casillaSeleccionada.mostrarInfo(gestorCartas);
-
+                                ImageIcon fichaIcon = JugadorActualTurn.getFichaIcon();
+                                Image fichaImage = fichaIcon.getImage().getScaledInstance(imagenWidth, imagenHeight, Image.SCALE_SMOOTH);
+                                ImageIcon fichaEscalada = new ImageIcon(fichaImage);
                                 // Valida que no haya una ficha en la casilla
                                 if (casillaSeleccionada.label.getIcon() == null) {
                                     if (casillaSeleccionada.getNombreCarta(gestorCartas).equals(gameWindow.cartaSeleccionadaTexto)) {
                                         // Pone imagen roja para el jugador 1
                                         if (gameWindow.turno == 1) {
-                                            Image imagenOriginal = imagenes[0].getImage();
-                                            Image imagenEscalada = imagenOriginal.getScaledInstance(imagenWidth, imagenHeight, Image.SCALE_SMOOTH);
-                                            ImageIcon imagenEscaladaIcon = new ImageIcon(imagenEscalada);
+                                            //Image imagenOriginal = imagenes[0].getImage();
+                                            //Image imagenEscalada = imagenOriginal.getScaledInstance(imagenWidth, imagenHeight, Image.SCALE_SMOOTH);
+                                            //ImageIcon imagenEscaladaIcon = new ImageIcon(imagenEscalada);
+
                                             // Pone la ficha en la casilla
-                                            casillaSeleccionada.label.setIcon(imagenEscaladaIcon);
+                                            casillaSeleccionada.label.setIcon(fichaEscalada);
 
                                             // Pone imagen verde para el jugador 2
                                         } else if (gameWindow.turno == 2) {
@@ -149,7 +152,7 @@ public class Tablero extends JPanel {
                                             ImageIcon imagenEscaladaIcon = new ImageIcon(imagenEscalada);
 
                                             // Pone la ficha en la casilla
-                                            casillaSeleccionada.label.setIcon(imagenEscaladaIcon);
+                                            casillaSeleccionada.label.setIcon(fichaEscalada);
                                         }
 
                                         // Aquí verifica si hay una secuencia

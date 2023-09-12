@@ -99,7 +99,6 @@ public class MenuPrincipal extends javax.swing.JFrame {
         // TODO add your handling code here:
         MenuLogin login = new MenuLogin();
         login.setVisible(true);
-        this.dispose();
     }//GEN-LAST:event_btnInicioSesionMouseClicked
 
     private void btnRegistroUsuariosMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnRegistroUsuariosMouseClicked
