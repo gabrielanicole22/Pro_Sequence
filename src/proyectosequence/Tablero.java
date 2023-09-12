@@ -40,7 +40,7 @@ public class Tablero extends JPanel {
 
     //temporizador
     private Timer turnTimer;
-    public int turnTimeInSeconds = 120;
+    public int turnTimeInSeconds = 12;
     private JLabel timerLabel;
 
     private ImageIcon[] imagenes; // Lista de fichas
@@ -77,24 +77,6 @@ public class Tablero extends JPanel {
 
         //timer
         timerLabel = gameWindow.getTimerLabel();
-        updateTimerLabel(turnTimeInSeconds);
-
-        turnTimer = new Timer(1000, new ActionListener() {
-            int timeRemaining = turnTimeInSeconds;
-
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                if (timeRemaining > 0) {
-                    timeRemaining--;
-                    updateTimerLabel(timeRemaining);
-                } else {
-                    turnTimer.stop();
-                    JOptionPane.showMessageDialog(null, "Perdiste tu turno.");
-                    changeToNextPlayer(); // Cambia al siguiente jugador
-                    startTurnTimer(); // Inicia el temporizador para el siguiente jugador
-                }
-            }
-        });
 
         // Crea e inicializa la matriz de casillas
         casillas = new CasillaTablero[10][10];
@@ -126,8 +108,7 @@ public class Tablero extends JPanel {
                                 if (turnTimer.isRunning()) {
                                     turnTimer.stop();
                                 }
-                                resetTurnTimer();
-                                startTurnTimer();
+
                                 casillaSeleccionada = casillas[i][j];
                                 casillaSeleccionada.mostrarInfo(gestorCartas);
                                 ImageIcon fichaIcon = JugadorActualTurn.getFichaIcon();
@@ -192,13 +173,70 @@ public class Tablero extends JPanel {
         repaint();
     }
 
+    public void temporizador() {
+        //Duración inicial del turno - 2 mints
+        int turnTime = 1 * 60 * 1000;
+
+        gameWindow.timer.setText("Tiempo restante: 2:00");
+        if (turnTimer == null) {
+            turnTimer = new Timer(1000, new ActionListener() {
+                int tiempoRestante = turnTime;
+
+                @Override
+                public void actionPerformed(ActionEvent e) {
+                    if (tiempoRestante > 0) {
+                        tiempoRestante -= 1000;
+                        int minutos = tiempoRestante / (60 * 1000);
+                        int segundos = (tiempoRestante % (60 * 1000)) / 1000;
+                        gameWindow.timer.setText("Tiempo restante: " + String.format("%02d:%02d", minutos, segundos));
+                    } else {
+                        ((Timer) e.getSource()).stop();
+                        turnTimer.stop();
+                        JOptionPane.showMessageDialog(gameWindow, JugadorActualTurn.usuario + ", perdiste tu turno porque se te acabó el tiempo.");
+                        cambioTurno();
+                    }
+                }
+            });
+            turnTimer.start();
+            return;
+        }
+        turnTimer.stop();
+        turnTimer = new Timer(1000, new ActionListener() {
+            int tiempoRestante = turnTime;
+
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                if (tiempoRestante > 0) {
+                    tiempoRestante -= 1000;
+                    int minutos = tiempoRestante / (60 * 1000);
+                    int segundos = (tiempoRestante % (60 * 1000)) / 1000;
+                    gameWindow.timer.setText("Tiempo restante: " + String.format("%02d:%02d", minutos, segundos));
+                    if (tiempoRestante == 30000) {
+                        gameWindow.timeWarning.setText("Advertencia: ¡Te quedan menos de 30 segundos!");
+                    }
+                    if (tiempoRestante < 25000 && tiempoRestante > 5000) {
+                        gameWindow.timeWarning.setText("");
+                    }
+                    if (tiempoRestante == 5000) {
+                        gameWindow.timeWarning.setText("Advertencia: ¡Te quedan solo 5 segundos!");
+                    }
+                } else {
+                    ((Timer) e.getSource()).stop();
+                    turnTimer.stop();
+                    JOptionPane.showMessageDialog(gameWindow, JugadorActualTurn.usuario + ", perdiste tu turno porque se te acabó el tiempo.");
+                    cambioTurno();
+                }
+            }
+        });
+        turnTimer.start();
+    }
+
     public void actualizarLabelUltimaJugada() {
         String nombreTurnoAnterior = "Nadie ha jugado";
         int turnoAnteriorIndex = (EquipoActualTurn == 0) ? teams.size() - 1 : EquipoActualTurn - 1;
         if (turnoAnteriorIndex >= 0) {
             nombreTurnoAnterior = teams.get(turnoAnteriorIndex).jugadores.get(TurnosT[turnoAnteriorIndex]).usuario;
         }
-
         if (primeraVez) {
             gameWindow.jugadorQuePusoLaCarta.setText("Nadie ha jugado");
             primeraVez = false;
@@ -208,6 +246,7 @@ public class Tablero extends JPanel {
     }
 
     public void cambioTurno() {
+        temporizador();
         if (JugadorActualTurn == null) {
             JugadorActualTurn = teams.get(0).jugadores.get(0);
             EquipoActualTurn = 0;
@@ -231,6 +270,7 @@ public class Tablero extends JPanel {
         }
         JugadorActualTurn = teams.get(EquipoActualTurn).jugadores.get(TurnosT[EquipoActualTurn]);
         gameWindow.lblturno.setText("Turno de: " + JugadorActualTurn.usuario);
+        gameWindow.timeWarning.setText("");
     }
 
     //hay código que se puede simplicar pero nomas es de prueba
@@ -315,35 +355,6 @@ public class Tablero extends JPanel {
         return contador == 5;
     }
 
-    public int getTurnTimeInSeconds() {
-        return turnTimeInSeconds;
-    }
-
-    public void startTurnTimer() {
-        turnTimer.setInitialDelay(1000);
-        turnTimer.start();
-    }
-
-    //pendiente -falta mejorar
-    public void resetTurnTimer() {
-        turnTimer = new Timer(1000, new ActionListener() {
-            int timeRemaining = turnTimeInSeconds;
-
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                if (timeRemaining > 0) {
-                    timeRemaining--;
-                    updateTimerLabel(timeRemaining);
-                } else {
-                    turnTimer.stop();
-                    JOptionPane.showMessageDialog(null, "Perdiste tu turno.");
-                    changeToNextPlayer(); // Cambia al siguiente jugador
-                    startTurnTimer(); // Inicia el temporizador para el siguiente jugador
-                }
-            }
-        });
-    }
-
     private void changeToNextPlayer() {
         currentPlayerIndex++;
         if (currentPlayerIndex >= teams.size()) {
@@ -353,13 +364,6 @@ public class Tablero extends JPanel {
         gameWindow.lblturno.setText("Turno de: " + JugadorActualTurn.usuario);
 
         // Reinicia el temporizador y comienza el turno del siguiente jugador
-        resetTurnTimer();
-        startTurnTimer();
-    }
-
-    private void updateTimerLabel(int timeRemaining) {
-        int minutes = timeRemaining / 60;
-        int seconds = timeRemaining % 60;
-        timerLabel.setText(String.format("Tiempo restante: %02d:%02d", minutes, seconds));
+        temporizador();
     }
 }

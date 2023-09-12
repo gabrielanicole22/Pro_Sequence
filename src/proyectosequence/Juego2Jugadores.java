@@ -62,13 +62,13 @@ public class Juego2Jugadores extends javax.swing.JFrame {
         gamePanel.repaint();
         setExtendedState(JFrame.MAXIMIZED_BOTH);
         setVisible(true);
-        tablero.startTurnTimer();
         baraja.barajar();
         jugador1 = baraja.repartir(6);
         jugador2 = baraja.repartir(6);
         ponerTextoMano();
         ponerImagenesEnMano();
         //actualizarLabelTurno();
+        tablero.temporizador();
         tablero.cambioTurno();
         tablero.actualizarLabelUltimaJugada();
         setDefaultCloseOperation(DISPOSE_ON_CLOSE);
@@ -103,6 +103,7 @@ public class Juego2Jugadores extends javax.swing.JFrame {
         jugadorQuePusoLaCarta = new javax.swing.JLabel();
         lbl1 = new javax.swing.JLabel();
         lbl2 = new javax.swing.JLabel();
+        timeWarning = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -200,12 +201,17 @@ public class Juego2Jugadores extends javax.swing.JFrame {
         jPanel1.add(jugadorQuePusoLaCarta, new org.netbeans.lib.awtextra.AbsoluteConstraints(320, 390, -1, -1));
 
         lbl1.setFont(new java.awt.Font("Rockwell Condensed", 0, 24)); // NOI18N
-        lbl1.setText("Ultima carta jugada");
+        lbl1.setText("Última carta jugada");
         jPanel1.add(lbl1, new org.netbeans.lib.awtextra.AbsoluteConstraints(300, 210, -1, -1));
 
         lbl2.setFont(new java.awt.Font("Rockwell Condensed", 0, 24)); // NOI18N
         lbl2.setText("Jugada por: ");
         jPanel1.add(lbl2, new org.netbeans.lib.awtextra.AbsoluteConstraints(220, 390, -1, -1));
+
+        timeWarning.setFont(new java.awt.Font("Barlow Condensed Light", 1, 24)); // NOI18N
+        timeWarning.setForeground(new java.awt.Color(255, 0, 0));
+        timeWarning.setText(".");
+        jPanel1.add(timeWarning, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 100, 430, 30));
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -578,7 +584,8 @@ public class Juego2Jugadores extends javax.swing.JFrame {
     private javax.swing.JLabel lbl1;
     private javax.swing.JLabel lbl2;
     public javax.swing.JLabel lblturno;
-    private javax.swing.JLabel timer;
+    public javax.swing.JLabel timeWarning;
+    public javax.swing.JLabel timer;
     private javax.swing.JButton ultimaCartaPuesta;
     // End of variables declaration//GEN-END:variables
 }
