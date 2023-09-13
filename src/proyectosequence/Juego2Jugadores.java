@@ -30,8 +30,13 @@ public class Juego2Jugadores extends javax.swing.JFrame {
     String textoCartaQueSePuedeDescartar = "";
     JButton[] mano;
     public String cartaSeleccionadaTexto;
-
     public int turno;
+
+    private JButton primerBotonClickeado;
+    private JButton segundoBotonClickeado;
+    private boolean intercambiando;
+    String textoPrimerClickeado;
+    String textoSegundoClickeado;
 
     //Imagen de parte trasera de la baraja
     ImageIcon imagenTrasero;
@@ -45,6 +50,7 @@ public class Juego2Jugadores extends javax.swing.JFrame {
 
     public Juego2Jugadores(ArrayList<Equipos> teams, int numCartas) throws MalformedURLException {
         initComponents();
+        intercambiando = false;
         puedeDescartarCarta = false;
         this.turnoAnterior = this.turno;
         this.turno = 1;
@@ -100,6 +106,7 @@ public class Juego2Jugadores extends javax.swing.JFrame {
         lbl1 = new javax.swing.JLabel();
         lbl2 = new javax.swing.JLabel();
         timeWarning = new javax.swing.JLabel();
+        btnIntercambiar = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -209,6 +216,14 @@ public class Juego2Jugadores extends javax.swing.JFrame {
         timeWarning.setText(".");
         jPanel1.add(timeWarning, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 100, 430, 30));
 
+        btnIntercambiar.setText("Intercambiar");
+        btnIntercambiar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnIntercambiarActionPerformed(evt);
+            }
+        });
+        jPanel1.add(btnIntercambiar, new org.netbeans.lib.awtextra.AbsoluteConstraints(1080, 563, 100, 40));
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
@@ -224,9 +239,24 @@ public class Juego2Jugadores extends javax.swing.JFrame {
         setLocationRelativeTo(null);
     }// </editor-fold>//GEN-END:initComponents
 
-
+    private void intercambiar(JButton primerBoton, JButton segundoBoton){
+        textoPrimerClickeado=primerBotonClickeado.getText();
+        textoSegundoClickeado=segundoBotonClickeado.getText();
+        primerBoton.setText(textoSegundoClickeado);
+        segundoBoton.setText(textoPrimerClickeado);
+        ponerImagenesEnMano();
+        intercambiando=false;
+    }
+    
     private void carta1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_carta1ActionPerformed
 
+        if (intercambiando == false) {
+            primerBotonClickeado = carta1;
+            textoPrimerClickeado = primerBotonClickeado.getText();
+        } else {
+            segundoBotonClickeado = carta1;
+            intercambiar(primerBotonClickeado, segundoBotonClickeado);
+        }
         // itera a través de las casillas del tablero para quitar las cartas resaltadas
         for (int i = 0; i < 10; i++) {
             for (int j = 0; j < 10; j++) {
@@ -346,6 +376,14 @@ public class Juego2Jugadores extends javax.swing.JFrame {
 
     private void carta2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_carta2ActionPerformed
 
+        if (intercambiando == false) {
+            primerBotonClickeado = carta2;
+            textoPrimerClickeado = primerBotonClickeado.getText();
+        } else {
+            segundoBotonClickeado = carta2;
+            intercambiar(primerBotonClickeado, segundoBotonClickeado);
+        }
+
         // itera a través de las casillas del tablero para quitar las cartas resaltadas
         for (int i = 0; i < 10; i++) {
             for (int j = 0; j < 10; j++) {
@@ -376,6 +414,14 @@ public class Juego2Jugadores extends javax.swing.JFrame {
     }//GEN-LAST:event_carta2ActionPerformed
 
     private void carta3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_carta3ActionPerformed
+        if (intercambiando == false) {
+            primerBotonClickeado = carta3;
+            textoPrimerClickeado = primerBotonClickeado.getText();
+        } else {
+            segundoBotonClickeado = carta3;
+            intercambiar(primerBotonClickeado, segundoBotonClickeado);
+        }
+
         // itera a través de las casillas del tablero para quitar las cartas resaltadas
         for (int i = 0; i < 10; i++) {
             for (int j = 0; j < 10; j++) {
@@ -407,6 +453,13 @@ public class Juego2Jugadores extends javax.swing.JFrame {
     }//GEN-LAST:event_carta3ActionPerformed
 
     private void carta4ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_carta4ActionPerformed
+        if (intercambiando == false) {
+            primerBotonClickeado = carta4;
+            textoPrimerClickeado = primerBotonClickeado.getText();
+        } else {
+            segundoBotonClickeado = carta4;
+            intercambiar(primerBotonClickeado, segundoBotonClickeado);
+        }
         // itera a través de las casillas del tablero para quitar las cartas resaltadas
         for (int i = 0; i < 10; i++) {
             for (int j = 0; j < 10; j++) {
@@ -438,7 +491,13 @@ public class Juego2Jugadores extends javax.swing.JFrame {
     }//GEN-LAST:event_carta4ActionPerformed
 
     private void carta5ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_carta5ActionPerformed
-
+        if (intercambiando == false) {
+            primerBotonClickeado = carta5;
+            textoPrimerClickeado = primerBotonClickeado.getText();
+        } else {
+            segundoBotonClickeado = carta5;
+            intercambiar(primerBotonClickeado, segundoBotonClickeado);
+        }
         // itera a través de las casillas del tablero para quitar las cartas resaltadas
         for (int i = 0; i < 10; i++) {
             for (int j = 0; j < 10; j++) {
@@ -470,6 +529,13 @@ public class Juego2Jugadores extends javax.swing.JFrame {
     }//GEN-LAST:event_carta5ActionPerformed
 
     private void carta6ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_carta6ActionPerformed
+        if (intercambiando == false) {
+            primerBotonClickeado = carta6;
+            textoPrimerClickeado = primerBotonClickeado.getText();
+        } else {
+           segundoBotonClickeado = carta6;
+            intercambiar(primerBotonClickeado, segundoBotonClickeado);
+        }
         // itera a través de las casillas del tablero para quitar las cartas resaltadas
         for (int i = 0; i < 10; i++) {
             for (int j = 0; j < 10; j++) {
@@ -525,6 +591,17 @@ public class Juego2Jugadores extends javax.swing.JFrame {
     private void ultimaCartaPuestaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_ultimaCartaPuestaActionPerformed
         tablero.casillas[posx][posy].label.setBackground(Color.YELLOW);
     }//GEN-LAST:event_ultimaCartaPuestaActionPerformed
+
+    private void btnIntercambiarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnIntercambiarActionPerformed
+        if(intercambiando==false){
+        intercambiando = true;
+        }
+        if(intercambiando==true){
+            intercambiando= false;
+        }
+
+
+    }//GEN-LAST:event_btnIntercambiarActionPerformed
 
     /**
      * @param args the command line arguments
@@ -645,6 +722,7 @@ public class Juego2Jugadores extends javax.swing.JFrame {
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JLabel barajaDeCartas;
     private javax.swing.JButton btnDescartarCarta;
+    private javax.swing.JButton btnIntercambiar;
     private javax.swing.JButton carta1;
     private javax.swing.JButton carta2;
     private javax.swing.JButton carta3;
