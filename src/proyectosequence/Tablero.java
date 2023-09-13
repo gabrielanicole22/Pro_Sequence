@@ -165,49 +165,46 @@ public class Tablero extends JPanel {
                                         cambioTurno();
                                         actualizarLabelUltimaJugada();
                                     }
-                                    
 
                                     //Cuando se pone una carta normal
-                                    if (casillaSeleccionada.getNombreCarta(gestorCartas).equals(gameWindow.cartaSeleccionadaTexto)) {
-                                        // Pone imagen roja para el jugador 1
-                                        if (gameWindow.turno == 1) {
-                                            //Image imagenOriginal = imagenes[0].getImage();
-                                            //Image imagenEscalada = imagenOriginal.getScaledInstance(imagenWidth, imagenHeight, Image.SCALE_SMOOTH);
-                                            //ImageIcon imagenEscaladaIcon = new ImageIcon(imagenEscalada);
+                                    if (!gameWindow.cartaSeleccionadaTexto.equals("J_trebol") || !gameWindow.cartaSeleccionadaTexto.equals("J_diamantes") || !gameWindow.cartaSeleccionadaTexto.equals("J_corazones") || !gameWindow.cartaSeleccionadaTexto.equals("J_picas")) {
+                                        if (casillaSeleccionada.getNombreCarta(gestorCartas).equals(gameWindow.cartaSeleccionadaTexto)) {
+                                            // Pone imagen roja para el jugador 1
+                                            if (gameWindow.turno == 1) {
+                                                //Image imagenOriginal = imagenes[0].getImage();
+                                                //Image imagenEscalada = imagenOriginal.getScaledInstance(imagenWidth, imagenHeight, Image.SCALE_SMOOTH);
+                                                //ImageIcon imagenEscaladaIcon = new ImageIcon(imagenEscalada);
 
-                                            // Pone la ficha en la casilla
-                                            casillaSeleccionada.label.setIcon(fichaEscalada);
+                                                // Pone la ficha en la casilla
+                                                casillaSeleccionada.label.setIcon(fichaEscalada);
 
-                                            // Pone imagen verde para el jugador 2
-                                        } else if (gameWindow.turno == 2) {
-                                            Image imagenOriginal = imagenes[1].getImage();
-                                            Image imagenEscalada = imagenOriginal.getScaledInstance(imagenWidth, imagenHeight, Image.SCALE_SMOOTH);
-                                            ImageIcon imagenEscaladaIcon = new ImageIcon(imagenEscalada);
+                                                // Pone imagen verde para el jugador 2
+                                            } else if (gameWindow.turno == 2) {
+                                                Image imagenOriginal = imagenes[1].getImage();
+                                                Image imagenEscalada = imagenOriginal.getScaledInstance(imagenWidth, imagenHeight, Image.SCALE_SMOOTH);
+                                                ImageIcon imagenEscaladaIcon = new ImageIcon(imagenEscalada);
 
-                                            // Pone la ficha en la casilla
-                                            casillaSeleccionada.label.setIcon(fichaEscalada);
-                                        }
-
-                                        // Aquí verifica si hay una secuencia
-                                        if (casillaSeleccionada.label.getIcon() != null) {
-                                            // Verificar si hay una secuencia
-                                            if (verificarSecuencia(casillaSeleccionada, gameWindow.turno)) {
-                                                JOptionPane.showMessageDialog(null, "¡Felicidades Jugador " + gameWindow.turno + ", has formado una secuencia!");
+                                                // Pone la ficha en la casilla
+                                                casillaSeleccionada.label.setIcon(fichaEscalada);
                                             }
+
+                                            // Aquí verifica si hay una secuencia
+                                            if (casillaSeleccionada.label.getIcon() != null) {
+                                                // Verificar si hay una secuencia
+                                                if (verificarSecuencia(casillaSeleccionada, gameWindow.turno)) {
+                                                    JOptionPane.showMessageDialog(null, "¡Felicidades Jugador " + gameWindow.turno + ", has formado una secuencia!");
+                                                }
+                                            }
+                                            gameWindow.posx = i;
+                                            gameWindow.posy = j;
+                                            // Cambia de turno y de mano
+                                            gameWindow.cambioDeTurno();
+                                            cambioTurno();
+                                            actualizarLabelUltimaJugada();
                                         }
-                                        gameWindow.posx = i;
-                                        gameWindow.posy = j;
-                                        // Cambia de turno y de mano
-                                        gameWindow.cambioDeTurno();
-                                        cambioTurno();
-                                        actualizarLabelUltimaJugada();
                                     } else {
-                                        if (gameWindow.cartaSeleccionadaTexto != (null)) {
-                                            JOptionPane.showMessageDialog(null, "Pon la ficha en la carta que has seleccionado.");
-                                        }
+                                        JOptionPane.showMessageDialog(null, "Ya hay una ficha en la casilla.");
                                     }
-                                } else {
-                                    JOptionPane.showMessageDialog(null, "Ya hay una ficha en la casilla.");
                                 }
                             }
                         }
