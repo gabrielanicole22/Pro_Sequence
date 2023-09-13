@@ -4,7 +4,6 @@
  */
 package proyectosequence;
 
-import java.awt.Dimension;
 import java.net.MalformedURLException;
 import java.util.ArrayList;
 import java.util.logging.Level;
@@ -200,6 +199,12 @@ public class TeamSelection extends javax.swing.JFrame {
         textoInfoArea();
 
         if (equipoLleno()) {
+            if (!(usuarioLoggeado())) {
+                JOptionPane.showMessageDialog(mensajito, "El jugador " + sistemaUsuarios.getUsuarioLogeado().usuario + " loggeado tiene que estar en un equipo.");
+                mensajito.dispose();
+                reiniciarSeleccion();
+                return;
+            }
             mensajeLabel.setText("Equipos llenos, empieza la partida");
             JOptionPane.showMessageDialog(null, "INICIA LA PARTIDA");
             mensajito.setVisible(false);
@@ -213,7 +218,36 @@ public class TeamSelection extends javax.swing.JFrame {
         }
     }//GEN-LAST:event_btnAgregarPlayerActionPerformed
 
+    private void reiniciarSeleccion() {
+        cb_players.removeAllItems();
+        cb_teams.removeAllItems();
+        mensajeLabel.setText("Esperando a que se llenen los equipos...");
+        equipos.clear();
 
+        ArrayList<Jugador> jugadores = sistemaUsuarios.getListaUsuarios();
+
+        for (Jugador p : jugadores) {
+            p.team = -1;
+            cb_players.addItem(p.usuario);
+        }
+        for (int i = 1; i <= cantEquipos; i++) {
+            cb_teams.addItem("" + i);
+            equipos.add(new Equipos(cantPlayers));
+        }
+        textoInfoArea();
+    }
+
+    private boolean usuarioLoggeado() {
+        Jugador currentPlayer = sistemaUsuarios.getUsuarioLogeado();
+        for (Equipos equipo : equipos) {
+            for (Jugador player : equipo.jugadores) {
+                if (currentPlayer.equals(player)) {
+                    return true;
+                }
+            }
+        }
+        return false;
+    }
     /**
      * @param args the command line arguments
      */
