@@ -4,6 +4,8 @@
  */
 package proyectosequence;
 
+import java.awt.Color;
+import java.awt.Cursor;
 import javax.swing.JOptionPane;
 
 /**
@@ -16,9 +18,13 @@ public class MenuLogin extends javax.swing.JFrame {
      * Creates new form MenuLogin
      */
     SistemaUsuarios sistemaUsuarios;
+    Color SELECT_COLOR = new Color(83, 152, 254);
+    private Color colorOriginal;
 
     public MenuLogin() {
         initComponents();
+        colorOriginal = btnIngresar.getForeground();
+
         sistemaUsuarios = new SistemaUsuarios();
         setDefaultCloseOperation(DISPOSE_ON_CLOSE);
     }
@@ -51,6 +57,12 @@ public class MenuLogin extends javax.swing.JFrame {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
                 btnIngresarMouseClicked(evt);
             }
+            public void mouseEntered(java.awt.event.MouseEvent evt) {
+                btnIngresarMouseEntered(evt);
+            }
+            public void mouseExited(java.awt.event.MouseEvent evt) {
+                btnIngresarMouseExited(evt);
+            }
         });
 
         lblTitulo.setText("Inicio de Sesión");
@@ -59,6 +71,12 @@ public class MenuLogin extends javax.swing.JFrame {
         btnCancelar.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
                 btnCancelarMouseClicked(evt);
+            }
+            public void mouseEntered(java.awt.event.MouseEvent evt) {
+                btnCancelarMouseEntered(evt);
+            }
+            public void mouseExited(java.awt.event.MouseEvent evt) {
+                btnCancelarMouseExited(evt);
             }
         });
 
@@ -144,6 +162,30 @@ public class MenuLogin extends javax.swing.JFrame {
         // TODO add your handling code here:
         this.dispose();
     }//GEN-LAST:event_btnCancelarMouseClicked
+
+    private void btnIngresarMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnIngresarMouseEntered
+        // TODO add your handling code here:
+        btnIngresar.setForeground(SELECT_COLOR);
+        setCursor(Cursor.HAND_CURSOR);
+    }//GEN-LAST:event_btnIngresarMouseEntered
+
+    private void btnIngresarMouseExited(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnIngresarMouseExited
+        // TODO add your handling code here:
+        btnIngresar.setForeground(colorOriginal);
+        setCursor(Cursor.DEFAULT_CURSOR);
+    }//GEN-LAST:event_btnIngresarMouseExited
+
+    private void btnCancelarMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnCancelarMouseEntered
+        // TODO add your handling code here:
+        btnCancelar.setForeground(SELECT_COLOR);
+        setCursor(Cursor.HAND_CURSOR);
+    }//GEN-LAST:event_btnCancelarMouseEntered
+
+    private void btnCancelarMouseExited(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnCancelarMouseExited
+        // TODO add your handling code here:
+        btnCancelar.setForeground(colorOriginal);
+        setCursor(Cursor.DEFAULT_CURSOR);
+    }//GEN-LAST:event_btnCancelarMouseExited
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JLabel btnCancelar;

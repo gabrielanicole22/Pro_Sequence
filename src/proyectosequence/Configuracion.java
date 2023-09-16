@@ -5,6 +5,7 @@
 package proyectosequence;
 
 import java.awt.Color;
+import java.awt.Cursor;
 import java.util.ArrayList;
 import javax.swing.JOptionPane;
 
@@ -15,16 +16,21 @@ import javax.swing.JOptionPane;
 public class Configuracion extends javax.swing.JFrame {
 
     SistemaUsuarios sistemaUsuarios;
+    Color SELECT_COLOR = new Color(83, 152, 254);
+    private Color colorOriginal;
+    private Color colorOriginal2;
 
     public Configuracion() {
         initComponents();
+        colorOriginal = btn2players.getForeground();
+        colorOriginal2 = btnGuardar.getForeground();
         setDefaultCloseOperation(DISPOSE_ON_CLOSE);
         sistemaUsuarios = new SistemaUsuarios();
         int configCantJugadores = sistemaUsuarios.getPlayersConfig();
         ColorItem renderer = new ColorItem();
         cb_Color.setRenderer(renderer);
         ArrayList<String> fichasDisponibles = sistemaUsuarios.getFichas();
-         
+
         for (String ficha : fichasDisponibles) {
             String name = ficha.split(".png")[0];
             cb_Color.addItem(name);
@@ -35,7 +41,7 @@ public class Configuracion extends javax.swing.JFrame {
                 cb_Color.setSelectedIndex(i);
             }
         }
-        
+
         switch (configCantJugadores) {
             case 2:
                 btn2players.setBackground(Color.PINK);
@@ -79,107 +85,208 @@ public class Configuracion extends javax.swing.JFrame {
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
         jPanel1.setBackground(new java.awt.Color(0, 0, 0));
-        jPanel1.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
         jLabel1.setBackground(new java.awt.Color(102, 102, 102));
         jLabel1.setFont(new java.awt.Font("Tahoma", 3, 24)); // NOI18N
         jLabel1.setForeground(new java.awt.Color(255, 255, 255));
         jLabel1.setText("Color de ficha");
-        jPanel1.add(jLabel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(50, 260, 180, 30));
 
         btn8players.setBackground(new java.awt.Color(0, 0, 102));
         btn8players.setFont(new java.awt.Font("Trajan Pro", 1, 24)); // NOI18N
         btn8players.setForeground(new java.awt.Color(255, 255, 255));
         btn8players.setText("8 Players");
         btn8players.setBorder(javax.swing.BorderFactory.createEtchedBorder());
+        btn8players.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseEntered(java.awt.event.MouseEvent evt) {
+                btn8playersMouseEntered(evt);
+            }
+            public void mouseExited(java.awt.event.MouseEvent evt) {
+                btn8playersMouseExited(evt);
+            }
+        });
         btn8players.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btn8playersActionPerformed(evt);
             }
         });
-        jPanel1.add(btn8players, new org.netbeans.lib.awtextra.AbsoluteConstraints(600, 110, 130, 70));
 
         btnRegresarAMenuPrincipal.setBackground(new java.awt.Color(255, 51, 51));
         btnRegresarAMenuPrincipal.setFont(new java.awt.Font("Segoe UI Black", 1, 18)); // NOI18N
         btnRegresarAMenuPrincipal.setText("Regresar");
+        btnRegresarAMenuPrincipal.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseEntered(java.awt.event.MouseEvent evt) {
+                btnRegresarAMenuPrincipalMouseEntered(evt);
+            }
+            public void mouseExited(java.awt.event.MouseEvent evt) {
+                btnRegresarAMenuPrincipalMouseExited(evt);
+            }
+        });
         btnRegresarAMenuPrincipal.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btnRegresarAMenuPrincipalActionPerformed(evt);
             }
         });
-        jPanel1.add(btnRegresarAMenuPrincipal, new org.netbeans.lib.awtextra.AbsoluteConstraints(580, 300, 150, 70));
 
         jLabel2.setBackground(new java.awt.Color(102, 102, 102));
         jLabel2.setFont(new java.awt.Font("Tahoma", 3, 24)); // NOI18N
         jLabel2.setForeground(new java.awt.Color(255, 255, 255));
         jLabel2.setText("Configuracion");
-        jPanel1.add(jLabel2, new org.netbeans.lib.awtextra.AbsoluteConstraints(300, 10, 170, 30));
 
         btn3players.setBackground(new java.awt.Color(0, 0, 102));
         btn3players.setFont(new java.awt.Font("Trajan Pro", 1, 24)); // NOI18N
         btn3players.setForeground(new java.awt.Color(255, 255, 255));
         btn3players.setText("3 Players");
         btn3players.setBorder(javax.swing.BorderFactory.createEtchedBorder());
+        btn3players.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseEntered(java.awt.event.MouseEvent evt) {
+                btn3playersMouseEntered(evt);
+            }
+            public void mouseExited(java.awt.event.MouseEvent evt) {
+                btn3playersMouseExited(evt);
+            }
+        });
         btn3players.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btn3playersActionPerformed(evt);
             }
         });
-        jPanel1.add(btn3players, new org.netbeans.lib.awtextra.AbsoluteConstraints(210, 110, 120, 70));
 
         btn4players.setBackground(new java.awt.Color(0, 0, 102));
         btn4players.setFont(new java.awt.Font("Trajan Pro", 1, 24)); // NOI18N
         btn4players.setForeground(new java.awt.Color(255, 255, 255));
         btn4players.setText("4 Players");
         btn4players.setBorder(javax.swing.BorderFactory.createEtchedBorder());
+        btn4players.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseEntered(java.awt.event.MouseEvent evt) {
+                btn4playersMouseEntered(evt);
+            }
+            public void mouseExited(java.awt.event.MouseEvent evt) {
+                btn4playersMouseExited(evt);
+            }
+        });
         btn4players.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btn4playersActionPerformed(evt);
             }
         });
-        jPanel1.add(btn4players, new org.netbeans.lib.awtextra.AbsoluteConstraints(340, 110, 120, 70));
 
         btn6players.setBackground(new java.awt.Color(0, 0, 102));
         btn6players.setFont(new java.awt.Font("Trajan Pro", 1, 24)); // NOI18N
         btn6players.setForeground(new java.awt.Color(255, 255, 255));
         btn6players.setText("6  Players");
         btn6players.setBorder(javax.swing.BorderFactory.createEtchedBorder());
+        btn6players.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseEntered(java.awt.event.MouseEvent evt) {
+                btn6playersMouseEntered(evt);
+            }
+            public void mouseExited(java.awt.event.MouseEvent evt) {
+                btn6playersMouseExited(evt);
+            }
+        });
         btn6players.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btn6playersActionPerformed(evt);
             }
         });
-        jPanel1.add(btn6players, new org.netbeans.lib.awtextra.AbsoluteConstraints(470, 110, 120, 70));
 
         jLabel3.setBackground(new java.awt.Color(102, 102, 102));
         jLabel3.setFont(new java.awt.Font("Tahoma", 3, 24)); // NOI18N
         jLabel3.setForeground(new java.awt.Color(255, 255, 255));
         jLabel3.setText("Cantidad de jugadores");
-        jPanel1.add(jLabel3, new org.netbeans.lib.awtextra.AbsoluteConstraints(40, 60, 280, 30));
 
         btn2players.setBackground(new java.awt.Color(0, 0, 102));
         btn2players.setFont(new java.awt.Font("Trajan Pro", 1, 24)); // NOI18N
         btn2players.setForeground(new java.awt.Color(255, 255, 255));
         btn2players.setText("2 Players");
         btn2players.setBorder(javax.swing.BorderFactory.createEtchedBorder());
+        btn2players.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseEntered(java.awt.event.MouseEvent evt) {
+                btn2playersMouseEntered(evt);
+            }
+            public void mouseExited(java.awt.event.MouseEvent evt) {
+                btn2playersMouseExited(evt);
+            }
+        });
         btn2players.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btn2playersActionPerformed(evt);
             }
         });
-        jPanel1.add(btn2players, new org.netbeans.lib.awtextra.AbsoluteConstraints(80, 110, 120, 70));
-
-        jPanel1.add(cb_Color, new org.netbeans.lib.awtextra.AbsoluteConstraints(250, 270, 190, -1));
 
         btnGuardar.setBackground(new java.awt.Color(255, 51, 51));
         btnGuardar.setFont(new java.awt.Font("Segoe UI Black", 1, 18)); // NOI18N
         btnGuardar.setText("Guardar");
+        btnGuardar.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseEntered(java.awt.event.MouseEvent evt) {
+                btnGuardarMouseEntered(evt);
+            }
+            public void mouseExited(java.awt.event.MouseEvent evt) {
+                btnGuardarMouseExited(evt);
+            }
+        });
         btnGuardar.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btnGuardarActionPerformed(evt);
             }
         });
-        jPanel1.add(btnGuardar, new org.netbeans.lib.awtextra.AbsoluteConstraints(410, 300, 150, 70));
+
+        javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
+        jPanel1.setLayout(jPanel1Layout);
+        jPanel1Layout.setHorizontalGroup(
+            jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel1Layout.createSequentialGroup()
+                .addGap(300, 300, 300)
+                .addComponent(jLabel2, javax.swing.GroupLayout.PREFERRED_SIZE, 170, javax.swing.GroupLayout.PREFERRED_SIZE))
+            .addGroup(jPanel1Layout.createSequentialGroup()
+                .addGap(40, 40, 40)
+                .addComponent(jLabel3, javax.swing.GroupLayout.PREFERRED_SIZE, 280, javax.swing.GroupLayout.PREFERRED_SIZE))
+            .addGroup(jPanel1Layout.createSequentialGroup()
+                .addGap(80, 80, 80)
+                .addComponent(btn2players, javax.swing.GroupLayout.PREFERRED_SIZE, 120, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(10, 10, 10)
+                .addComponent(btn3players, javax.swing.GroupLayout.PREFERRED_SIZE, 120, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(10, 10, 10)
+                .addComponent(btn4players, javax.swing.GroupLayout.PREFERRED_SIZE, 120, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(10, 10, 10)
+                .addComponent(btn6players, javax.swing.GroupLayout.PREFERRED_SIZE, 120, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(10, 10, 10)
+                .addComponent(btn8players, javax.swing.GroupLayout.PREFERRED_SIZE, 130, javax.swing.GroupLayout.PREFERRED_SIZE))
+            .addGroup(jPanel1Layout.createSequentialGroup()
+                .addGap(50, 50, 50)
+                .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 180, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(20, 20, 20)
+                .addComponent(cb_Color, javax.swing.GroupLayout.PREFERRED_SIZE, 190, javax.swing.GroupLayout.PREFERRED_SIZE))
+            .addGroup(jPanel1Layout.createSequentialGroup()
+                .addGap(410, 410, 410)
+                .addComponent(btnGuardar, javax.swing.GroupLayout.PREFERRED_SIZE, 150, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(20, 20, 20)
+                .addComponent(btnRegresarAMenuPrincipal, javax.swing.GroupLayout.PREFERRED_SIZE, 150, javax.swing.GroupLayout.PREFERRED_SIZE))
+        );
+        jPanel1Layout.setVerticalGroup(
+            jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel1Layout.createSequentialGroup()
+                .addGap(10, 10, 10)
+                .addComponent(jLabel2, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(20, 20, 20)
+                .addComponent(jLabel3, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(20, 20, 20)
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(btn2players, javax.swing.GroupLayout.PREFERRED_SIZE, 70, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(btn3players, javax.swing.GroupLayout.PREFERRED_SIZE, 70, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(btn4players, javax.swing.GroupLayout.PREFERRED_SIZE, 70, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(btn6players, javax.swing.GroupLayout.PREFERRED_SIZE, 70, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(btn8players, javax.swing.GroupLayout.PREFERRED_SIZE, 70, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(80, 80, 80)
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addGroup(jPanel1Layout.createSequentialGroup()
+                        .addGap(10, 10, 10)
+                        .addComponent(cb_Color, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                .addGap(8, 8, 8)
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(btnGuardar, javax.swing.GroupLayout.PREFERRED_SIZE, 70, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(btnRegresarAMenuPrincipal, javax.swing.GroupLayout.PREFERRED_SIZE, 70, javax.swing.GroupLayout.PREFERRED_SIZE)))
+        );
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -243,6 +350,90 @@ public class Configuracion extends javax.swing.JFrame {
         JOptionPane.showMessageDialog(null, "Ficha actualizada correctamente!");
         this.dispose();
     }//GEN-LAST:event_btnGuardarActionPerformed
+
+    private void btn2playersMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btn2playersMouseEntered
+        // TODO add your handling code here:
+        btn2players.setForeground(SELECT_COLOR);
+        setCursor(Cursor.HAND_CURSOR);
+    }//GEN-LAST:event_btn2playersMouseEntered
+
+    private void btn2playersMouseExited(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btn2playersMouseExited
+        // TODO add your handling code here:
+        btn2players.setForeground(colorOriginal);
+        setCursor(Cursor.DEFAULT_CURSOR);
+    }//GEN-LAST:event_btn2playersMouseExited
+
+    private void btn3playersMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btn3playersMouseEntered
+        // TODO add your handling code here:
+        btn3players.setForeground(SELECT_COLOR);
+        setCursor(Cursor.HAND_CURSOR);
+    }//GEN-LAST:event_btn3playersMouseEntered
+
+    private void btn3playersMouseExited(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btn3playersMouseExited
+        // TODO add your handling code here:
+        btn3players.setForeground(colorOriginal);
+        setCursor(Cursor.DEFAULT_CURSOR);
+    }//GEN-LAST:event_btn3playersMouseExited
+
+    private void btn4playersMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btn4playersMouseEntered
+        // TODO add your handling code here:
+        btn4players.setForeground(SELECT_COLOR);
+        setCursor(Cursor.HAND_CURSOR);
+    }//GEN-LAST:event_btn4playersMouseEntered
+
+    private void btn4playersMouseExited(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btn4playersMouseExited
+        // TODO add your handling code here:
+        btn4players.setForeground(colorOriginal);
+        setCursor(Cursor.DEFAULT_CURSOR);
+    }//GEN-LAST:event_btn4playersMouseExited
+
+    private void btn6playersMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btn6playersMouseEntered
+        // TODO add your handling code here:
+        btn6players.setForeground(SELECT_COLOR);
+        setCursor(Cursor.HAND_CURSOR);
+    }//GEN-LAST:event_btn6playersMouseEntered
+
+    private void btn6playersMouseExited(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btn6playersMouseExited
+        // TODO add your handling code here:
+        btn6players.setForeground(colorOriginal);
+        setCursor(Cursor.DEFAULT_CURSOR);
+    }//GEN-LAST:event_btn6playersMouseExited
+
+    private void btn8playersMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btn8playersMouseEntered
+        // TODO add your handling code here:
+        btn8players.setForeground(SELECT_COLOR);
+        setCursor(Cursor.HAND_CURSOR);
+    }//GEN-LAST:event_btn8playersMouseEntered
+
+    private void btn8playersMouseExited(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btn8playersMouseExited
+        // TODO add your handling code here:
+        btn8players.setForeground(colorOriginal);
+        setCursor(Cursor.DEFAULT_CURSOR);
+    }//GEN-LAST:event_btn8playersMouseExited
+
+    private void btnGuardarMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnGuardarMouseEntered
+        // TODO add your handling code here:
+        btnGuardar.setForeground(SELECT_COLOR);
+        setCursor(Cursor.HAND_CURSOR);
+    }//GEN-LAST:event_btnGuardarMouseEntered
+
+    private void btnGuardarMouseExited(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnGuardarMouseExited
+        // TODO add your handling code here:
+        btnGuardar.setForeground(colorOriginal2);
+        setCursor(Cursor.DEFAULT_CURSOR);
+    }//GEN-LAST:event_btnGuardarMouseExited
+
+    private void btnRegresarAMenuPrincipalMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnRegresarAMenuPrincipalMouseEntered
+        // TODO add your handling code here:
+        btnRegresarAMenuPrincipal.setForeground(SELECT_COLOR);
+        setCursor(Cursor.HAND_CURSOR);
+    }//GEN-LAST:event_btnRegresarAMenuPrincipalMouseEntered
+
+    private void btnRegresarAMenuPrincipalMouseExited(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnRegresarAMenuPrincipalMouseExited
+        // TODO add your handling code here:
+        btnRegresarAMenuPrincipal.setForeground(colorOriginal2);
+        setCursor(Cursor.DEFAULT_CURSOR);
+    }//GEN-LAST:event_btnRegresarAMenuPrincipalMouseExited
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btn2players;

@@ -1,5 +1,6 @@
 package proyectosequence;
 
+import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.GridLayout;
 import java.awt.Image;
@@ -22,6 +23,9 @@ import static javax.swing.WindowConstants.DISPOSE_ON_CLOSE;
 public class Juego2Jugadores extends javax.swing.JFrame {
 
     Tablero tablero;
+    TabCartas tableroo;
+        public CartasTablero cartasPanel;
+
     List<CartasBaraja> jugador1;
     List<CartasBaraja> jugador2;
     int posx;
@@ -65,7 +69,7 @@ public class Juego2Jugadores extends javax.swing.JFrame {
         gamePanel.setLayout(new GridLayout(1, 1));
         setResizable(false);
         tablero = new Tablero(this, teams, numCartas);
-        gamePanel.add(tablero);
+        gamePanel.add(tableroo);
         gamePanel.repaint();
         setExtendedState(JFrame.MAXIMIZED_BOTH);
         setVisible(true);
@@ -111,11 +115,9 @@ public class Juego2Jugadores extends javax.swing.JFrame {
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
         jPanel1.setBackground(new java.awt.Color(0, 153, 51));
-        jPanel1.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
         timer.setFont(new java.awt.Font("Rockwell Condensed", 0, 24)); // NOI18N
         timer.setText("temporizador");
-        jPanel1.add(timer, new org.netbeans.lib.awtextra.AbsoluteConstraints(240, 10, -1, -1));
 
         gamePanel.setBackground(new java.awt.Color(204, 204, 204));
 
@@ -130,53 +132,44 @@ public class Juego2Jugadores extends javax.swing.JFrame {
             .addGap(0, 580, Short.MAX_VALUE)
         );
 
-        jPanel1.add(gamePanel, new org.netbeans.lib.awtextra.AbsoluteConstraints(470, 10, 590, 580));
-
         carta1.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 carta1ActionPerformed(evt);
             }
         });
-        jPanel1.add(carta1, new org.netbeans.lib.awtextra.AbsoluteConstraints(470, 610, 100, 110));
 
         carta6.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 carta6ActionPerformed(evt);
             }
         });
-        jPanel1.add(carta6, new org.netbeans.lib.awtextra.AbsoluteConstraints(1020, 610, 100, 110));
 
         carta2.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 carta2ActionPerformed(evt);
             }
         });
-        jPanel1.add(carta2, new org.netbeans.lib.awtextra.AbsoluteConstraints(580, 610, 100, 110));
 
         carta3.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 carta3ActionPerformed(evt);
             }
         });
-        jPanel1.add(carta3, new org.netbeans.lib.awtextra.AbsoluteConstraints(690, 610, 100, 110));
 
         carta4.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 carta4ActionPerformed(evt);
             }
         });
-        jPanel1.add(carta4, new org.netbeans.lib.awtextra.AbsoluteConstraints(800, 610, 100, 110));
 
         carta5.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 carta5ActionPerformed(evt);
             }
         });
-        jPanel1.add(carta5, new org.netbeans.lib.awtextra.AbsoluteConstraints(910, 610, 100, 110));
 
         lblturno.setFont(new java.awt.Font("Rockwell Condensed", 0, 24)); // NOI18N
         lblturno.setText("turno");
-        jPanel1.add(lblturno, new org.netbeans.lib.awtextra.AbsoluteConstraints(140, 650, -1, -1));
 
         btnDescartarCarta.setText("Descartar Carta");
         btnDescartarCarta.addActionListener(new java.awt.event.ActionListener() {
@@ -184,37 +177,30 @@ public class Juego2Jugadores extends javax.swing.JFrame {
                 btnDescartarCartaActionPerformed(evt);
             }
         });
-        jPanel1.add(btnDescartarCarta, new org.netbeans.lib.awtextra.AbsoluteConstraints(340, 580, -1, -1));
 
         barajaDeCartas.setBackground(new java.awt.Color(255, 255, 255));
         barajaDeCartas.setText("parte trasera mazo");
         barajaDeCartas.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
         barajaDeCartas.setOpaque(true);
-        jPanel1.add(barajaDeCartas, new org.netbeans.lib.awtextra.AbsoluteConstraints(350, 610, 100, 110));
 
         ultimaCartaPuesta.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 ultimaCartaPuestaActionPerformed(evt);
             }
         });
-        jPanel1.add(ultimaCartaPuesta, new org.netbeans.lib.awtextra.AbsoluteConstraints(330, 250, 100, 110));
 
         jugadorQuePusoLaCarta.setFont(new java.awt.Font("Rockwell Condensed", 0, 24)); // NOI18N
         jugadorQuePusoLaCarta.setText("Nadie ha jugado");
-        jPanel1.add(jugadorQuePusoLaCarta, new org.netbeans.lib.awtextra.AbsoluteConstraints(320, 390, -1, -1));
 
         lbl1.setFont(new java.awt.Font("Rockwell Condensed", 0, 24)); // NOI18N
         lbl1.setText("Última carta jugada");
-        jPanel1.add(lbl1, new org.netbeans.lib.awtextra.AbsoluteConstraints(300, 210, -1, -1));
 
         lbl2.setFont(new java.awt.Font("Rockwell Condensed", 0, 24)); // NOI18N
         lbl2.setText("Jugada por: ");
-        jPanel1.add(lbl2, new org.netbeans.lib.awtextra.AbsoluteConstraints(220, 390, -1, -1));
 
         timeWarning.setFont(new java.awt.Font("Barlow Condensed Light", 1, 24)); // NOI18N
         timeWarning.setForeground(new java.awt.Color(255, 0, 0));
         timeWarning.setText(".");
-        jPanel1.add(timeWarning, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 100, 430, 30));
 
         btnIntercambiar.setText("Intercambiar");
         btnIntercambiar.addActionListener(new java.awt.event.ActionListener() {
@@ -222,17 +208,100 @@ public class Juego2Jugadores extends javax.swing.JFrame {
                 btnIntercambiarActionPerformed(evt);
             }
         });
-        jPanel1.add(btnIntercambiar, new org.netbeans.lib.awtextra.AbsoluteConstraints(1080, 563, 100, 40));
+
+        javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
+        jPanel1.setLayout(jPanel1Layout);
+        jPanel1Layout.setHorizontalGroup(
+            jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel1Layout.createSequentialGroup()
+                .addGap(20, 20, 20)
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(jPanel1Layout.createSequentialGroup()
+                        .addGap(220, 220, 220)
+                        .addComponent(timer))
+                    .addComponent(timeWarning, javax.swing.GroupLayout.PREFERRED_SIZE, 430, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addGroup(jPanel1Layout.createSequentialGroup()
+                        .addGap(280, 280, 280)
+                        .addComponent(lbl1))
+                    .addGroup(jPanel1Layout.createSequentialGroup()
+                        .addGap(310, 310, 310)
+                        .addComponent(ultimaCartaPuesta, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(jPanel1Layout.createSequentialGroup()
+                        .addGap(200, 200, 200)
+                        .addComponent(lbl2)
+                        .addGap(5, 5, 5)
+                        .addComponent(jugadorQuePusoLaCarta))
+                    .addGroup(jPanel1Layout.createSequentialGroup()
+                        .addGap(320, 320, 320)
+                        .addComponent(btnDescartarCarta)))
+                .addGap(16, 16, 16)
+                .addComponent(gamePanel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(20, 20, 20)
+                .addComponent(btnIntercambiar, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE))
+            .addGroup(jPanel1Layout.createSequentialGroup()
+                .addGap(140, 140, 140)
+                .addComponent(lblturno)
+                .addGap(171, 171, 171)
+                .addComponent(barajaDeCartas, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(20, 20, 20)
+                .addComponent(carta1, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(10, 10, 10)
+                .addComponent(carta2, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(10, 10, 10)
+                .addComponent(carta3, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(10, 10, 10)
+                .addComponent(carta4, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(10, 10, 10)
+                .addComponent(carta5, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(10, 10, 10)
+                .addComponent(carta6, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE))
+        );
+        jPanel1Layout.setVerticalGroup(
+            jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel1Layout.createSequentialGroup()
+                .addGap(10, 10, 10)
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(jPanel1Layout.createSequentialGroup()
+                        .addComponent(timer)
+                        .addGap(61, 61, 61)
+                        .addComponent(timeWarning, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(80, 80, 80)
+                        .addComponent(lbl1)
+                        .addGap(11, 11, 11)
+                        .addComponent(ultimaCartaPuesta, javax.swing.GroupLayout.PREFERRED_SIZE, 110, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(30, 30, 30)
+                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(lbl2)
+                            .addComponent(jugadorQuePusoLaCarta))
+                        .addGap(161, 161, 161)
+                        .addComponent(btnDescartarCarta))
+                    .addComponent(gamePanel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addGroup(jPanel1Layout.createSequentialGroup()
+                        .addGap(553, 553, 553)
+                        .addComponent(btnIntercambiar, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                .addGap(7, 7, 7)
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(jPanel1Layout.createSequentialGroup()
+                        .addGap(40, 40, 40)
+                        .addComponent(lblturno))
+                    .addComponent(barajaDeCartas, javax.swing.GroupLayout.PREFERRED_SIZE, 110, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(carta1, javax.swing.GroupLayout.PREFERRED_SIZE, 110, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(carta2, javax.swing.GroupLayout.PREFERRED_SIZE, 110, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(carta3, javax.swing.GroupLayout.PREFERRED_SIZE, 110, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(carta4, javax.swing.GroupLayout.PREFERRED_SIZE, 110, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(carta5, javax.swing.GroupLayout.PREFERRED_SIZE, 110, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(carta6, javax.swing.GroupLayout.PREFERRED_SIZE, 110, javax.swing.GroupLayout.PREFERRED_SIZE)))
+        );
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, 1213, Short.MAX_VALUE)
+            .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, 806, Short.MAX_VALUE)
+            .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
         );
 
         pack();
@@ -737,6 +806,6 @@ public class Juego2Jugadores extends javax.swing.JFrame {
     public javax.swing.JLabel lblturno;
     public javax.swing.JLabel timeWarning;
     public javax.swing.JLabel timer;
-    private javax.swing.JButton ultimaCartaPuesta;
+    public javax.swing.JButton ultimaCartaPuesta;
     // End of variables declaration//GEN-END:variables
 }

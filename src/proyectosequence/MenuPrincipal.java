@@ -4,6 +4,9 @@
  */
 package proyectosequence;
 
+import java.awt.Color;
+import java.awt.Cursor;
+
 /**
  *
  * @author Gabriela Mejía
@@ -13,9 +16,14 @@ public class MenuPrincipal extends javax.swing.JFrame {
     /**
      * Creates new form MenuPrincipal
      */
+    Color SELECT_COLOR = new Color(83, 152, 254);
+    private Color colorOriginal;
+
     public MenuPrincipal() {
         initComponents();
         setDefaultCloseOperation(DISPOSE_ON_CLOSE);
+        colorOriginal = btnSalir.getForeground();
+
     }
 
     /**
@@ -39,6 +47,12 @@ public class MenuPrincipal extends javax.swing.JFrame {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
                 btnInicioSesionMouseClicked(evt);
             }
+            public void mouseEntered(java.awt.event.MouseEvent evt) {
+                btnInicioSesionMouseEntered(evt);
+            }
+            public void mouseExited(java.awt.event.MouseEvent evt) {
+                btnInicioSesionMouseExited(evt);
+            }
         });
 
         btnRegistroUsuarios.setText("Registro de Usuarios");
@@ -46,12 +60,24 @@ public class MenuPrincipal extends javax.swing.JFrame {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
                 btnRegistroUsuariosMouseClicked(evt);
             }
+            public void mouseEntered(java.awt.event.MouseEvent evt) {
+                btnRegistroUsuariosMouseEntered(evt);
+            }
+            public void mouseExited(java.awt.event.MouseEvent evt) {
+                btnRegistroUsuariosMouseExited(evt);
+            }
         });
 
         btnSalir.setText("Salir");
         btnSalir.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
                 btnSalirMouseClicked(evt);
+            }
+            public void mouseEntered(java.awt.event.MouseEvent evt) {
+                btnSalirMouseEntered(evt);
+            }
+            public void mouseExited(java.awt.event.MouseEvent evt) {
+                btnSalirMouseExited(evt);
             }
         });
 
@@ -62,7 +88,7 @@ public class MenuPrincipal extends javax.swing.JFrame {
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addGap(136, 333, Short.MAX_VALUE)
                 .addComponent(btnSalir)
                 .addGap(45, 45, 45))
             .addGroup(layout.createSequentialGroup()
@@ -110,6 +136,42 @@ public class MenuPrincipal extends javax.swing.JFrame {
         // TODO add your handling code here:
         System.exit(0);
     }//GEN-LAST:event_btnSalirMouseClicked
+
+    private void btnInicioSesionMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnInicioSesionMouseEntered
+        // TODO add your handling code here:
+        btnInicioSesion.setForeground(SELECT_COLOR);
+        setCursor(Cursor.HAND_CURSOR);
+    }//GEN-LAST:event_btnInicioSesionMouseEntered
+
+    private void btnInicioSesionMouseExited(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnInicioSesionMouseExited
+        // TODO add your handling code here:
+        btnInicioSesion.setForeground(colorOriginal);
+        setCursor(Cursor.DEFAULT_CURSOR);
+    }//GEN-LAST:event_btnInicioSesionMouseExited
+
+    private void btnRegistroUsuariosMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnRegistroUsuariosMouseEntered
+        // TODO add your handling code here:
+        btnRegistroUsuarios.setForeground(SELECT_COLOR);
+        setCursor(Cursor.HAND_CURSOR);
+    }//GEN-LAST:event_btnRegistroUsuariosMouseEntered
+
+    private void btnRegistroUsuariosMouseExited(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnRegistroUsuariosMouseExited
+        // TODO add your handling code here:
+        btnRegistroUsuarios.setForeground(colorOriginal);
+        setCursor(Cursor.DEFAULT_CURSOR);
+    }//GEN-LAST:event_btnRegistroUsuariosMouseExited
+
+    private void btnSalirMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnSalirMouseEntered
+        // TODO add your handling code here:
+        btnSalir.setForeground(SELECT_COLOR);
+        setCursor(Cursor.HAND_CURSOR);
+    }//GEN-LAST:event_btnSalirMouseEntered
+
+    private void btnSalirMouseExited(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnSalirMouseExited
+        // TODO add your handling code here:
+        btnSalir.setForeground(colorOriginal);
+        setCursor(Cursor.DEFAULT_CURSOR);
+    }//GEN-LAST:event_btnSalirMouseExited
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables

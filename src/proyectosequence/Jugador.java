@@ -4,9 +4,8 @@
  */
 package proyectosequence;
 
-import java.io.File;
 import java.io.Serializable;
-import javax.imageio.ImageIO;
+import java.util.ArrayList;
 import javax.swing.ImageIcon;
 
 /**
@@ -16,28 +15,34 @@ import javax.swing.ImageIcon;
 public final class Jugador extends Usuario implements Serializable {
 
     int team = -1;
-    private ImageIcon fichaIcon;
 
-    public Jugador(String usuario, String contra, String nombre, long fechaCreacion, int puntos, String fichaDirec, int cantPlayers) {
-        super(usuario, contra, nombre, fechaCreacion, puntos, fichaDirec, cantPlayers);
-        try {
-            this.fichaIcon = new ImageIcon(ImageIO.read(new File("src/fichas/" + fichaDirec)));
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-    }
+    ArrayList<Cartas> manoJugador;
+    ArrayList<Cartas> cartasJugadas;
 
-    @Override
+        @Override
     public void addPuntos(int cantidad) {
         int puntosActuales = getPuntos();
         super.puntos = puntosActuales + (cantidad - (puntosActuales % cantidad));
     }
 
-    public ImageIcon getFichaIcon() {
-        return fichaIcon;
+    public void ordenarCartas(int posiAnterior, int posiNueva) {
+        if (posiAnterior >= 0 && posiAnterior < manoJugador.size() && posiNueva >= 0 && posiNueva < manoJugador.size()) {
+            Cartas anterior = manoJugador.get(posiAnterior);
+            Cartas nueva = manoJugador.get(posiNueva);
+            manoJugador.set(posiAnterior, nueva);
+            manoJugador.set(posiNueva, anterior);
+        } else {
+            System.out.println("error");
+        }
     }
 
-    public void setFichaIcon(ImageIcon fichaIcon) {
-        this.fichaIcon = fichaIcon;
+    public Jugador(String usuario, String contra, String nombreCompleto, long fechaCreacion, int puntos, String rutaToken, int jugadoresseleccionados) {
+        super(usuario, contra, nombreCompleto, fechaCreacion, puntos, rutaToken, jugadoresseleccionados);
+        manoJugador = new ArrayList<>();
+        cartasJugadas = new ArrayList<>();
+    }
+
+    ImageIcon getFichaIcon() {
+        throw new UnsupportedOperationException("Error");
     }
 }

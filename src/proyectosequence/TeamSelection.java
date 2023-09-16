@@ -4,10 +4,9 @@
  */
 package proyectosequence;
 
-import java.net.MalformedURLException;
+import java.awt.Color;
+import java.awt.Cursor;
 import java.util.ArrayList;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import javax.swing.JOptionPane;
 
 /**
@@ -21,9 +20,12 @@ public class TeamSelection extends javax.swing.JFrame {
     int cantEquipos;
     int cantCartas;
     ArrayList<Equipos> equipos;
+    Color SELECT_COLOR = new Color(83, 152, 254);
+    private Color colorOriginal;
 
     public TeamSelection() {
         initComponents();
+        colorOriginal = btnAgregarPlayer.getForeground();
         mensajeLabel.setText("Esperando a que se llenen los equipos...");
         sistemaUsuarios = new SistemaUsuarios();
         int Confi = sistemaUsuarios.getPlayersConfig();
@@ -121,6 +123,17 @@ public class TeamSelection extends javax.swing.JFrame {
         jScrollPane1.setViewportView(jTextArea1);
 
         btnAgregarPlayer.setText("OKi");
+        btnAgregarPlayer.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                btnAgregarPlayerMouseClicked(evt);
+            }
+            public void mouseEntered(java.awt.event.MouseEvent evt) {
+                btnAgregarPlayerMouseEntered(evt);
+            }
+            public void mouseExited(java.awt.event.MouseEvent evt) {
+                btnAgregarPlayerMouseExited(evt);
+            }
+        });
         btnAgregarPlayer.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btnAgregarPlayerActionPerformed(evt);
@@ -209,14 +222,26 @@ public class TeamSelection extends javax.swing.JFrame {
             JOptionPane.showMessageDialog(null, "INICIA LA PARTIDA");
             mensajito.setVisible(false);
 
-            try {
-                new Juego2Jugadores(equipos, cantCartas).setVisible(true);
-            } catch (MalformedURLException ex) {
-                Logger.getLogger(TeamSelection.class.getName()).log(Level.SEVERE, null, ex);
-            }
+            new SequenceGamee(equipos, cantCartas, true).setVisible(true);
             this.dispose();
         }
     }//GEN-LAST:event_btnAgregarPlayerActionPerformed
+
+    private void btnAgregarPlayerMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnAgregarPlayerMouseClicked
+        // TODO add your handling code here:
+    }//GEN-LAST:event_btnAgregarPlayerMouseClicked
+
+    private void btnAgregarPlayerMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnAgregarPlayerMouseEntered
+        // TODO add your handling code here:
+        btnAgregarPlayer.setForeground(SELECT_COLOR);
+        setCursor(Cursor.HAND_CURSOR);
+    }//GEN-LAST:event_btnAgregarPlayerMouseEntered
+
+    private void btnAgregarPlayerMouseExited(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnAgregarPlayerMouseExited
+        // TODO add your handling code here:
+        btnAgregarPlayer.setForeground(colorOriginal);
+        setCursor(Cursor.DEFAULT_CURSOR);
+    }//GEN-LAST:event_btnAgregarPlayerMouseExited
 
     private void reiniciarSeleccion() {
         cb_players.removeAllItems();
@@ -248,6 +273,7 @@ public class TeamSelection extends javax.swing.JFrame {
         }
         return false;
     }
+
     /**
      * @param args the command line arguments
      */
@@ -282,6 +308,7 @@ public class TeamSelection extends javax.swing.JFrame {
             }
         });
     }
+
     private String textoInfoArea() {
         String mensaje = "";
 
