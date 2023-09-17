@@ -14,7 +14,7 @@ import java.util.ArrayList;
  * @author Gabriela
  */
 public class SequenceGamee extends javax.swing.JFrame {
-
+    
     TabCartas tab;
     public CartasTablero cartastablero;
     Color SELECT_COLOR = new Color(83, 152, 254);
@@ -52,12 +52,14 @@ public class SequenceGamee extends javax.swing.JFrame {
 
         jPanel1.setBackground(new java.awt.Color(0, 153, 51));
 
-        timerLbl.setFont(new java.awt.Font("Rockwell Condensed", 0, 24)); // NOI18N
+        timerLbl.setFont(new java.awt.Font("Rockwell Condensed", 0, 36)); // NOI18N
+        timerLbl.setForeground(new java.awt.Color(0, 0, 0));
         timerLbl.setText("temporizador");
 
         ultimaCarta.setIcon(new javax.swing.ImageIcon(getClass().getResource("/cartas/partetraseracarta.png"))); // NOI18N
 
-        ultimaCard.setFont(new java.awt.Font("Rockwell Condensed", 0, 24)); // NOI18N
+        ultimaCard.setFont(new java.awt.Font("Rockwell Condensed", 0, 36)); // NOI18N
+        ultimaCard.setForeground(new java.awt.Color(0, 0, 0));
         ultimaCard.setText("Última Carta Jugada");
 
         tableroPanel.setBackground(new java.awt.Color(0, 0, 0));
@@ -77,7 +79,8 @@ public class SequenceGamee extends javax.swing.JFrame {
         );
 
         turnLabel.setBackground(new java.awt.Color(51, 153, 0));
-        turnLabel.setFont(new java.awt.Font("Rockwell Condensed", 0, 24)); // NOI18N
+        turnLabel.setFont(new java.awt.Font("Rockwell Condensed", 0, 36)); // NOI18N
+        turnLabel.setForeground(new java.awt.Color(0, 0, 0));
         turnLabel.setText("Turno");
 
         btnDescartarCarta.setText("Descartar Carta");
@@ -100,25 +103,24 @@ public class SequenceGamee extends javax.swing.JFrame {
         jPanel1Layout.setHorizontalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel1Layout.createSequentialGroup()
-                .addGap(99, 99, 99)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addGap(16, 16, 16)
-                        .addComponent(timerLbl))
-                    .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addGap(57, 57, 57)
-                        .addComponent(ultimaCard))
-                    .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addGap(84, 84, 84)
+                        .addGap(183, 183, 183)
                         .addComponent(ultimaCarta, javax.swing.GroupLayout.PREFERRED_SIZE, 166, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addComponent(turnLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 264, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(6, 6, 6)
+                    .addGroup(jPanel1Layout.createSequentialGroup()
+                        .addGap(115, 115, 115)
+                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(ultimaCard)
+                            .addComponent(timerLbl))))
+                .addGap(47, 47, 47)
                 .addComponent(tableroPanel, javax.swing.GroupLayout.PREFERRED_SIZE, 582, javax.swing.GroupLayout.PREFERRED_SIZE))
             .addGroup(jPanel1Layout.createSequentialGroup()
-                .addGap(61, 61, 61)
-                .addComponent(btnDescartarCarta, javax.swing.GroupLayout.PREFERRED_SIZE, 134, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(196, 196, 196)
-                .addComponent(cartasBaraja, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addComponent(btnDescartarCarta, javax.swing.GroupLayout.PREFERRED_SIZE, 134, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(61, 61, 61)
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(turnLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 264, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(cartasBaraja, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
         );
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -131,16 +133,17 @@ public class SequenceGamee extends javax.swing.JFrame {
                         .addGap(122, 122, 122)
                         .addComponent(ultimaCard)
                         .addGap(6, 6, 6)
-                        .addComponent(ultimaCarta)
-                        .addGap(124, 124, 124)
-                        .addComponent(turnLabel))
+                        .addComponent(ultimaCarta))
                     .addComponent(tableroPanel, javax.swing.GroupLayout.PREFERRED_SIZE, 520, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(18, 18, 18)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(turnLabel)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addGap(28, 28, 28)
-                        .addComponent(btnDescartarCarta, javax.swing.GroupLayout.PREFERRED_SIZE, 42, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addComponent(cartasBaraja, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                        .addGap(2, 2, 2)
+                        .addComponent(cartasBaraja, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(jPanel1Layout.createSequentialGroup()
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addComponent(btnDescartarCarta, javax.swing.GroupLayout.PREFERRED_SIZE, 42, javax.swing.GroupLayout.PREFERRED_SIZE))))
         );
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());

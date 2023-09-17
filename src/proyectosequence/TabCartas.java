@@ -21,7 +21,10 @@ import java.util.ArrayList;
 import java.util.Random;
 
 public class TabCartas extends javax.swing.JPanel {
-
+    
+    // Contador para que no se puedan descartar mas de una carta por turno
+    int cartasDescartadas=0;
+    
     SequenceGamee juego;
     Image fondito;
 
@@ -382,6 +385,8 @@ public class TabCartas extends javax.swing.JPanel {
         jugadorActualTurno = nextPlayer;
         juego.cartastablero.posicionarCartas(jugadorActualTurno);
         juego.turnLabel.setText("Turno de: " + jugadorActualTurno.usuario);
+        
+        cartasDescartadas=0; //Reinicia el contador de cartas descartadas 
     }
 
     //esta medio medio, falta arreglar
@@ -404,36 +409,42 @@ public class TabCartas extends javax.swing.JPanel {
     }
 
     public void descartarCarta() {
-        if (cartaObtenida != null) {
-            boolean posicionesDisponibles = verificarPosicionesDisponibles();
-            boolean tieneFichaEnPar = verificarFichasEnPar();
+        
+        if(cartasDescartadas==0){
+            if (cartaObtenida != null) {
+                boolean posicionesDisponibles = verificarPosicionesDisponibles();
+                boolean tieneFichaEnPar = verificarFichasEnPar();
 
-            if (!posicionesDisponibles && tieneFichaEnPar) {
-                int indiceCartaDescartada = -1;
-                for (int i = 0; i < jugadorActualTurno.manoJugador.size(); i++) {
-                    if (jugadorActualTurno.manoJugador.get(i).equals(cartaObtenida)) {
-                        indiceCartaDescartada = i;
-                        break;
+                if (!posicionesDisponibles && tieneFichaEnPar) {
+                    int indiceCartaDescartada = -1;
+                    for (int i = 0; i < jugadorActualTurno.manoJugador.size(); i++) {
+                        if (jugadorActualTurno.manoJugador.get(i).equals(cartaObtenida)) {
+                            indiceCartaDescartada = i;
+                            break;
+                        }
+                    }
+                    if (indiceCartaDescartada != -1 && indiceCartaDescartada < jugadorActualTurno.manoJugador.size()) {
+                        jugadorActualTurno.manoJugador.remove(indiceCartaDescartada);
+                    }
+                    jugadorActualTurno.cartasJugadas.add(cartaObtenida);
+
+                    // Agregar una nueva carta después de descartar
+                    Cartas nuevaCarta = barajear();
+                    jugadorActualTurno.manoJugador.add(nuevaCarta);
+                    cartasDescartadas++;
+                    JOptionPane.showMessageDialog(juego, "Carta descartada. Se ha obtenido una nueva carta.");
+                    posicionarCartas();
+                } else {
+                    if (posicionesDisponibles) {
+                        JOptionPane.showMessageDialog(juego, "Esta carta aún tiene posiciones disponibles en el tablero. No se puede descartar.");
+                    } else if (!tieneFichaEnPar) {
+                        JOptionPane.showMessageDialog(juego, "Debes tener al menos dos fichas en las cartas iguales en el tablero para descartar esta carta.");
                     }
                 }
-                if (indiceCartaDescartada != -1 && indiceCartaDescartada < jugadorActualTurno.manoJugador.size()) {
-                    jugadorActualTurno.manoJugador.remove(indiceCartaDescartada);
-                }
-                jugadorActualTurno.cartasJugadas.add(cartaObtenida);
-
-                // Agregar una nueva carta después de descartar
-                Cartas nuevaCarta = barajear();
-                jugadorActualTurno.manoJugador.add(nuevaCarta);
-
-                JOptionPane.showMessageDialog(juego, "Carta descartada. Se ha obtenido una nueva carta.");
-                posicionarCartas();
-            } else {
-                if (posicionesDisponibles) {
-                    JOptionPane.showMessageDialog(juego, "Esta carta aún tiene posiciones disponibles en el tablero. No se puede descartar.");
-                } else if (!tieneFichaEnPar) {
-                    JOptionPane.showMessageDialog(juego, "Debes tener al menos dos fichas en las cartas iguales en el tablero para descartar esta carta.");
-                }
             }
+            
+        }else{
+            JOptionPane.showMessageDialog(null, "Solo puedes descartar una carta por turno.");
         }
     }
 
