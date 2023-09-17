@@ -144,6 +144,9 @@ public class TabCartas extends javax.swing.JPanel {
                         if (!valid) {
                             return;
                         }
+                        if (verificarSecuencias()) {
+                            System.out.println("secuencia formada");
+                        }
                         CasillaTablero place = getCasillaTableros((JLabel) e.getSource());
                         temporizador.stop();
 
@@ -436,6 +439,80 @@ public class TabCartas extends javax.swing.JPanel {
                 row++;
             }
         }
+    }
+
+    // Función para verificar secuencias en el tablero
+    public boolean verificarSecuencias() {
+        for (int i = 0; i < filas; i++) {
+            for (int j = 0; j < columnas; j++) {
+                Tokens ficha = tabTokens[i][j];
+
+                if (ficha != null) {
+                    int equipoFicha = ficha.equipo;
+
+                    // Verificar secuencias verticales
+                    if (i + 4 < filas) {
+                        boolean secuenciaVertical = true;
+                        for (int k = 1; k < 5; k++) {
+                            if (tabTokens[i + k][j] == null || tabTokens[i + k][j].equipo != equipoFicha) {
+                                secuenciaVertical = false;
+                                break;
+                            }
+                        }
+                        if (secuenciaVertical) {
+                            JOptionPane.showMessageDialog(this, "Has formado una secuencia vertical de 5 cartas.");
+                            return true;
+                        }
+                    }
+
+                    // Verificar secuencias horizontales
+                    if (j + 4 < columnas) {
+                        boolean secuenciaHorizontal = true;
+                        for (int k = 1; k < 5; k++) {
+                            if (tabTokens[i][j + k] == null || tabTokens[i][j + k].equipo != equipoFicha) {
+                                secuenciaHorizontal = false;
+                                break;
+                            }
+                        }
+                        if (secuenciaHorizontal) {
+                            JOptionPane.showMessageDialog(this, "Has formado una secuencia horizontal de 5 cartas.");
+                            return true;
+                        }
+                    }
+
+                    // Verificar secuencias diagonales hacia abajo y hacia la derecha
+                    if (i + 4 < filas && j + 4 < columnas) {
+                        boolean secuenciaDiagonalDerecha = true;
+                        for (int k = 1; k < 5; k++) {
+                            if (tabTokens[i + k][j + k] == null || tabTokens[i + k][j + k].equipo != equipoFicha) {
+                                secuenciaDiagonalDerecha = false;
+                                break;
+                            }
+                        }
+                        if (secuenciaDiagonalDerecha) {
+                            JOptionPane.showMessageDialog(this, "Has formado una secuencia diagonal de 5 cartas hacia la derecha.");
+                            return true;
+                        }
+                    }
+
+                    // Verificar secuencias diagonales hacia abajo y hacia la izquierda
+                    if (i + 4 < filas && j - 4 >= 0) {
+                        boolean secuenciaDiagonalIzquierda = true;
+                        for (int k = 1; k < 5; k++) {
+                            if (tabTokens[i + k][j - k] == null || tabTokens[i + k][j - k].equipo != equipoFicha) {
+                                secuenciaDiagonalIzquierda = false;
+                                break;
+                            }
+                        }
+                        if (secuenciaDiagonalIzquierda) {
+                            JOptionPane.showMessageDialog(this, "Has formado una secuencia diagonal de 5 cartas hacia la izquierda.");
+                            return true;
+                        }
+                    }
+                }
+            }
+        }
+        return false;
     }
 
     @SuppressWarnings("unchecked")
