@@ -23,6 +23,14 @@ public class Tablero extends JPanel {
     Jugador JugadorActualTurn = null;
     int cantCartas;
     private int turnoAnterior;
+    //se guardan las que se estan probando 
+    ArrayList tmpCasillasEnSecuenciaFila = new ArrayList();
+    ArrayList tmpCasillasEnSecuenciaColumna = new ArrayList();
+    ArrayList tmpCasillasEnSecuenciaDiagonalArriba = new ArrayList();
+    ArrayList tmpCasillasEnSecuenciaDiagonalAbajo = new ArrayList();
+    
+    //Se guarda la que si es secuencia
+    ArrayList casillasConSecuencia = new ArrayList();
 
     //para ponerle fondo
     @Override
@@ -115,22 +123,12 @@ public class Tablero extends JPanel {
                                 ImageIcon fichaEscalada = new ImageIcon(fichaImage);
 
                                 //Para cuando se usa un jack que elimina
-                                if (gameWindow.cartaSeleccionadaTexto.equals("J_picas") || gameWindow.cartaSeleccionadaTexto.equals("J_corazones")) {
-                                    if (casillaSeleccionada.label != null) {
-                                        casillaSeleccionada.label.setIcon(null);
-                                        // Cambia de turno y de mano
-                                        gameWindow.cambioDeTurno();
-                                        cambioTurno();
-                                        actualizarLabelUltimaJugada();
-                                    } else {
-                                        JOptionPane.showMessageDialog(null, "Selecciona una carta que si tenga una ficha!");
-                                    }
-                                }
+                                accionesSiEsJackQueElimina();
 
                                 // Valida que no haya una ficha en la casilla
                                 if (casillaSeleccionada.label.getIcon() == null) {
 
-                                    //Verificar si es un jack el que se usa
+                                    //Verificar si es un jack COMODIN el que se usa
                                     if (gameWindow.cartaSeleccionadaTexto.equals("J_trebol") || gameWindow.cartaSeleccionadaTexto.equals("J_diamantes")) {
                                         // Pone imagen roja para el jugador 1
                                         if (gameWindow.turno == 1) {
@@ -220,6 +218,20 @@ public class Tablero extends JPanel {
         }
         setVisible(true);
         repaint();
+    }
+
+    private void accionesSiEsJackQueElimina() {
+        if (gameWindow.cartaSeleccionadaTexto.equals("J_picas") || gameWindow.cartaSeleccionadaTexto.equals("J_corazones")) {
+            if (casillaSeleccionada.label != null) {
+                casillaSeleccionada.label.setIcon(null);
+                // Cambia de turno y de mano
+                gameWindow.cambioDeTurno();
+                cambioTurno();
+                actualizarLabelUltimaJugada();
+            } else {
+                JOptionPane.showMessageDialog(null, "Selecciona una carta que si tenga una ficha!");
+            }
+        }
     }
 
     public void temporizador() {
@@ -326,36 +338,50 @@ public class Tablero extends JPanel {
     private boolean verificarSecuencia(CasillaTablero casilla, int jugador) {
         int fila = casilla.getRow();
         int columna = casilla.getColumn();
-        int contador = 1; // Inicia con 1 porque ya tenemos una ficha en la casilla actual
+
+        //Contadores para cada direccion
+        int contadorFila = 1; //Empieza en 1 porque ya se agarra la que se puso 
+        int contadorColumna = 1;
+        int contadorDiagonalArriba = 1;
+        int contadorDiagonalAbajo = 1;
 
         // Verificar secuencia horizontal hacia la derecha
         for (int i = columna + 1; i < 10; i++) {
-            if (casillas[fila][i].label.getIcon() != null && casillas[fila][i].label.getIcon().equals(imagenes[jugador - 1])) {
-                contador++;
+            if (casillas[fila][i].label.getIcon() != null && !casillasConSecuencia.contains(casillas[fila][i])) {
+                contadorFila++;
+                tmpCasillasEnSecuenciaFila.add(casillas[fila][i]);
+                System.out.println("Se encontra una a la derecha");
             } else {
                 break; // si no hay una ficha del mismo jugador
             }
         }
         // Verificar secuencia horizontal hacia la izquierda
         for (int i = columna - 1; i >= 0; i--) {
-            if (casillas[fila][i].label.getIcon() != null && casillas[fila][i].label.getIcon().equals(imagenes[jugador - 1])) {
-                contador++;
+            if (casillas[fila][i].label.getIcon() != null && !casillasConSecuencia.contains(casillas[fila][i])) {
+                contadorFila++;
+                tmpCasillasEnSecuenciaFila.add(casillas[fila][i]);
+                System.out.println("Se encontro una a la izquierda");
             } else {
                 break;
             }
         }
         // Verificar secuencia vertical hacia abajo
         for (int i = fila + 1; i < 10; i++) {
-            if (casillas[i][columna].label.getIcon() != null && casillas[i][columna].label.getIcon().equals(imagenes[jugador - 1])) {
-                contador++;
+            if (casillas[i][columna].label.getIcon() != null && !casillasConSecuencia.contains(casillas[i][columna])) {
+                contadorColumna++;
+                tmpCasillasEnSecuenciaColumna.add(casillas[i][columna]);
+                System.out.println("Se encontro una hacia abajo");
             } else {
                 break;
             }
         }
         // Verificar secuencia vertical hacia arriba
         for (int i = fila - 1; i >= 0; i--) {
-            if (casillas[i][columna].label.getIcon() != null && casillas[i][columna].label.getIcon().equals(imagenes[jugador - 1])) {
-                contador++;
+            if (casillas[i][columna].label.getIcon() != null && !casillasConSecuencia.contains(casillas[i][columna])) {
+                contadorColumna++;
+                tmpCasillasEnSecuenciaColumna.add(casillas[i][columna]);
+
+                System.out.println("Se encontro una hacia arriba");
             } else {
                 break;
             }
@@ -363,9 +389,11 @@ public class Tablero extends JPanel {
         // Verificar secuencia diagonal hacia la derecha y abajo
         for (int i = 1; i < 5; i++) {
             if (fila + i < 10 && columna + i < 10
-                    && casillas[fila + i][columna + i].label.getIcon() != null
-                    && casillas[fila + i][columna + i].label.getIcon().equals(imagenes[jugador - 1])) {
-                contador++;
+                    && casillas[fila + i][columna + i].label.getIcon() != null && !casillasConSecuencia.contains(casillas[fila + i][columna + i])) {
+                contadorDiagonalAbajo++;
+                tmpCasillasEnSecuenciaDiagonalAbajo.add(casillas[fila + i][columna + i]);
+
+                System.out.println("Se encontro una hacia derecha abajo");
             } else {
                 break;
             }
@@ -373,9 +401,10 @@ public class Tablero extends JPanel {
         // Verificar secuencia diagonal hacia la izquierda y arriba
         for (int i = 1; i < 5; i++) {
             if (fila - i >= 0 && columna - i >= 0
-                    && casillas[fila - i][columna - i].label.getIcon() != null
-                    && casillas[fila - i][columna - i].label.getIcon().equals(imagenes[jugador - 1])) {
-                contador++;
+                    && casillas[fila - i][columna - i].label.getIcon() != null && !casillasConSecuencia.contains(casillas[fila - 1][columna - i])) {
+                contadorDiagonalAbajo++;
+                tmpCasillasEnSecuenciaDiagonalAbajo.add(casillas[fila - i][columna - i]);
+                System.out.println("Se encontro una izquierda y arriba");
             } else {
                 break;
             }
@@ -383,9 +412,10 @@ public class Tablero extends JPanel {
         // Verificar secuencia diagonal hacia la derecha y arriba
         for (int i = 1; i < 5; i++) {
             if (fila - i >= 0 && columna + i < 10
-                    && casillas[fila - i][columna + i].label.getIcon() != null
-                    && casillas[fila - i][columna + i].label.getIcon().equals(imagenes[jugador - 1])) {
-                contador++;
+                    && casillas[fila - i][columna + i].label.getIcon() != null && !casillasConSecuencia.contains(casillas[fila - i][columna + i])) {
+                contadorDiagonalArriba++;
+                tmpCasillasEnSecuenciaDiagonalArriba.add(casillas[fila - i][columna + i]);
+                System.out.println("Se encontro una derecha y arriba");
             } else {
                 break;
             }
@@ -393,15 +423,60 @@ public class Tablero extends JPanel {
         // Verificar secuencia diagonal hacia la izquierda y abajo
         for (int i = 1; i < 5; i++) {
             if (fila + i < 10 && columna - i >= 0
-                    && casillas[fila + i][columna - i].label.getIcon() != null
-                    && casillas[fila + i][columna - i].label.getIcon().equals(imagenes[jugador - 1])) {
-                contador++;
+                    && casillas[fila + i][columna - i].label.getIcon() != null && !casillasConSecuencia.contains(casillas[fila + i][columna - i])) {
+                contadorDiagonalArriba++;
+                tmpCasillasEnSecuenciaDiagonalArriba.add(casillas[fila + i][columna - i]);
+                System.out.println("Se encontro una izquierda abajo");
             } else {
                 break;
             }
         }
-        // Si hay una secuencia de 5 fichas del mismo jugador, retorna true
-        return contador == 5;
+        System.out.println("Numero de fichas encontradas en fila: " + contadorFila);
+        System.out.println("Numero de fichas encontradas en columna: " + contadorColumna);
+        System.out.println("Numero de fichas encontradas en diagonal arriba: " + contadorDiagonalArriba);
+        System.out.println("Numero de fichas encontradas en diagonal abajo: " + contadorDiagonalAbajo);
+
+        //Si hay almenos 5 fichas seguidas retorna true
+        if (contadorFila >= 5 || contadorColumna >= 5 || contadorDiagonalArriba >= 5 || contadorDiagonalAbajo >= 5) {
+            System.out.println("SI HAY UNA SECUENCIA");
+            //Agregar al arraylist de casillas con secuencia las casillas que tienen secuencia
+            if (tmpCasillasEnSecuenciaFila.size() >= 4) {
+                casillasConSecuencia.addAll(tmpCasillasEnSecuenciaFila);
+                vaciarArraylistTmpMenos(tmpCasillasEnSecuenciaFila);
+            }
+            if (tmpCasillasEnSecuenciaColumna.size() >= 4) {
+                casillasConSecuencia.addAll(tmpCasillasEnSecuenciaColumna);
+                vaciarArraylistTmpMenos(tmpCasillasEnSecuenciaColumna);
+            }
+            if (tmpCasillasEnSecuenciaDiagonalArriba.size() >= 4) {
+                casillasConSecuencia.addAll(tmpCasillasEnSecuenciaDiagonalArriba);
+                vaciarArraylistTmpMenos(tmpCasillasEnSecuenciaDiagonalArriba);
+            }
+            if (tmpCasillasEnSecuenciaDiagonalAbajo.size() >= 4) {
+                casillasConSecuencia.addAll(tmpCasillasEnSecuenciaDiagonalAbajo);
+                vaciarArraylistTmpMenos(tmpCasillasEnSecuenciaDiagonalAbajo);
+                
+            }
+            
+            return true;
+        } else {
+            return false;
+        }
+    }
+    
+    private void vaciarArraylistTmpMenos(ArrayList tmpSecuencia){
+        if(tmpCasillasEnSecuenciaFila!=tmpSecuencia){
+            tmpCasillasEnSecuenciaFila.clear();
+        }
+        if(tmpCasillasEnSecuenciaColumna!=tmpSecuencia){
+            tmpCasillasEnSecuenciaColumna.clear();
+        }
+        if(tmpCasillasEnSecuenciaDiagonalArriba!=tmpSecuencia){
+            tmpCasillasEnSecuenciaDiagonalArriba.clear();
+        }
+        if(tmpCasillasEnSecuenciaDiagonalAbajo!=tmpSecuencia){
+            tmpCasillasEnSecuenciaDiagonalAbajo.clear();
+        }
     }
 
     private void changeToNextPlayer() {

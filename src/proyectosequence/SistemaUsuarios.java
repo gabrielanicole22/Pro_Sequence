@@ -229,11 +229,17 @@ public class SistemaUsuarios {
             e.printStackTrace();
         }
     }
+    
+    public void setColorEquipo(){
+        
+    }
 
     public void setusuarioLogeadoFicha(String iconName) {
         usuarioLogeado.setIcon(iconName);
         guardarJugadores();
     }
+    
+    
 
     public void guardarJugadores() {
         try {

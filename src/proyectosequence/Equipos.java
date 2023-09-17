@@ -5,12 +5,14 @@
 package proyectosequence;
 
 import java.util.ArrayList;
+import javax.swing.JOptionPane;
 
 /**
  *
  * @author Gabriela
  */
 public class Equipos {
+
     ArrayList<Jugador> jugadores;
     int cant;
 
@@ -18,17 +20,20 @@ public class Equipos {
         this.cant = tamaño;
         this.jugadores = new ArrayList<>();
     }
+
     public boolean estaCompleto() {
         return jugadores.size() == cant;
     }
+
     public int tamaño() {
         return jugadores.size();
-    }    
-    
+    }
+
     public void agregar(Jugador p) {
         if (estaCompleto()) {
             return;
         }
         jugadores.add(p);
     }
+
 }

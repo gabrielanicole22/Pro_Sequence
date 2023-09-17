@@ -213,6 +213,12 @@ public class Configuracion extends javax.swing.JFrame {
             }
         });
 
+        cb_Color.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                cb_ColorActionPerformed(evt);
+            }
+        });
+
         btnGuardar.setBackground(new java.awt.Color(255, 51, 51));
         btnGuardar.setFont(new java.awt.Font("Segoe UI Black", 1, 18)); // NOI18N
         btnGuardar.setText("Guardar");
@@ -434,6 +440,10 @@ public class Configuracion extends javax.swing.JFrame {
         btnRegresarAMenuPrincipal.setForeground(colorOriginal2);
         setCursor(Cursor.DEFAULT_CURSOR);
     }//GEN-LAST:event_btnRegresarAMenuPrincipalMouseExited
+
+    private void cb_ColorActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cb_ColorActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_cb_ColorActionPerformed
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btn2players;

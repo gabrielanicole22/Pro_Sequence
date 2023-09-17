@@ -51,7 +51,10 @@ public abstract class Usuario implements Serializable {
         raf.writeInt(puntos);
         raf.writeUTF(fichaFile.getName());
         raf.writeInt(cantJugadores);
+        raf.writeUTF(fichaFile.getName());
     }
+    
+    
 
     public void setIcon(String iconName) {
         iconName += ".png";
