@@ -386,22 +386,29 @@ public class TabCartas extends javax.swing.JPanel {
 
     //esta medio medio, falta arreglar
     private boolean verificarPosicionesDisponibles() {
+        int contadorPosicionesOcupadas = 0;
         for (int r = 0; r < filas; r++) {
             for (int c = 0; c < columnas; c++) {
                 if (tabTokens[r][c] != null) {
-                    if (tabTokens[r][c].equipo == jugadorActualTurno.team) {
-                        return false;
-                    }
+                    contadorPosicionesOcupadas++;
+                    return false;
                 }
             }
         }
-        return true;
+        System.out.println("Posiciones ocupadas: " + contadorPosicionesOcupadas);
+        if (contadorPosicionesOcupadas == 2) {
+            return false;
+        } else {
+            return true;
+        }
     }
 
     public void descartarCarta() {
         if (cartaObtenida != null) {
             boolean posicionesDisponibles = verificarPosicionesDisponibles();
-            if (!posicionesDisponibles) {
+            boolean tieneFichaEnPar = verificarFichasEnPar();
+
+            if (!posicionesDisponibles && tieneFichaEnPar) {
                 int indiceCartaDescartada = -1;
                 for (int i = 0; i < jugadorActualTurno.manoJugador.size(); i++) {
                     if (jugadorActualTurno.manoJugador.get(i).equals(cartaObtenida)) {
@@ -421,9 +428,33 @@ public class TabCartas extends javax.swing.JPanel {
                 JOptionPane.showMessageDialog(juego, "Carta descartada. Se ha obtenido una nueva carta.");
                 posicionarCartas();
             } else {
-                JOptionPane.showMessageDialog(juego, "Esta carta aún tiene posiciones disponibles en el tablero. No se puede descartar.");
+                if (posicionesDisponibles) {
+                    JOptionPane.showMessageDialog(juego, "Esta carta aún tiene posiciones disponibles en el tablero. No se puede descartar.");
+                } else if (!tieneFichaEnPar) {
+                    JOptionPane.showMessageDialog(juego, "Debes tener al menos dos fichas en las cartas iguales en el tablero para descartar esta carta.");
+                }
             }
         }
+    }
+
+    // Función para verificar si las dos cartas iguales en el tablero tienen una ficha en ellas
+    private boolean verificarFichasEnPar() {
+        Cartas cartaActual = cartaObtenida;
+        int contadorCartasIguales = 0;
+
+        for (int r = 0; r < filas; r++) {
+            for (int c = 0; c < columnas; c++) {
+                Cartas currentCard = new Cartas((ImageIcon) imagenestab[r][c]);
+                Tokens fichaEnCasilla = tabTokens[r][c];
+
+                if (currentCard.equals(cartaActual) && fichaEnCasilla != null) {
+                    contadorCartasIguales++;
+                }
+            }
+        }
+
+        // Se requieren al menos dos cartas iguales con fichas para descartar
+        return contadorCartasIguales >= 2;
     }
 
     private void guardado() {
