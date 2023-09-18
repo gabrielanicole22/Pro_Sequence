@@ -138,21 +138,25 @@ public class TabCartas extends javax.swing.JPanel {
                                 return;
                             }
 
-                            CasillaTablero place = getCasillaTableros(clickedLabel);
-                            tabTokens[place.row][place.column] = newFicha;
-                            tabLabels[clickedCoords.row][clickedCoords.column].setIcon(newFicha.img);
-                            if (tabTokens[clickedCoords.row][clickedCoords.column].img != null) {
-                                if (verificarSecuencias(clickedCoords)) {
-                                    System.out.println("secuencia formada");
-                                } else {
-                                    System.out.println("no se encontro secuencia");
-                                }
+                            if (tabTokens[clickedCoords.row][clickedCoords.column].img == null) {
+                                CasillaTablero place = getCasillaTableros(clickedLabel);
+                                tabTokens[place.row][place.column] = newFicha;
+                                tabLabels[clickedCoords.row][clickedCoords.column].setIcon(newFicha.img);
+                                if (tabTokens[clickedCoords.row][clickedCoords.column].img != null) {
+                                    if (verificarSecuencias(clickedCoords)) {
+                                        System.out.println("secuencia formada");
+                                    } else {
+                                        System.out.println("no se encontro secuencia");
+                                    }
 
+                                }
+                                agregarCartasR();
+                                ultimaCartaJugada();
+                                cambioDeTurno();
+                                return;
+                            } else {
+                                JOptionPane.showMessageDialog(null, "Ya hay una ficha ahi.");
                             }
-                            agregarCartasR();
-                            ultimaCartaJugada();;
-                            cambioDeTurno();
-                            return;
                         } else if (cartaObtenida.jackUnOjo()) {
 
                             temporizador.stop();
@@ -171,7 +175,7 @@ public class TabCartas extends javax.swing.JPanel {
                             if (casillasConSecuencia.contains(clickedFicha)) {
                                 int equipoFichaEliminada = clickedFicha.equipo;
                                 secuenciasDeEquipos[equipoFichaEliminada]--;
-                                System.out.println("Se ha eliminado una secuencia del equipo "+equipoFichaEliminada);
+                                System.out.println("Se ha eliminado una secuencia del equipo " + equipoFichaEliminada);
                             }
                             tabTokens[clickedCoords.row][clickedCoords.column] = null;
                             tabLabels[clickedCoords.row][clickedCoords.column].setIcon(null);
@@ -700,15 +704,15 @@ public class TabCartas extends javax.swing.JPanel {
     }
 
     private boolean verificarGane() {
-    equipoGanador = 0;
-    for (int i = 1; i <= 4; i++) {
-        if (secuenciasDeEquipos[i] >= 2) {
-            equipoGanador = i;
-            return true;
+        equipoGanador = 0;
+        for (int i = 1; i <= 4; i++) {
+            if (secuenciasDeEquipos[i] >= 2) {
+                equipoGanador = i;
+                return true;
+            }
         }
+        return false;
     }
-    return false;
-}
 
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
