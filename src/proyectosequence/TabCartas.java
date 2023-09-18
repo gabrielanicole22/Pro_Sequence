@@ -213,10 +213,10 @@ public class TabCartas extends javax.swing.JPanel {
                             return;
                         }
 
-                        boolean valid = cartaObtenida.equals(obtenerCarta((JLabel) e.getSource()));
+                        //boolean valid = cartaObtenida.equals(obtenerCarta((JLabel) e.getSource()));
                         //boolean casillaOcupada = tabTokens[clickedCoords.row][clickedCoords.column] == null;
                         boolean isEmpty = tabTokens[clickedCoords.row][clickedCoords.column] == null;
-                        //boolean valid = true;
+                        boolean valid = true;
 //                        if (!casillaOcupada) {
 //                            JOptionPane.showMessageDialog(juego, "Error: CASILLA OCUPADA.");
 //                            return;
