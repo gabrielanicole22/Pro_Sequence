@@ -291,7 +291,7 @@ public class TabCartas extends javax.swing.JPanel {
         jugadorActualTurno.manoJugador.remove(cartaObtenida); // Elimina la carta del jugador actual.
         jugadorActualTurno.cartasJugadas.add(cartaObtenida); // Agrega la carta a las cartas jugadas.
 
-        Cartas newCarta = barajear(); // Obtiene una nueva carta de la baraja.
+        Cartas newCarta = sacarCarta(); // Obtiene una nueva carta de la baraja.
 
         lbl.setText(jugadorActualTurno.usuario + " tu nueva carta");
         icon.setIcon(newCarta.imagenCartas);
@@ -307,7 +307,7 @@ public class TabCartas extends javax.swing.JPanel {
         for (Equipos t : teams) {
             for (Jugador p : t.jugadores) {
                 while (p.manoJugador.size() < cantCartas) {
-                    Cartas cartaSeleccionada = barajear();
+                    Cartas cartaSeleccionada = sacarCarta();
                     p.manoJugador.add(cartaSeleccionada);
                 }
             }
@@ -336,12 +336,25 @@ public class TabCartas extends javax.swing.JPanel {
         return null;
     }
 
-    private Cartas barajear() {
+    // saca una carta
+    private Cartas sacarCarta() {
+
         Random r = new Random();
-        int pos = r.nextInt(0, cartasMano.size());
-        Cartas c = cartasMano.get(pos);
-        cartasMano.remove(pos);
-        return c;
+        if (cartasMano.size() > 0) {
+            int pos = r.nextInt(0, cartasMano.size());
+            Cartas c = cartasMano.get(pos);
+            cartasMano.remove(pos);
+            return c;
+
+        } else {
+            System.out.println("Se ha reiniciado la baraja.");
+            cartasMano = manejadorCartas.cargadoCartas();
+            int pos = r.nextInt(0, cartasMano.size());
+            Cartas c = cartasMano.get(pos);
+            cartasMano.remove(pos);
+            return c;
+
+        }
     }
 
     //marca donde se puede poner una carta
@@ -520,11 +533,19 @@ public class TabCartas extends javax.swing.JPanel {
                     jugadorActualTurno.cartasJugadas.add(cartaObtenida);
 
                     // Agregar una nueva carta después de descartar
-                    Cartas nuevaCarta = barajear();
-                    jugadorActualTurno.manoJugador.add(nuevaCarta);
-                    cartasDescartadas++;
-                    JOptionPane.showMessageDialog(juego, "Carta descartada. Se ha obtenido una nueva carta.");
-                    posicionarCartas();
+                    try {
+                        Cartas nuevaCarta = sacarCarta();
+                        jugadorActualTurno.manoJugador.add(nuevaCarta);
+                        cartasDescartadas++;
+                        JOptionPane.showMessageDialog(juego, "Carta descartada. Se ha obtenido una nueva carta.");
+                        posicionarCartas();
+
+                    } catch (Exception e) {
+                        System.out.println(e);
+                        System.out.println("Se han acabado las cartas de la baraja, sacando nuevas.");
+                        cartasMano = manejadorCartas.cargadoCartas();
+
+                    }
                 } else {
                     if (posicionesDisponibles) {
                         JOptionPane.showMessageDialog(juego, "Esta carta aún tiene posiciones disponibles en el tablero. No se puede descartar.");
@@ -554,6 +575,7 @@ public class TabCartas extends javax.swing.JPanel {
             l.setBackground(transparentColor);
         }
     }
+
     // Función para verificar si las dos cartas iguales en el tablero tienen una ficha en ellas
     private boolean verificarFichasEnPar() {
         Cartas cartaActual = cartaObtenida;
@@ -595,7 +617,7 @@ public class TabCartas extends javax.swing.JPanel {
         int checkFilas = 1;
         int colu = 0;
         for (int r = 1; r <= 10; r++) {
-            boolean saltarse = (r == 1 && colu == 1) || (r == 2 && colu == 2) || (r == 3 && colu == 3) || (r == 4 && colu == 4) || (r == 5 && colu == 5) || (r == 6 && colu == 6) || (r == 7 && colu== 7) || (r == 8 && colu == 8) || (r == 9 && colu == 9);
+            boolean saltarse = (r == 1 && colu == 1) || (r == 2 && colu == 2) || (r == 3 && colu == 3) || (r == 4 && colu == 4) || (r == 5 && colu == 5) || (r == 6 && colu == 6) || (r == 7 && colu == 7) || (r == 8 && colu == 8) || (r == 9 && colu == 9);
             if (saltarse) {
                 checkFilas = 0;
                 checkColumns++;
@@ -707,7 +729,7 @@ public class TabCartas extends javax.swing.JPanel {
         checkFilas = 1;
         colu = 9;
         for (int r = 1; r <= 10; r++) {
-            boolean saltarse = (r == 1 && colu == 8) || (r == 2 && colu== 7) || (r == 3 && colu == 6) || (r == 4 && colu == 5) || (r == 5 && colu == 4) || (r == 6 && colu == 3) || (r == 7 && colu == 2) || (r == 8 && colu == 1) || (r == 9 && colu == 0);
+            boolean saltarse = (r == 1 && colu == 8) || (r == 2 && colu == 7) || (r == 3 && colu == 6) || (r == 4 && colu == 5) || (r == 5 && colu == 4) || (r == 6 && colu == 3) || (r == 7 && colu == 2) || (r == 8 && colu == 1) || (r == 9 && colu == 0);
             if (saltarse) {
                 r = -1;
                 checkFilas = 0;
@@ -790,7 +812,7 @@ public class TabCartas extends javax.swing.JPanel {
                     }
                     continue;
                 }
-                if (fichasSameEquipo != tokenActual.equipo) {
+                if (fichasSameEquipo != tokenActual.equipo) {  
                     fichasSameEquipo = tokenActual.equipo;
                     fichasSeguidas = 1;
                     sequence = new ArrayList<>();
@@ -951,7 +973,7 @@ public class TabCartas extends javax.swing.JPanel {
             }
         }
     }
-    
+
     //VERIFICACIÓN DE ESQUINASSS
     private void esquinasVerticales() {
         int fichasSameEquipo = -1;
@@ -1145,6 +1167,7 @@ public class TabCartas extends javax.swing.JPanel {
         }
         return false;
     }
+
     private boolean verificarGane() {
         for (int i = 0; i < teams.size(); i++) {
             Equipos t = teams.get(i);
@@ -1163,6 +1186,7 @@ public class TabCartas extends javax.swing.JPanel {
         }
         return false;
     }
+
     //VERIFICACIÓN DE SECUENCIAAS SI HAY ESQUINAS
     private void secuenciaEsquinas() {
         int fichasSameEquipo = -1;
@@ -1316,6 +1340,7 @@ public class TabCartas extends javax.swing.JPanel {
             }
         }
     }
+
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
