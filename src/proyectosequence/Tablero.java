@@ -455,7 +455,6 @@ public class Tablero extends JPanel {
             if (tmpCasillasEnSecuenciaDiagonalAbajo.size() >= 4) {
                 casillasConSecuencia.addAll(tmpCasillasEnSecuenciaDiagonalAbajo);
                 vaciarArraylistTmpMenos(tmpCasillasEnSecuenciaDiagonalAbajo);
-                
             }
             
             return true;

@@ -23,13 +23,14 @@ import java.util.Random;
 public class TabCartas extends javax.swing.JPanel {
 
     //Contador de secuencias formadas
-    int secuenciasEquipo1;
-    int secuenciasEquipo2;
-    int secuenciasEquipo3;
-    int secuenciasEquipo4;
-    
-    int[] secuenciasDeEquipos = new int[4];
+    int secuenciasEquipo1 = 0;
+    int secuenciasEquipo2 = 0;
+    int secuenciasEquipo3 = 0;
+    int secuenciasEquipo4 = 0;
 
+    int[] secuenciasDeEquipos = new int[5];
+
+    int equipoGanador;
     // Contador para que no se puedan descartar mas de una carta por turno
     int cartasDescartadas = 0;
 
@@ -89,14 +90,12 @@ public class TabCartas extends javax.swing.JPanel {
 
         cartasMano = manejadorCartas.cargadoCartas(); // Carga las cartas disponibles.
 
-        
         // Meter las secuencias por equipo en el array de secuencias
         secuenciasDeEquipos[1] = secuenciasEquipo1;
         secuenciasDeEquipos[2] = secuenciasEquipo2;
         secuenciasDeEquipos[3] = secuenciasEquipo3;
         secuenciasDeEquipos[4] = secuenciasEquipo4;
-        
-        
+
         // Inicializa el arreglo de equipos.
         for (int i = 0; i < equipot.length; i++) {
             equipot[i] = 0;
@@ -142,6 +141,14 @@ public class TabCartas extends javax.swing.JPanel {
                             CasillaTablero place = getCasillaTableros(clickedLabel);
                             tabTokens[place.row][place.column] = newFicha;
                             tabLabels[clickedCoords.row][clickedCoords.column].setIcon(newFicha.img);
+                            if (tabTokens[clickedCoords.row][clickedCoords.column].img != null) {
+                                if (verificarSecuencias(clickedCoords)) {
+                                    System.out.println("secuencia formada");
+                                } else {
+                                    System.out.println("no se encontro secuencia");
+                                }
+
+                            }
                             agregarCartasR();
                             ultimaCartaJugada();;
                             cambioDeTurno();
@@ -161,12 +168,14 @@ public class TabCartas extends javax.swing.JPanel {
                                 JOptionPane.showMessageDialog(juego, "Usa esta herramienta para ayudar a tu equipo");
                                 return;
                             }
-                            if(casillasConSecuencia.contains(clickedFicha)){
-                                int equipoFichaEliminada=clickedFicha.equipo;
+                            if (casillasConSecuencia.contains(clickedFicha)) {
+                                int equipoFichaEliminada = clickedFicha.equipo;
                                 secuenciasDeEquipos[equipoFichaEliminada]--;
+                                System.out.println("Se ha eliminado una secuencia del equipo "+equipoFichaEliminada);
                             }
                             tabTokens[clickedCoords.row][clickedCoords.column] = null;
                             tabLabels[clickedCoords.row][clickedCoords.column].setIcon(null);
+                            tabTokens[clickedCoords.row][clickedCoords.column] = new Tokens(false, -1, null, null);
                             agregarCartasR();
                             ultimaCartaJugada();
 
@@ -547,7 +556,6 @@ public class TabCartas extends javax.swing.JPanel {
             if (tabTokens[fila][i].img != null && !casillasConSecuencia.contains(tabTokens[fila][i]) && tabTokens[fila][i].equipo == equipoFormandoLaSecuencia) {
                 contadorFila++;
                 tmpCasillasEnSecuenciaFila.add(tabTokens[fila][i]);
-                System.out.println("Se encontra una a la derecha");
             } else {
                 break; // si no hay una ficha del mismo jugador
             }
@@ -558,7 +566,6 @@ public class TabCartas extends javax.swing.JPanel {
             if (tabTokens[fila][i].img != null && !casillasConSecuencia.contains(tabTokens[fila][i]) && tabTokens[fila][i].equipo == equipoFormandoLaSecuencia) {
                 contadorFila++;
                 tmpCasillasEnSecuenciaFila.add(tabTokens[fila][i]);
-                System.out.println("Se encontro una a la izquierda");
             } else {
                 break;
             }
@@ -569,7 +576,6 @@ public class TabCartas extends javax.swing.JPanel {
             if (tabTokens[i][columna].img != null && !casillasConSecuencia.contains(tabTokens[i][columna]) && tabTokens[i][columna].equipo == equipoFormandoLaSecuencia) {
                 contadorColumna++;
                 tmpCasillasEnSecuenciaColumna.add(tabTokens[i][columna]);
-                System.out.println("Se encontro una hacia abajo");
             } else {
                 break;
             }
@@ -580,8 +586,6 @@ public class TabCartas extends javax.swing.JPanel {
             if (tabTokens[i][columna].img != null && !casillasConSecuencia.contains(tabTokens[i][columna]) && tabTokens[i][columna].equipo == equipoFormandoLaSecuencia) {
                 contadorColumna++;
                 tmpCasillasEnSecuenciaColumna.add(tabTokens[i][columna]);
-
-                System.out.println("Se encontro una hacia arriba");
             } else {
                 break;
             }
@@ -593,8 +597,6 @@ public class TabCartas extends javax.swing.JPanel {
                     && tabTokens[fila + i][columna + i].img != null && !casillasConSecuencia.contains(tabTokens[fila + i][columna + i]) && tabTokens[fila + i][columna + i].equipo == equipoFormandoLaSecuencia) {
                 contadorDiagonalAbajo++;
                 tmpCasillasEnSecuenciaDiagonalAbajo.add(tabTokens[fila + i][columna + i]);
-
-                System.out.println("Se encontro una hacia derecha abajo");
             } else {
                 break;
             }
@@ -606,7 +608,6 @@ public class TabCartas extends javax.swing.JPanel {
                     && tabTokens[fila - i][columna - i].img != null && !casillasConSecuencia.contains(tabTokens[fila - 1][columna - i]) && tabTokens[fila - i][columna - i].equipo == equipoFormandoLaSecuencia) {
                 contadorDiagonalAbajo++;
                 tmpCasillasEnSecuenciaDiagonalAbajo.add(tabTokens[fila - i][columna - i]);
-                System.out.println("Se encontro una izquierda y arriba");
             } else {
                 break;
             }
@@ -618,7 +619,6 @@ public class TabCartas extends javax.swing.JPanel {
                     && tabTokens[fila - i][columna + i].img != null && !casillasConSecuencia.contains(tabTokens[fila - i][columna + i]) && tabTokens[fila - i][columna + i].equipo == equipoFormandoLaSecuencia) {
                 contadorDiagonalArriba++;
                 tmpCasillasEnSecuenciaDiagonalArriba.add(tabTokens[fila - i][columna + i]);
-                System.out.println("Se encontro una derecha y arriba");
             } else {
                 break;
             }
@@ -630,7 +630,6 @@ public class TabCartas extends javax.swing.JPanel {
                     && tabTokens[fila + i][columna - i].img != null && !casillasConSecuencia.contains(tabTokens[fila + i][columna - i]) && tabTokens[fila + i][columna - i].equipo == equipoFormandoLaSecuencia) {
                 contadorDiagonalArriba++;
                 tmpCasillasEnSecuenciaDiagonalArriba.add(tabTokens[fila + i][columna - i]);
-                System.out.println("Se encontro una izquierda abajo");
             } else {
                 break;
             }
@@ -640,85 +639,76 @@ public class TabCartas extends javax.swing.JPanel {
         System.out.println("Numero de fichas encontradas en diagonal arriba: " + contadorDiagonalArriba);
         System.out.println("Numero de fichas encontradas en diagonal abajo: " + contadorDiagonalAbajo);
 
+        for (int i = 1; i < secuenciasDeEquipos.length; i++) {
+            System.out.println("Secuencias de equipo " + i + " son " + secuenciasDeEquipos[i]);
+        }
         //Si hay almenos 5 fichas seguidas retorna true
         if (contadorFila >= 5 || contadorColumna >= 5 || contadorDiagonalArriba >= 5 || contadorDiagonalAbajo >= 5) {
             System.out.println("SI HAY UNA SECUENCIA");
+            System.out.println("Se agrego una secuencia al equipo " + equipoFormandoLaSecuencia);
             agregarSecuenciaAEquipo(equipoFormandoLaSecuencia);
+            System.out.println("Tiene " + secuenciasDeEquipos[equipoFormandoLaSecuencia] + " secuencias.");
+
             verificarGane();
+            //Agregar al arraylist de casillas con secuencia las casillas que tienen secuencia
+            if (tmpCasillasEnSecuenciaFila.size() >= 5) {
+                casillasConSecuencia.addAll(tmpCasillasEnSecuenciaFila);
+                vaciarArraylistTmpMenos(tmpCasillasEnSecuenciaFila);
+            }
+            if (tmpCasillasEnSecuenciaColumna.size() >= 5) {
+                casillasConSecuencia.addAll(tmpCasillasEnSecuenciaColumna);
+                vaciarArraylistTmpMenos(tmpCasillasEnSecuenciaColumna);
+            }
+            if (tmpCasillasEnSecuenciaDiagonalArriba.size() >= 5) {
+                casillasConSecuencia.addAll(tmpCasillasEnSecuenciaDiagonalArriba);
+                vaciarArraylistTmpMenos(tmpCasillasEnSecuenciaDiagonalArriba);
+            }
+            if (tmpCasillasEnSecuenciaDiagonalAbajo.size() >= 5) {
+                casillasConSecuencia.addAll(tmpCasillasEnSecuenciaDiagonalAbajo);
+                vaciarArraylistTmpMenos(tmpCasillasEnSecuenciaDiagonalAbajo);
+            }
+            if (verificarGane() == true) {
+
+                JOptionPane.showMessageDialog(null, "EL EQUIPO " + equipoFormandoLaSecuencia + " HA GANADO.");
+            } else {
+
+            }
             return true;
         } else {
             return false;
         }
 
-//        for (int i = 0; i < filas; i++) {
-//            for (int j = 0; j < columnas; j++) {
-//                Tokens ficha = tabTokens[i][j];
-//                if (ficha != null) {
-//                    int equipoFicha = ficha.equipo;
-//
-//                    // Verificar secuencias verticales
-//                    if (i + 4 < filas) {
-//                        boolean secuenciaVertical = true;
-//                        for (int k = 1; k < 5; k++) {
-//                            if (tabTokens[i + k][j] == null || tabTokens[i + k][j].equipo != equipoFicha) {
-//                                secuenciaVertical = false;
-//                                break;
-//                            }
-//                        }
-//                        if (secuenciaVertical) {
-//                            JOptionPane.showMessageDialog(this, "Has formado una secuencia vertical de 5 cartas.");
-//                            return true;
-//                        }
-//                    }
-//
-//                    // Verificar secuencias horizontales
-//                    if (j + 4 < columnas) {
-//                        boolean secuenciaHorizontal = true;
-//                        for (int k = 1; k < 5; k++) {
-//                            if (tabTokens[i][j + k] == null || tabTokens[i][j + k].equipo != equipoFicha) {
-//                                secuenciaHorizontal = false;
-//                                break;
-//                            }
-//                        }
-//                        if (secuenciaHorizontal) {
-//                            JOptionPane.showMessageDialog(this, "Has formado una secuencia horizontal de 5 cartas.");
-//                            return true;
-//                        }
-//                    }
-//
-//                    // Verificar secuencias diagonales hacia abajo y hacia la derecha
-//                    if (i + 4 < filas && j + 4 < columnas) {
-//                        boolean secuenciaDiagonalDerecha = true;
-//                        for (int k = 1; k < 5; k++) {
-//                            if (tabTokens[i + k][j + k] == null || tabTokens[i + k][j + k].equipo != equipoFicha) {
-//                                secuenciaDiagonalDerecha = false;
-//                                break;
-//                            }
-//                        }
-//                        if (secuenciaDiagonalDerecha) {
-//                            JOptionPane.showMessageDialog(this, "Has formado una secuencia diagonal de 5 cartas hacia la derecha.");
-//                            return true;
-//                        }
-//                    }
-//
-//                    // Verificar secuencias diagonales hacia abajo y hacia la izquierda
-//                    if (i + 4 < filas && j - 4 >= 0) {
-//                        boolean secuenciaDiagonalIzquierda = true;
-//                        for (int k = 1; k < 5; k++) {
-//                            if (tabTokens[i + k][j - k] == null || tabTokens[i + k][j - k].equipo != equipoFicha) {
-//                                secuenciaDiagonalIzquierda = false;
-//                                break;
-//                            }
-//                        }
-//                        if (secuenciaDiagonalIzquierda) {
-//                            JOptionPane.showMessageDialog(this, "Has formado una secuencia diagonal de 5 cartas hacia la izquierda.");
-//                            return true;
-//                        }
-//                    }
-//                }
-//            }
-//        }
     }
+
+    private void vaciarArraylistTmpMenos(ArrayList tmpSecuencia) {
+        if (tmpCasillasEnSecuenciaFila != tmpSecuencia) {
+            tmpCasillasEnSecuenciaFila.clear();
+        }
+        if (tmpCasillasEnSecuenciaColumna != tmpSecuencia) {
+            tmpCasillasEnSecuenciaColumna.clear();
+        }
+        if (tmpCasillasEnSecuenciaDiagonalArriba != tmpSecuencia) {
+            tmpCasillasEnSecuenciaDiagonalArriba.clear();
+        }
+        if (tmpCasillasEnSecuenciaDiagonalAbajo != tmpSecuencia) {
+            tmpCasillasEnSecuenciaDiagonalAbajo.clear();
+        }
+    }
+
+    private void agregarSecuenciaAEquipo(int equipo) {
+        secuenciasDeEquipos[equipo]++; // Actualiza el contador en el arreglo.
+    }
+
+    private boolean verificarGane() {
+    equipoGanador = 0;
+    for (int i = 1; i <= 4; i++) {
+        if (secuenciasDeEquipos[i] >= 2) {
+            equipoGanador = i;
+            return true;
+        }
+    }
+    return false;
+}
 
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
@@ -1156,45 +1146,6 @@ public class TabCartas extends javax.swing.JPanel {
         add(jLabel103);
     }// </editor-fold>//GEN-END:initComponents
 
-    private void agregarSecuenciaAEquipo(int equipo) {
-        switch (equipo + 1) {
-            case 1:
-                secuenciasEquipo1++;
-                break;
-            case 2:
-                secuenciasEquipo2++;
-                break;
-            case 3:
-                secuenciasEquipo3++;
-                break;
-            case 4:
-                secuenciasEquipo4++;
-                break;
-            default:
-                break;
-        }
-    }
-
-    private boolean verificarGane() {
-        int equipoGanador = 0;
-        if (secuenciasDeEquipos[1] == 2) {
-            equipoGanador = 1;
-            return true;
-        }
-        if (secuenciasDeEquipos[2] == 2) {
-            equipoGanador = 2;
-            return true;
-        }
-        if (secuenciasDeEquipos[3] == 2) {
-            equipoGanador = 3;
-            return true;
-        }
-        if (secuenciasDeEquipos[4] == 2) {
-            equipoGanador = 4;
-            return true;
-        }
-        return false;
-    }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JLabel icon;
