@@ -611,6 +611,7 @@ public class TabCartas extends javax.swing.JPanel {
 private void verificarSecuencias() {
     secuenciaEsquinas();
 
+    esquinasHorizontales();
     // Verificar secuencias horizontales
     for (int fila = 0; fila < 10; fila++) {
         for (int columna = 0; columna < 6; columna++) {
@@ -646,7 +647,7 @@ private void verificarSecuencias() {
             }
         }
     }
-
+    esquinasVerticales();
     // Verificar secuencias verticales
     for (int columna = 0; columna < 10; columna++) {
         for (int fila = 0; fila < 6; fila++) {
