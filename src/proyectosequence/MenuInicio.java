@@ -24,7 +24,7 @@ public class MenuInicio extends javax.swing.JFrame {
     private Color colorOriginal;
 
     public MenuInicio() {
-        initComponents();
+        initComponents();     
         equipos = new ArrayList<>();
         sistemaUsuarios = new SistemaUsuarios();
         setResizable(false);
@@ -42,21 +42,21 @@ public class MenuInicio extends javax.swing.JFrame {
     private void initComponents() {
 
         jPanel1 = new javax.swing.JPanel();
-        lblTitulo = new javax.swing.JLabel();
         btnJugar = new javax.swing.JLabel();
         btnConfiguracion = new javax.swing.JLabel();
         btnReportes = new javax.swing.JLabel();
         btnCerrarSesion = new javax.swing.JLabel();
         btnPruebaCargar = new javax.swing.JLabel();
+        fondo = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
         jPanel1.setBackground(new java.awt.Color(255, 255, 255));
+        jPanel1.setPreferredSize(new java.awt.Dimension(1300, 780));
+        jPanel1.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
-        lblTitulo.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
-        lblTitulo.setText("Menu Inicio");
-
-        btnJugar.setFont(new java.awt.Font("Parchment", 1, 36)); // NOI18N
+        btnJugar.setFont(new java.awt.Font("Leaves And Ground", 0, 70)); // NOI18N
+        btnJugar.setForeground(new java.awt.Color(255, 255, 204));
         btnJugar.setText("Jugar");
         btnJugar.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
@@ -69,8 +69,10 @@ public class MenuInicio extends javax.swing.JFrame {
                 btnJugarMouseExited(evt);
             }
         });
+        jPanel1.add(btnJugar, new org.netbeans.lib.awtextra.AbsoluteConstraints(400, 320, -1, -1));
 
-        btnConfiguracion.setFont(new java.awt.Font("Parchment", 1, 36)); // NOI18N
+        btnConfiguracion.setFont(new java.awt.Font("Leaves And Ground", 0, 70)); // NOI18N
+        btnConfiguracion.setForeground(new java.awt.Color(255, 255, 204));
         btnConfiguracion.setText("Configuración");
         btnConfiguracion.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
@@ -83,8 +85,10 @@ public class MenuInicio extends javax.swing.JFrame {
                 btnConfiguracionMouseExited(evt);
             }
         });
+        jPanel1.add(btnConfiguracion, new org.netbeans.lib.awtextra.AbsoluteConstraints(400, 400, -1, -1));
 
-        btnReportes.setFont(new java.awt.Font("Parchment", 1, 36)); // NOI18N
+        btnReportes.setFont(new java.awt.Font("Leaves And Ground", 0, 70)); // NOI18N
+        btnReportes.setForeground(new java.awt.Color(255, 255, 204));
         btnReportes.setText("Reportes");
         btnReportes.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
@@ -97,8 +101,10 @@ public class MenuInicio extends javax.swing.JFrame {
                 btnReportesMouseExited(evt);
             }
         });
+        jPanel1.add(btnReportes, new org.netbeans.lib.awtextra.AbsoluteConstraints(400, 480, -1, -1));
 
-        btnCerrarSesion.setFont(new java.awt.Font("Parchment", 1, 36)); // NOI18N
+        btnCerrarSesion.setFont(new java.awt.Font("Leaves And Ground", 0, 70)); // NOI18N
+        btnCerrarSesion.setForeground(new java.awt.Color(255, 255, 204));
         btnCerrarSesion.setText("Cerrar Sesión");
         btnCerrarSesion.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
@@ -111,8 +117,10 @@ public class MenuInicio extends javax.swing.JFrame {
                 btnCerrarSesionMouseExited(evt);
             }
         });
+        jPanel1.add(btnCerrarSesion, new org.netbeans.lib.awtextra.AbsoluteConstraints(400, 560, -1, -1));
 
-        btnPruebaCargar.setFont(new java.awt.Font("Parchment", 1, 36)); // NOI18N
+        btnPruebaCargar.setFont(new java.awt.Font("Leaves And Ground", 0, 70)); // NOI18N
+        btnPruebaCargar.setForeground(new java.awt.Color(255, 255, 204));
         btnPruebaCargar.setText("CargarUsuarios(prueba)");
         btnPruebaCargar.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
@@ -125,43 +133,10 @@ public class MenuInicio extends javax.swing.JFrame {
                 btnPruebaCargarMouseExited(evt);
             }
         });
+        jPanel1.add(btnPruebaCargar, new org.netbeans.lib.awtextra.AbsoluteConstraints(400, 630, -1, -1));
 
-        javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
-        jPanel1.setLayout(jPanel1Layout);
-        jPanel1Layout.setHorizontalGroup(
-            jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel1Layout.createSequentialGroup()
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addGap(209, 209, 209)
-                        .addComponent(lblTitulo))
-                    .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addGap(93, 93, 93)
-                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(btnJugar)
-                            .addComponent(btnConfiguracion)
-                            .addComponent(btnReportes)
-                            .addComponent(btnCerrarSesion)
-                            .addComponent(btnPruebaCargar))))
-                .addContainerGap(222, Short.MAX_VALUE))
-        );
-        jPanel1Layout.setVerticalGroup(
-            jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel1Layout.createSequentialGroup()
-                .addGap(23, 23, 23)
-                .addComponent(lblTitulo)
-                .addGap(27, 27, 27)
-                .addComponent(btnJugar)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(btnConfiguracion)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(btnReportes)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(btnCerrarSesion)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(btnPruebaCargar)
-                .addContainerGap(43, Short.MAX_VALUE))
-        );
+        fondo.setIcon(new javax.swing.ImageIcon(getClass().getResource("/bg/MenuInicio.png"))); // NOI18N
+        jPanel1.add(fondo, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 1300, 760));
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -171,7 +146,7 @@ public class MenuInicio extends javax.swing.JFrame {
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+            .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, 759, javax.swing.GroupLayout.PREFERRED_SIZE)
         );
 
         pack();
@@ -185,6 +160,7 @@ public class MenuInicio extends javax.swing.JFrame {
             return;
         }
         new TeamSelection().setVisible(true);
+        //this.dispose();
     }//GEN-LAST:event_btnJugarMouseClicked
 
     private void btnJugarMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnJugarMouseEntered
@@ -219,7 +195,7 @@ public class MenuInicio extends javax.swing.JFrame {
 
     private void btnReportesMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnReportesMouseClicked
         // TODO add your handling code here:
-        Reportes reportes = new Reportes(sistemaUsuarios);
+        Reportes reportes = new Reportes();
         reportes.setVisible(true);
     }//GEN-LAST:event_btnReportesMouseClicked
 
@@ -269,6 +245,7 @@ public class MenuInicio extends javax.swing.JFrame {
             usuariosText.append("Fecha de Creación: ").append(usuario.getFormattedFechaCreacion()).append("\n");
             usuariosText.append("Ficha Dirección: ").append(usuario.fichaFile.getAbsolutePath()).append("\n");
             usuariosText.append("Cantidad de Jugadores: ").append(usuario.cantJugadores).append("\n\n");
+            usuariosText.append("Puntos: ").append(usuario.puntos).append("\n\n");            
         }
         JOptionPane.showMessageDialog(this, usuariosText.toString(), "Lista de Usuarios", JOptionPane.INFORMATION_MESSAGE);
     }//GEN-LAST:event_btnPruebaCargarMouseClicked
@@ -292,7 +269,7 @@ public class MenuInicio extends javax.swing.JFrame {
     private javax.swing.JLabel btnJugar;
     private javax.swing.JLabel btnPruebaCargar;
     private javax.swing.JLabel btnReportes;
+    private javax.swing.JLabel fondo;
     private javax.swing.JPanel jPanel1;
-    private javax.swing.JLabel lblTitulo;
     // End of variables declaration//GEN-END:variables
 }

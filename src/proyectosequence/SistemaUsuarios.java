@@ -17,14 +17,14 @@ import java.util.Date;
 public class SistemaUsuarios {
 
     private ArrayList<Jugador> jugadores;
-    private static final String USUARIOS_FOLDER = "players";
-    private static final String USUARIOS_FILE = USUARIOS_FOLDER + "/usuarios.uwu";
+    private static final String usersFolder = "players";
+    private static final String usersArchivos = usersFolder + "/usuarios.uwu";
 
     private Jugador usuarioLogeado;
 
     public SistemaUsuarios() {
         jugadores = new ArrayList<Jugador>();
-        searchVerification();
+        verificar();
         loadUsers();
     }
 
@@ -41,12 +41,12 @@ public class SistemaUsuarios {
         return true;
     }
 
-    private void searchVerification() {
-        File folder = new File(USUARIOS_FOLDER);
+    private void verificar() {
+        File folder = new File(usersFolder);
         if (!folder.exists()) {
             folder.mkdir();
         }
-        File file = new File(USUARIOS_FILE);
+        File file = new File(usersArchivos);
         if (!file.exists()) {
             try {
                 file.createNewFile();
@@ -68,7 +68,7 @@ public class SistemaUsuarios {
         RandomAccessFile raf = null;
         RandomAccessFile loggedRaf = null;
         try {
-            raf = new RandomAccessFile(USUARIOS_FILE, "rw");
+            raf = new RandomAccessFile(usersArchivos, "rw");
             raf.seek(0);
 
             while (raf.getFilePointer() < raf.length()) {
@@ -94,7 +94,7 @@ public class SistemaUsuarios {
             usuarioLogeado = buscarUsuario(username);
             loggedRaf.close();
         } catch (IOException e) {
-            searchVerification();
+            verificar();
             e.printStackTrace();
         } finally {
             try {
@@ -115,13 +115,13 @@ public class SistemaUsuarios {
         jugadores.add(p);
         RandomAccessFile raf = null;
         try {
-            raf = new RandomAccessFile(USUARIOS_FILE, "rw");
+            raf = new RandomAccessFile(usersArchivos, "rw");
             raf.seek(raf.length());
             p.guardarUsuario(raf);
             File userFolder = new File("players/" + name);
             userFolder.mkdirs();
         } catch (IOException e) {
-            searchVerification();
+            verificar();
             e.printStackTrace();
             return false;
         } finally {
@@ -243,9 +243,9 @@ public class SistemaUsuarios {
 
     public void guardarJugadores() {
         try {
-            File f = new File(USUARIOS_FILE);
+            File f = new File(usersArchivos);
             f.delete();
-            RandomAccessFile raf = new RandomAccessFile(USUARIOS_FILE, "rw");
+            RandomAccessFile raf = new RandomAccessFile(usersArchivos, "rw");
             for (Jugador p : jugadores) {
                 p.guardarUsuario(raf);
             }

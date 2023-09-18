@@ -22,7 +22,7 @@ public final class Jugador extends Usuario implements Serializable {
         @Override
     public void addPuntos(int cantidad) {
         int puntosActuales = getPuntos();
-        super.puntos = puntosActuales + (cantidad - (puntosActuales % cantidad));
+        super.puntos = puntosActuales + (cantidad);
     }
 
     public void ordenarCartas(int posiAnterior, int posiNueva) {

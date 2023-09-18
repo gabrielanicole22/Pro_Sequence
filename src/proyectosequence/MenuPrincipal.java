@@ -35,13 +35,18 @@ public class MenuPrincipal extends javax.swing.JFrame {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
+        jPanel1 = new javax.swing.JPanel();
         btnInicioSesion = new javax.swing.JLabel();
         btnRegistroUsuarios = new javax.swing.JLabel();
         btnSalir = new javax.swing.JLabel();
         lblTitulo = new javax.swing.JLabel();
+        jLabel1 = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
+        jPanel1.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
+
+        btnInicioSesion.setFont(new java.awt.Font("Parchment", 0, 70)); // NOI18N
         btnInicioSesion.setText("Inicio de Sesión");
         btnInicioSesion.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
@@ -54,7 +59,9 @@ public class MenuPrincipal extends javax.swing.JFrame {
                 btnInicioSesionMouseExited(evt);
             }
         });
+        jPanel1.add(btnInicioSesion, new org.netbeans.lib.awtextra.AbsoluteConstraints(890, 380, -1, -1));
 
+        btnRegistroUsuarios.setFont(new java.awt.Font("Parchment", 0, 70)); // NOI18N
         btnRegistroUsuarios.setText("Registro de Usuarios");
         btnRegistroUsuarios.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
@@ -67,7 +74,9 @@ public class MenuPrincipal extends javax.swing.JFrame {
                 btnRegistroUsuariosMouseExited(evt);
             }
         });
+        jPanel1.add(btnRegistroUsuarios, new org.netbeans.lib.awtextra.AbsoluteConstraints(130, 380, -1, -1));
 
+        btnSalir.setFont(new java.awt.Font("Roboto Slab SemiBold", 0, 36)); // NOI18N
         btnSalir.setText("Salir");
         btnSalir.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
@@ -80,41 +89,25 @@ public class MenuPrincipal extends javax.swing.JFrame {
                 btnSalirMouseExited(evt);
             }
         });
+        jPanel1.add(btnSalir, new org.netbeans.lib.awtextra.AbsoluteConstraints(1190, 640, -1, -1));
 
+        lblTitulo.setFont(new java.awt.Font("Quiska", 0, 80)); // NOI18N
         lblTitulo.setText("Menu Principal");
+        jPanel1.add(lblTitulo, new org.netbeans.lib.awtextra.AbsoluteConstraints(440, 230, -1, 160));
+
+        jLabel1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/bg/MenuPrincipal.png"))); // NOI18N
+        jLabel1.setText("jLabel1");
+        jPanel1.add(jLabel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 1300, 700));
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                .addGap(136, 333, Short.MAX_VALUE)
-                .addComponent(btnSalir)
-                .addGap(45, 45, 45))
-            .addGroup(layout.createSequentialGroup()
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(layout.createSequentialGroup()
-                        .addGap(180, 180, 180)
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(btnRegistroUsuarios)
-                            .addComponent(btnInicioSesion)))
-                    .addGroup(layout.createSequentialGroup()
-                        .addGap(148, 148, 148)
-                        .addComponent(lblTitulo)))
-                .addContainerGap(113, Short.MAX_VALUE))
+            .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(layout.createSequentialGroup()
-                .addGap(31, 31, 31)
-                .addComponent(lblTitulo)
-                .addGap(35, 35, 35)
-                .addComponent(btnInicioSesion)
-                .addGap(27, 27, 27)
-                .addComponent(btnRegistroUsuarios)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 115, Short.MAX_VALUE)
-                .addComponent(btnSalir)
-                .addGap(28, 28, 28))
+            .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
         );
 
         pack();
@@ -125,11 +118,13 @@ public class MenuPrincipal extends javax.swing.JFrame {
         // TODO add your handling code here:
         MenuLogin login = new MenuLogin();
         login.setVisible(true);
+        this.dispose();
     }//GEN-LAST:event_btnInicioSesionMouseClicked
 
     private void btnRegistroUsuariosMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnRegistroUsuariosMouseClicked
         // TODO add your handling code here:
         new MenuRegistrarse().setVisible(true);
+        this.dispose();        
     }//GEN-LAST:event_btnRegistroUsuariosMouseClicked
 
     private void btnSalirMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnSalirMouseClicked
@@ -178,6 +173,8 @@ public class MenuPrincipal extends javax.swing.JFrame {
     private javax.swing.JLabel btnInicioSesion;
     private javax.swing.JLabel btnRegistroUsuarios;
     private javax.swing.JLabel btnSalir;
+    private javax.swing.JLabel jLabel1;
+    private javax.swing.JPanel jPanel1;
     private javax.swing.JLabel lblTitulo;
     // End of variables declaration//GEN-END:variables
 }

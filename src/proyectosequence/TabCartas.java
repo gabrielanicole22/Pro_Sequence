@@ -27,6 +27,7 @@ public class TabCartas extends javax.swing.JPanel {
     int secuenciasEquipo2 = 0;
     int secuenciasEquipo3 = 0;
     int secuenciasEquipo4 = 0;
+    ArrayList<ArrayList<CasillaTablero>> seqs;
 
     int[] secuenciasDeEquipos = new int[5];
 
@@ -58,7 +59,7 @@ public class TabCartas extends javax.swing.JPanel {
     ArrayList tmpCasillasEnSecuenciaColumna = new ArrayList();
     ArrayList tmpCasillasEnSecuenciaDiagonalArriba = new ArrayList();
     ArrayList tmpCasillasEnSecuenciaDiagonalAbajo = new ArrayList();
-
+    Color transparentColor = new Color(206, 17, 239, 128);
     //Se guarda la que si es secuencia
     ArrayList casillasConSecuencia = new ArrayList();
 
@@ -75,6 +76,7 @@ public class TabCartas extends javax.swing.JPanel {
         int imageHeight = (int) (getHeight());
         g.drawImage(fondito, 0, 0, imageWidth, imageHeight, this);
     }
+    SistemaUsuarios sistemaUsuarios;
     //URL urlBackground = getClass().getResource("/proyectosequence.Imagenes/background.png");
     //URL urlFicha = getClass().getResource("/proyectosequence.Imagenes/overlay.png");
     //ImageIcon background = new ImageIcon(urlBackground);
@@ -89,7 +91,8 @@ public class TabCartas extends javax.swing.JPanel {
         equipot = new int[teams.size()]; // Inicializa el arreglo de equipos.
 
         cartasMano = manejadorCartas.cargadoCartas(); // Carga las cartas disponibles.
-
+        seqs = new ArrayList<>();
+        sistemaUsuarios = new SistemaUsuarios();
         // Meter las secuencias por equipo en el array de secuencias
         secuenciasDeEquipos[1] = secuenciasEquipo1;
         secuenciasDeEquipos[2] = secuenciasEquipo2;
@@ -102,13 +105,13 @@ public class TabCartas extends javax.swing.JPanel {
         }
 
         guardado();
-
+        /*
         // inicializa todas las casillas de tabTokens 
         for (int r = 0; r < filas; r++) {
             for (int c = 0; c < columnas; c++) {
                 tabTokens[r][c] = new Tokens(false, -1, null, null); // Valores iniciales vacíos
             }
-        }
+        }*/
 
         // Itera a través de los componentes del panel.
         for (Component label : getComponents()) {
@@ -132,13 +135,19 @@ public class TabCartas extends javax.swing.JPanel {
 
                             // Verifica si el clic se realizó en una esquina del tablero
                             boolean esquinas = (clickedLabel == tabLabels[0][0]) || (clickedLabel == tabLabels[9][0]) || (clickedLabel == tabLabels[0][9]) || (clickedLabel == tabLabels[9][9]);
+                            boolean isEmpty = tabTokens[clickedCoords.row][clickedCoords.column] == null;
 
+                            if (!isEmpty) {
+                                JOptionPane.showMessageDialog(juego, "No puede poner la ficha donde ya hay una casilla!");
+                                return;
+                            }
                             if (esquinas) {
                                 JOptionPane.showMessageDialog(juego, "Error: No se colocan fichas en las esquinas");
                                 return;
                             }
+                            //CasillaTablero casillaClicked = getCasillaTableros(clickedLabel);
 
-                            if (tabTokens[clickedCoords.row][clickedCoords.column].img == null) {
+                            /*if (tabTokens[clickedCoords.row][clickedCoords.column].img == null) {
                                 CasillaTablero place = getCasillaTableros(clickedLabel);
                                 tabTokens[place.row][place.column] = newFicha;
                                 tabLabels[clickedCoords.row][clickedCoords.column].setIcon(newFicha.img);
@@ -156,13 +165,25 @@ public class TabCartas extends javax.swing.JPanel {
                                 return;
                             } else {
                                 JOptionPane.showMessageDialog(null, "Ya hay una ficha ahi.");
+                            }*/
+                            CasillaTablero casilla = getCasillaTableros(clickedLabel);
+                            tabTokens[casilla.row][casilla.column] = newFicha;
+                            tabLabels[clickedCoords.row][clickedCoords.column].setIcon(newFicha.img);
+                            agregarCartasR();
+                            ultimaCartaJugada();
+                            verificarSecuencias();
+                            if (verificarGane()) {
+                                juego.dispose();
+                                return;
                             }
+                            cambioDeTurno();
+                            return;
                         } else if (cartaObtenida.jackUnOjo()) {
 
                             temporizador.stop();
                             JOptionPane.showMessageDialog(null, "JACK DE 1 OJO - Selecciona una ficha enemiga para destrozarla.");
 
-                            clickedFicha = tabTokens[clickedCoords.row][clickedCoords.column];
+                            Tokens clickedFicha = tabTokens[clickedCoords.row][clickedCoords.column];
 
                             if (clickedFicha == null) {
                                 return;
@@ -172,28 +193,38 @@ public class TabCartas extends javax.swing.JPanel {
                                 JOptionPane.showMessageDialog(juego, "Usa esta herramienta para ayudar a tu equipo");
                                 return;
                             }
-                            if (casillasConSecuencia.contains(clickedFicha)) {
+
+                            /*if (casillasConSecuencia.contains(clickedFicha)) {
                                 int equipoFichaEliminada = clickedFicha.equipo;
                                 secuenciasDeEquipos[equipoFichaEliminada]--;
                                 System.out.println("Se ha eliminado una secuencia del equipo " + equipoFichaEliminada);
-                            }
+                            }*/
                             tabTokens[clickedCoords.row][clickedCoords.column] = null;
                             tabLabels[clickedCoords.row][clickedCoords.column].setIcon(null);
-                            tabTokens[clickedCoords.row][clickedCoords.column] = new Tokens(false, -1, null, null);
+                            //tabTokens[clickedCoords.row][clickedCoords.column] = new Tokens(false, -1, null, null);
                             agregarCartasR();
                             ultimaCartaJugada();
-
+                            verificarSecuencias();
+                            if (verificarGane()) {
+                                juego.dispose();
+                                return;
+                            }
                             cambioDeTurno();
                             return;
                         }
 
                         boolean valid = cartaObtenida.equals(obtenerCarta((JLabel) e.getSource()));
-                        boolean casillaOcupada = tabTokens[clickedCoords.row][clickedCoords.column] == null;
-
+                        //boolean casillaOcupada = tabTokens[clickedCoords.row][clickedCoords.column] == null;
+                        boolean isEmpty = tabTokens[clickedCoords.row][clickedCoords.column] == null;
+                        //boolean valid = true;
 //                        if (!casillaOcupada) {
 //                            JOptionPane.showMessageDialog(juego, "Error: CASILLA OCUPADA.");
 //                            return;
-//                        }
+//                        }                        
+                        if (!isEmpty) {
+                            JOptionPane.showMessageDialog(juego, "Por favor seleccione una casilla que no este ocupada.");
+                            return;
+                        }
                         if (!valid) {
                             return;
                         }
@@ -203,7 +234,9 @@ public class TabCartas extends javax.swing.JPanel {
 
                         tabTokens[place.row][place.column] = newFicha;
                         tabLabels[place.row][place.column].setIcon(newFicha.img);
-
+                        agregarCartasR();
+                        ultimaCartaJugada();
+                        /*
                         if (tabTokens[clickedCoords.row][clickedCoords.column].img != null) {
                             if (verificarSecuencias(clickedCoords)) {
                                 System.out.println("secuencia formada");
@@ -211,21 +244,23 @@ public class TabCartas extends javax.swing.JPanel {
                                 System.out.println("no se encontro secuencia");
                             }
 
-                        }
-                        agregarCartasR();
-                        ultimaCartaJugada();
+                        }*/
 
                         cartaObtenida = null;
                         iluminarPosTablero(null);
                         jugado = true;
                         juego.cartastablero.clicked = null;
+                        verificarSecuencias();
+                        if (verificarGane()) {
+                            juego.dispose();
+                            return;
+                        }
                         cambioDeTurno();
                     }
                 }
             };
             labelsTab.addMouseListener(mouseAdapter);
         }
-
         repartirCartas(); // Reparte las cartas a los jugadores.
         juego.timerLbl.setText("Tiempo Restante: 2:00");
     }
@@ -318,7 +353,9 @@ public class TabCartas extends javax.swing.JPanel {
             for (int c = 0; c < columnas; c++) {
                 Cartas currentCard = new Cartas((ImageIcon) imagenestab[r][c]);
                 Tokens fichaEnCasilla = tabTokens[r][c];
-
+                if (tabLabels[r][c].getBackground() == transparentColor) {
+                    continue;
+                }
                 if (currentCard.equals(clickedCard)) {
 
                     if (fichaEnCasilla == null) {
@@ -404,7 +441,7 @@ public class TabCartas extends javax.swing.JPanel {
         if (jugadorActualTurno == null) {
             temporizador();
             juego.ultimaCarta.setIcon(null);
-            juego.ultimaCard.setVisible(false);
+            juego.ultimaCarta.setVisible(false);
 
             jugadorActualTurno = teams.get(0).jugadores.get(0);
             equipoturnoActual = 0;
@@ -432,7 +469,7 @@ public class TabCartas extends javax.swing.JPanel {
         temporizador();
 
         if (jugado) {
-            juego.ultimaCard.setVisible(true);
+            juego.ultimaCarta.setVisible(true);
             Cartas lastPlayedCard = jugadorActualTurno.cartasJugadas.get(jugadorActualTurno.cartasJugadas.size() - 1);
             juego.ultimaCarta.setIcon(lastPlayedCard.imagenCartas);
             juego.ultimaCarta.setVisible(true);
@@ -456,7 +493,6 @@ public class TabCartas extends javax.swing.JPanel {
                 }
             }
         }
-        System.out.println("Posiciones ocupadas: " + contadorPosicionesOcupadas);
         if (contadorPosicionesOcupadas == 2) {
             return false;
         } else {
@@ -465,7 +501,6 @@ public class TabCartas extends javax.swing.JPanel {
     }
 
     public void descartarCarta() {
-
         if (cartasDescartadas == 0) {
             if (cartaObtenida != null) {
                 boolean posicionesDisponibles = verificarPosicionesDisponibles();
@@ -498,17 +533,31 @@ public class TabCartas extends javax.swing.JPanel {
                     }
                 }
             }
-
         } else {
             JOptionPane.showMessageDialog(null, "Solo puedes descartar una carta por turno.");
         }
     }
 
+    private void resaltarSeq(ArrayList<CasillaTablero> sequence) {
+        seqs.add(sequence);
+        Tokens f = tabTokens[sequence.get(0).row][sequence.get(0).column];
+        int team = f.equipo;
+        for (CasillaTablero coord : sequence) {
+            JLabel l = tabLabels[coord.row][coord.column];
+            l.setBackground(Color.magenta);
+            l.setOpaque(true);
+            tabTokens[coord.row][coord.column].isBloqueada = true;
+        }
+        JOptionPane.showMessageDialog(juego, "¡FELICIDADEES!, EQUIPO " + team + " HA FORMADO UNA SECUENCIA.");
+        for (CasillaTablero coord : sequence) {
+            JLabel l = tabLabels[coord.row][coord.column];
+            l.setBackground(transparentColor);
+        }
+    }
     // Función para verificar si las dos cartas iguales en el tablero tienen una ficha en ellas
     private boolean verificarFichasEnPar() {
         Cartas cartaActual = cartaObtenida;
         int contadorCartasIguales = 0;
-
         for (int r = 0; r < filas; r++) {
             for (int c = 0; c < columnas; c++) {
                 Cartas currentCard = new Cartas((ImageIcon) imagenestab[r][c]);
@@ -519,7 +568,6 @@ public class TabCartas extends javax.swing.JPanel {
                 }
             }
         }
-
         // Se requieren al menos dos cartas iguales con fichas para descartar
         return contadorCartasIguales >= 2;
     }
@@ -531,7 +579,6 @@ public class TabCartas extends javax.swing.JPanel {
             imagenestab[row][col] = (ImageIcon) lbl.getIcon();
             tabLabels[row][col] = lbl;
             col++;
-
             if (col > 9) {
                 col = 0;
                 row++;
@@ -539,181 +586,736 @@ public class TabCartas extends javax.swing.JPanel {
         }
     }
 
-    // Función para verificar secuencias en el tablero
-    public boolean verificarSecuencias(CasillaTablero clickedCoords) {
-        int fila = clickedCoords.row;
-        int columna = clickedCoords.column;
-        int equipoFormandoLaSecuencia = 0;
-
-        //Contadores para cada direccion
-        int contadorFila = 1; //Empieza en 1 porque ya se agarra la que se puso 
-        int contadorColumna = 1;
-        int contadorDiagonalArriba = 1;
-        int contadorDiagonalAbajo = 1;
-
-        Tokens tokensTablero = tabTokens[fila][columna];
-
-        // Verificar secuencia horizontal hacia la derecha
-        for (int i = columna + 1; i < 10; i++) {
-            //Guarda el equipo de la ficha que se puso
-            equipoFormandoLaSecuencia = tabTokens[fila][columna].equipo;
-            if (tabTokens[fila][i].img != null && !casillasConSecuencia.contains(tabTokens[fila][i]) && tabTokens[fila][i].equipo == equipoFormandoLaSecuencia) {
-                contadorFila++;
-                tmpCasillasEnSecuenciaFila.add(tabTokens[fila][i]);
-            } else {
-                break; // si no hay una ficha del mismo jugador
+    private void verificarSecuencias() {
+        secuenciaEsquinas();
+        int fichasSameEquipo = -1;
+        int fichasSeguidas = 0;
+        ArrayList<CasillaTablero> sequence = new ArrayList<>();
+        int checkColumns = 0;
+        int checkFilas = 1;
+        int colu = 0;
+        for (int r = 1; r <= 10; r++) {
+            boolean saltarse = (r == 1 && colu == 1) || (r == 2 && colu == 2) || (r == 3 && colu == 3) || (r == 4 && colu == 4) || (r == 5 && colu == 5) || (r == 6 && colu == 6) || (r == 7 && colu== 7) || (r == 8 && colu == 8) || (r == 9 && colu == 9);
+            if (saltarse) {
+                checkFilas = 0;
+                checkColumns++;
+                r = -1;
+                colu = checkColumns;
+                fichasSeguidas = 0;
+                continue;
             }
-        }
-        // Verificar secuencia horizontal hacia la izquierda
-        for (int i = columna - 1; i >= 0; i--) {
-            equipoFormandoLaSecuencia = tabTokens[fila][columna].equipo;
-            if (tabTokens[fila][i].img != null && !casillasConSecuencia.contains(tabTokens[fila][i]) && tabTokens[fila][i].equipo == equipoFormandoLaSecuencia) {
-                contadorFila++;
-                tmpCasillasEnSecuenciaFila.add(tabTokens[fila][i]);
-            } else {
+            if (fichasSeguidas == 5) {
+                if (!secuenciasBloq(sequence)) {
+                    teams.get(jugadorActualTurno.team - 1).secuenciasFormadas++;
+                    resaltarSeq(sequence);
+                }
+            }
+            if (r == 10) {
+                checkFilas++;
+                r = checkFilas - 1;
+                colu = checkColumns;
+                fichasSeguidas = 0;
+                continue;
+            }
+            if (colu == 10) {
+                checkFilas++;
+                r = checkFilas - 1;
+                colu = checkColumns;
+                fichasSeguidas = 0;
+                continue;
+            }
+
+            if (checkFilas == 9) {
+                checkFilas = 0;
+                checkColumns++;
+                r = -1;
+                colu = checkColumns;
+                fichasSeguidas = 0;
+                continue;
+            }
+            if (checkColumns == 9) {
                 break;
             }
-        }
-        // Verificar secuencia vertical hacia abajo
-        for (int i = fila + 1; i < 10; i++) {
-            equipoFormandoLaSecuencia = tabTokens[fila][columna].equipo;
-            if (tabTokens[i][columna].img != null && !casillasConSecuencia.contains(tabTokens[i][columna]) && tabTokens[i][columna].equipo == equipoFormandoLaSecuencia) {
-                contadorColumna++;
-                tmpCasillasEnSecuenciaColumna.add(tabTokens[i][columna]);
-            } else {
-                break;
-            }
-        }
-        // Verificar secuencia vertical hacia arriba
-        for (int i = fila - 1; i >= 0; i--) {
-            equipoFormandoLaSecuencia = tabTokens[fila][columna].equipo;
-            if (tabTokens[i][columna].img != null && !casillasConSecuencia.contains(tabTokens[i][columna]) && tabTokens[i][columna].equipo == equipoFormandoLaSecuencia) {
-                contadorColumna++;
-                tmpCasillasEnSecuenciaColumna.add(tabTokens[i][columna]);
-            } else {
-                break;
-            }
-        }
-        // Verificar secuencia diagonal hacia la derecha y abajo
-        for (int i = 1; i < 5; i++) {
-            equipoFormandoLaSecuencia = tabTokens[fila][columna].equipo;
-            if (fila + i < 10 && columna + i < 10
-                    && tabTokens[fila + i][columna + i].img != null && !casillasConSecuencia.contains(tabTokens[fila + i][columna + i]) && tabTokens[fila + i][columna + i].equipo == equipoFormandoLaSecuencia) {
-                contadorDiagonalAbajo++;
-                tmpCasillasEnSecuenciaDiagonalAbajo.add(tabTokens[fila + i][columna + i]);
-            } else {
-                break;
-            }
-        }
-        // Verificar secuencia diagonal hacia la izquierda y arriba
-        for (int i = 1; i < 5; i++) {
-            equipoFormandoLaSecuencia = tabTokens[fila][columna].equipo;
-            if (fila - i >= 0 && columna - i >= 0
-                    && tabTokens[fila - i][columna - i].img != null && !casillasConSecuencia.contains(tabTokens[fila - 1][columna - i]) && tabTokens[fila - i][columna - i].equipo == equipoFormandoLaSecuencia) {
-                contadorDiagonalAbajo++;
-                tmpCasillasEnSecuenciaDiagonalAbajo.add(tabTokens[fila - i][columna - i]);
-            } else {
-                break;
-            }
-        }
-        // Verificar secuencia diagonal hacia la derecha y arriba
-        for (int i = 1; i < 5; i++) {
-            equipoFormandoLaSecuencia = tabTokens[fila][columna].equipo;
-            if (fila - i >= 0 && columna + i < 10
-                    && tabTokens[fila - i][columna + i].img != null && !casillasConSecuencia.contains(tabTokens[fila - i][columna + i]) && tabTokens[fila - i][columna + i].equipo == equipoFormandoLaSecuencia) {
-                contadorDiagonalArriba++;
-                tmpCasillasEnSecuenciaDiagonalArriba.add(tabTokens[fila - i][columna + i]);
-            } else {
-                break;
-            }
-        }
-        // Verificar secuencia diagonal hacia la izquierda y abajo
-        for (int i = 1; i < 5; i++) {
-            equipoFormandoLaSecuencia = tabTokens[fila][columna].equipo;
-            if (fila + i < 10 && columna - i >= 0
-                    && tabTokens[fila + i][columna - i].img != null && !casillasConSecuencia.contains(tabTokens[fila + i][columna - i]) && tabTokens[fila + i][columna - i].equipo == equipoFormandoLaSecuencia) {
-                contadorDiagonalArriba++;
-                tmpCasillasEnSecuenciaDiagonalArriba.add(tabTokens[fila + i][columna - i]);
-            } else {
-                break;
-            }
-        }
-        System.out.println("Numero de fichas encontradas en fila: " + contadorFila);
-        System.out.println("Numero de fichas encontradas en columna: " + contadorColumna);
-        System.out.println("Numero de fichas encontradas en diagonal arriba: " + contadorDiagonalArriba);
-        System.out.println("Numero de fichas encontradas en diagonal abajo: " + contadorDiagonalAbajo);
+            Tokens tokenActual = tabTokens[r][colu];
+            if (tokenActual != null) {
 
-        for (int i = 1; i < secuenciasDeEquipos.length; i++) {
-            System.out.println("Secuencias de equipo " + i + " son " + secuenciasDeEquipos[i]);
-        }
-        //Si hay almenos 5 fichas seguidas retorna true
-        if (contadorFila >= 5 || contadorColumna >= 5 || contadorDiagonalArriba >= 5 || contadorDiagonalAbajo >= 5) {
-            System.out.println("SI HAY UNA SECUENCIA");
-            System.out.println("Se agrego una secuencia al equipo " + equipoFormandoLaSecuencia);
-            agregarSecuenciaAEquipo(equipoFormandoLaSecuencia);
-            System.out.println("Tiene " + secuenciasDeEquipos[equipoFormandoLaSecuencia] + " secuencias.");
+                if (tokenActual.isBloqueada) {
+                    if (tokenActual.equipo != fichasSameEquipo) {
+                        fichasSameEquipo = -1;
+                        fichasSeguidas = 0;
+                        sequence = new ArrayList<>();
+                        colu++;
+                        continue;
+                    }
+                    int fila = r + 1;
+                    int column = colu + 1;
+                    boolean limit = (fila >= 10 || colu >= 10);
+                    if (limit) {
+                        fichasSeguidas++;
+                        continue;
+                    }
+                    Tokens nextFicha = tabTokens[fila][colu];
+                    if (nextFicha != null) {
+                        if (nextFicha.equipo == fichasSameEquipo) {
+                            if (nextFicha.isBloqueada) {
+                                fichasSameEquipo = -1;
+                                fichasSeguidas = 0;
+                                sequence = new ArrayList<>();
+                                colu++;
+                                continue;
+                            } else {
+                                fichasSeguidas++;
+                                sequence.add(getCasillaTableros(tabLabels[r][colu]));
+                                colu++;
+                                continue;
+                            }
+                        } else {
+                            fichasSeguidas++;
+                            sequence.add(getCasillaTableros(tabLabels[r][colu]));
+                            colu++;
+                            continue;
 
-            verificarGane();
-            //Agregar al arraylist de casillas con secuencia las casillas que tienen secuencia
-            if (tmpCasillasEnSecuenciaFila.size() >= 5) {
-                casillasConSecuencia.addAll(tmpCasillasEnSecuenciaFila);
-                vaciarArraylistTmpMenos(tmpCasillasEnSecuenciaFila);
-            }
-            if (tmpCasillasEnSecuenciaColumna.size() >= 5) {
-                casillasConSecuencia.addAll(tmpCasillasEnSecuenciaColumna);
-                vaciarArraylistTmpMenos(tmpCasillasEnSecuenciaColumna);
-            }
-            if (tmpCasillasEnSecuenciaDiagonalArriba.size() >= 5) {
-                casillasConSecuencia.addAll(tmpCasillasEnSecuenciaDiagonalArriba);
-                vaciarArraylistTmpMenos(tmpCasillasEnSecuenciaDiagonalArriba);
-            }
-            if (tmpCasillasEnSecuenciaDiagonalAbajo.size() >= 5) {
-                casillasConSecuencia.addAll(tmpCasillasEnSecuenciaDiagonalAbajo);
-                vaciarArraylistTmpMenos(tmpCasillasEnSecuenciaDiagonalAbajo);
-            }
-            if (verificarGane() == true) {
-
-                JOptionPane.showMessageDialog(null, "EL EQUIPO " + equipoFormandoLaSecuencia + " HA GANADO.");
+                        }
+                    } else {
+                        fichasSeguidas++;
+                        sequence.add(getCasillaTableros(tabLabels[r][colu]));
+                        colu++;
+                        continue;
+                    }
+                }
+                if (fichasSameEquipo != tokenActual.equipo) {
+                    fichasSameEquipo = tokenActual.equipo;
+                    fichasSeguidas = 1;
+                    sequence = new ArrayList<>();
+                    sequence.add(getCasillaTableros(tabLabels[r][colu]));
+                    colu++;
+                    continue;
+                }
+                if (fichasSameEquipo == tokenActual.equipo) {
+                    fichasSeguidas++;
+                    sequence.add(getCasillaTableros(tabLabels[r][colu]));
+                    colu++;
+                }
             } else {
-
+                fichasSameEquipo = -1;
+                fichasSeguidas = 0;
+                sequence = new ArrayList<>();
+                colu++;
             }
-            return true;
-        } else {
-            return false;
+        }
+        checkColumns = 9;
+        checkFilas = 1;
+        colu = 9;
+        for (int r = 1; r <= 10; r++) {
+            boolean saltarse = (r == 1 && colu == 8) || (r == 2 && colu== 7) || (r == 3 && colu == 6) || (r == 4 && colu == 5) || (r == 5 && colu == 4) || (r == 6 && colu == 3) || (r == 7 && colu == 2) || (r == 8 && colu == 1) || (r == 9 && colu == 0);
+            if (saltarse) {
+                r = -1;
+                checkFilas = 0;
+                checkColumns--;
+                colu = checkColumns;
+                fichasSeguidas = 0;
+                continue;
+            }
+            if (fichasSeguidas == 5) {
+                if (!secuenciasBloq(sequence)) {
+                    teams.get(jugadorActualTurno.team - 1).secuenciasFormadas++;
+                    resaltarSeq(sequence);
+                }
+            }
+            if (r == 10) {
+                checkFilas++;
+                r = checkFilas - 1;
+                colu = checkColumns;
+                fichasSeguidas = 0;
+                continue;
+            }
+            if (colu == -1) {
+                checkFilas++;
+                r = checkFilas - 1;
+                colu = checkColumns;
+                fichasSeguidas = 0;
+                continue;
+            }
+            if (checkFilas == 9) {
+                checkFilas = 0;
+                checkColumns--;
+                r = -1;
+                colu = checkColumns;
+                fichasSeguidas = 0;
+                continue;
+            }
+            if (checkColumns == -1) {
+                break;
+            }
+            Tokens tokenActual = tabTokens[r][colu];
+            if (tokenActual != null) {
+                if (tokenActual.isBloqueada) {
+                    if (tokenActual.equipo != fichasSameEquipo) {
+                        fichasSameEquipo = tokenActual.equipo;
+                        fichasSeguidas = 1;
+                        sequence = new ArrayList<>();
+                        sequence.add(getCasillaTableros(tabLabels[r][colu]));
+                        colu--;
+                        continue;
+                    }
+                    int fila = r + 1;
+                    int column = colu - 1;
+                    boolean limit = (fila >= 10 || colu < 0);
+                    if (limit) {
+                        fichasSeguidas++;
+                        colu--;
+                        continue;
+                    }
+                    Tokens nextFicha = tabTokens[fila][colu];
+                    if (nextFicha != null) {
+                        if (nextFicha.equipo == fichasSameEquipo) {
+                            if (nextFicha.isBloqueada) {
+                                fichasSameEquipo = -1;
+                                fichasSeguidas = 0;
+                                sequence = new ArrayList<>();
+                                colu--;
+                                continue;
+                            } else {
+                                fichasSeguidas++;
+                                sequence.add(getCasillaTableros(tabLabels[r][colu]));
+                                colu--;
+                                continue;
+                            }
+                        }
+                    } else {
+                        fichasSeguidas++;
+                        sequence.add(getCasillaTableros(tabLabels[r][colu]));
+                        colu--;
+                        continue;
+                    }
+                    continue;
+                }
+                if (fichasSameEquipo != tokenActual.equipo) {
+                    fichasSameEquipo = tokenActual.equipo;
+                    fichasSeguidas = 1;
+                    sequence = new ArrayList<>();
+                    sequence.add(getCasillaTableros(tabLabels[r][colu]));
+                    colu--;
+                    continue;
+                }
+                if (fichasSameEquipo == tokenActual.equipo) {
+                    fichasSeguidas++;
+                    sequence.add(getCasillaTableros(tabLabels[r][colu]));
+                    colu--;
+                }
+            } else {
+                fichasSameEquipo = -1;
+                fichasSeguidas = 0;
+                sequence = new ArrayList<>();
+                colu--;
+            }
+        }
+        esquinasVerticales();
+        colu = 1;
+        fichasSameEquipo = -1;
+        fichasSeguidas = 0;
+        sequence = new ArrayList<>();
+        for (int r = 0; r <= 10; r++) {
+            if (fichasSeguidas == 5) {
+                if (!secuenciasBloq(sequence)) {
+                    teams.get(jugadorActualTurno.team - 1).secuenciasFormadas++;
+                    resaltarSeq(sequence);
+                }
+            }
+            if (colu == 9) {
+                break;
+            }
+            if (r == 10) {
+                r = -1;
+                colu++;
+                continue;
+            }
+            Tokens tokenActual = tabTokens[r][colu];
+            if (tokenActual != null) {
+                if (tokenActual.equipo != fichasSameEquipo) {
+                    if (tokenActual.isBloqueada && fichasSameEquipo == -1) {
+                        continue;
+                    }
+                    fichasSeguidas = 1;
+                    sequence = new ArrayList<>();
+                    fichasSameEquipo = tokenActual.equipo;
+                    sequence.add(getCasillaTableros(tabLabels[r][colu]));
+                } else {
+                    if (tokenActual.isBloqueada) {
+                        int fila = r + 1;
+                        Tokens nextFicha = tabTokens[fila][colu];
+                        boolean limit = (r >= 10);
+                        if (limit) {
+                            fichasSeguidas++;
+                            sequence.add(getCasillaTableros(tabLabels[r][colu]));
+                            continue;
+                        }
+                        if (nextFicha != null) {
+                            if (nextFicha.equipo == fichasSameEquipo) {
+                                if (nextFicha.isBloqueada) {
+                                    fichasSeguidas = 0;
+                                    fichasSameEquipo = -1;
+                                    sequence = new ArrayList<>();
+                                } else {
+                                    fichasSeguidas++;
+                                    sequence.add(getCasillaTableros(tabLabels[r][colu]));
+                                }
+                            } else {
+                                fichasSeguidas++;
+                                sequence.add(getCasillaTableros(tabLabels[r][colu]));
+                            }
+                        } else {
+                            fichasSeguidas++;
+                            sequence.add(getCasillaTableros(tabLabels[r][colu]));
+                        }
+                    } else {
+                        fichasSeguidas++;
+                        sequence.add(getCasillaTableros(tabLabels[r][colu]));
+                    }
+                }
+            } else {
+                fichasSeguidas = 0;
+                fichasSameEquipo = -1;
+                sequence = new ArrayList<>();
+            }
         }
 
+        //Secuencias horizontaleesss 
+        esquinasHorizontales();
+        colu = 1;
+        fichasSameEquipo = -1;
+        fichasSeguidas = 0;
+        sequence = new ArrayList<>();
+        for (int r = 0; r <= 10; r++) {
+            if (fichasSeguidas == 5) {
+                if (!secuenciasBloq(sequence)) {
+                    teams.get(jugadorActualTurno.team - 1).secuenciasFormadas++;
+                    resaltarSeq(sequence);
+                }
+            }
+            if (colu == 9) {
+                break;
+            }
+            if (r == 10) {
+                r = -1;
+                colu++;
+                continue;
+            }
+            Tokens tokenActual = tabTokens[colu][r];
+            if (tokenActual != null) {
+                if (tokenActual.equipo != fichasSameEquipo) {
+                    if (tokenActual.isBloqueada && fichasSameEquipo == -1) {
+                        continue;
+                    }
+                    fichasSeguidas = 1;
+                    sequence = new ArrayList<>();
+                    fichasSameEquipo = tokenActual.equipo;
+                    sequence.add(getCasillaTableros(tabLabels[colu][r]));
+                } else {
+                    if (tokenActual.isBloqueada) {
+                        int fila = r + 1;
+                        Tokens nextFicha = tabTokens[colu][fila];
+                        boolean limit = (r >= 10);
+                        if (limit) {
+                            fichasSeguidas++;
+                            sequence.add(getCasillaTableros(tabLabels[colu][r]));
+                            continue;
+                        }
+                        if (nextFicha != null) {
+                            if (nextFicha.equipo == fichasSameEquipo) {
+                                if (nextFicha.isBloqueada) {
+                                    fichasSeguidas = 0;
+                                    fichasSameEquipo = -1;
+                                    sequence = new ArrayList<>();
+                                } else {
+                                    fichasSeguidas++;
+                                    sequence.add(getCasillaTableros(tabLabels[colu][r]));
+                                }
+                            } else {
+                                fichasSeguidas++;
+                                sequence.add(getCasillaTableros(tabLabels[colu][r]));
+                            }
+                        } else {
+                            fichasSeguidas++;
+                            sequence.add(getCasillaTableros(tabLabels[colu][r]));
+                        }
+                    } else {
+                        fichasSeguidas++;
+                        sequence.add(getCasillaTableros(tabLabels[colu][r]));
+                    }
+                }
+            } else {
+                fichasSeguidas = 0;
+                fichasSameEquipo = -1;
+                sequence = new ArrayList<>();
+            }
+        }
+    }
+    
+    //VERIFICACIÓN DE ESQUINASSS
+    private void esquinasVerticales() {
+        int fichasSameEquipo = -1;
+        int fichasSeguidas = 0;
+        ArrayList<CasillaTablero> sequence = new ArrayList<>();
+        if (tabTokens[1][0] != null) {
+            fichasSameEquipo = tabTokens[1][0].equipo;
+            fichasSeguidas = 2;
+            sequence.add(getCasillaTableros(tabLabels[1][0]));
+        }
+        for (int r = 2; r < 10; r++) {
+            Tokens tokenActual = tabTokens[r][0];
+            if (r == 9 && fichasSameEquipo != -1) {
+                fichasSeguidas++;
+            }
+            if (fichasSeguidas == 5) {
+                if (!secuenciasBloq(sequence)) {
+                    teams.get(jugadorActualTurno.team - 1).secuenciasFormadas++;
+                    resaltarSeq(sequence);
+                }
+            }
+            if (tokenActual != null) {
+                if (tokenActual.isBloqueada) {
+                    fichasSameEquipo = -1;
+                    fichasSeguidas = 0;
+                    sequence = new ArrayList<>();
+                }
+                if (tokenActual.equipo != fichasSameEquipo) {
+                    fichasSameEquipo = tokenActual.equipo;
+                    fichasSeguidas = 1;
+                    sequence = new ArrayList<>();
+                    sequence.add(getCasillaTableros(tabLabels[r][0]));
+                    continue;
+                }
+                if (tokenActual.equipo == fichasSameEquipo) {
+                    fichasSeguidas++;
+                    sequence.add(getCasillaTableros(tabLabels[r][0]));
+                }
+            } else {
+                fichasSameEquipo = -1;
+                fichasSeguidas = 0;
+                sequence = new ArrayList<>();
+            }
+        }
+        if (tabTokens[1][9] != null) {
+            fichasSameEquipo = tabTokens[1][9].equipo;
+            fichasSeguidas = 2;
+            sequence.add(getCasillaTableros(tabLabels[1][9]));
+        }
+        for (int r = 2; r < 10; r++) {
+            Tokens tokenActual = tabTokens[r][9];
+            if (r == 9 && fichasSameEquipo != -1) {
+                fichasSeguidas++;
+            }
+            if (fichasSeguidas == 5) {
+                if (!secuenciasBloq(sequence)) {
+                    teams.get(jugadorActualTurno.team - 1).secuenciasFormadas++;
+                    resaltarSeq(sequence);
+                }
+            }
+            if (tokenActual != null) {
+                if (tokenActual.isBloqueada) {
+                    fichasSameEquipo = -1;
+                    fichasSeguidas = 0;
+                    sequence = new ArrayList<>();
+                }
+                if (tokenActual.equipo != fichasSameEquipo) {
+                    fichasSameEquipo = tokenActual.equipo;
+                    fichasSeguidas = 1;
+                    sequence = new ArrayList<>();
+                    sequence.add(getCasillaTableros(tabLabels[r][9]));
+                    continue;
+                }
+                if (tokenActual.equipo == fichasSameEquipo) {
+                    fichasSeguidas++;
+                    sequence.add(getCasillaTableros(tabLabels[r][9]));
+                }
+            } else {
+                fichasSameEquipo = -1;
+                fichasSeguidas = 0;
+                sequence = new ArrayList<>();
+            }
+        }
     }
 
-    private void vaciarArraylistTmpMenos(ArrayList tmpSecuencia) {
-        if (tmpCasillasEnSecuenciaFila != tmpSecuencia) {
-            tmpCasillasEnSecuenciaFila.clear();
+    private void esquinasHorizontales() {
+        int fichasSameEquipo = -1;
+        int fichasSeguidas = 0;
+        ArrayList<CasillaTablero> sequence = new ArrayList<>();
+        // Validar la primera esquina horizontal (fila 0)
+        if (tabTokens[0][1] != null) {
+            fichasSameEquipo = tabTokens[0][1].equipo;
+            fichasSeguidas = 2;
+            sequence.add(getCasillaTableros(tabLabels[0][1]));
         }
-        if (tmpCasillasEnSecuenciaColumna != tmpSecuencia) {
-            tmpCasillasEnSecuenciaColumna.clear();
+        for (int c = 2; c < 10; c++) {
+            Tokens tokenActual = tabTokens[0][c];
+            if (c == 9 && fichasSameEquipo != -1) {
+                fichasSeguidas++;
+            }
+            if (fichasSeguidas == 5) {
+                if (!secuenciasBloq(sequence)) {
+                    teams.get(jugadorActualTurno.team - 1).secuenciasFormadas++;
+                    resaltarSeq(sequence);
+                }
+            }
+            if (tokenActual != null) {
+                if (tokenActual.isBloqueada) {
+                    fichasSameEquipo = -1;
+                    fichasSeguidas = 0;
+                    sequence = new ArrayList<>();
+                }
+                if (tokenActual.equipo != fichasSameEquipo) {
+                    fichasSameEquipo = tokenActual.equipo;
+                    fichasSeguidas = 1;
+                    sequence = new ArrayList<>();
+                    sequence.add(getCasillaTableros(tabLabels[0][c]));
+                    continue;
+                }
+                if (tokenActual.equipo == fichasSameEquipo) {
+                    fichasSeguidas++;
+                    sequence.add(getCasillaTableros(tabLabels[0][c]));
+                }
+            } else {
+                fichasSameEquipo = -1;
+                fichasSeguidas = 0;
+                sequence = new ArrayList<>();
+            }
         }
-        if (tmpCasillasEnSecuenciaDiagonalArriba != tmpSecuencia) {
-            tmpCasillasEnSecuenciaDiagonalArriba.clear();
+
+        // Validar la segunda esquina horizontal (fila 9)
+        if (tabTokens[9][1] != null) {
+            fichasSameEquipo = tabTokens[9][1].equipo;
+            fichasSeguidas = 2;
+            sequence.add(getCasillaTableros(tabLabels[9][1]));
         }
-        if (tmpCasillasEnSecuenciaDiagonalAbajo != tmpSecuencia) {
-            tmpCasillasEnSecuenciaDiagonalAbajo.clear();
+
+        for (int c = 2; c < 10; c++) {
+            Tokens tokenActual = tabTokens[9][c];
+            if (c == 9 && fichasSameEquipo != -1) {
+                fichasSeguidas++;
+            }
+            if (fichasSeguidas == 5) {
+                if (!secuenciasBloq(sequence)) {
+                    teams.get(jugadorActualTurno.team - 1).secuenciasFormadas++;
+                    resaltarSeq(sequence);
+                }
+            }
+            if (tokenActual != null) {
+                if (tokenActual.isBloqueada) {
+                    fichasSameEquipo = -1;
+                    fichasSeguidas = 0;
+                    sequence = new ArrayList<>();
+                }
+                if (tokenActual.equipo != fichasSameEquipo) {
+                    fichasSameEquipo = tokenActual.equipo;
+                    fichasSeguidas = 1;
+                    sequence = new ArrayList<>();
+                    sequence.add(getCasillaTableros(tabLabels[9][c]));
+                    continue;
+                }
+                if (tokenActual.equipo == fichasSameEquipo) {
+                    fichasSeguidas++;
+                    sequence.add(getCasillaTableros(tabLabels[9][c]));
+                }
+            } else {
+                fichasSameEquipo = -1;
+                fichasSeguidas = 0;
+                sequence = new ArrayList<>();
+            }
         }
     }
 
-    private void agregarSecuenciaAEquipo(int equipo) {
-        secuenciasDeEquipos[equipo]++; // Actualiza el contador en el arreglo.
-    }
-
-    private boolean verificarGane() {
-        equipoGanador = 0;
-        for (int i = 1; i <= 4; i++) {
-            if (secuenciasDeEquipos[i] >= 2) {
-                equipoGanador = i;
+    private boolean secuenciasBloq(ArrayList<CasillaTablero> sequence) {
+        boolean seqYaFormada = true;
+        for (ArrayList<CasillaTablero> seq : seqs) {
+            if (seq.size() != sequence.size()) {
+                continue;
+            }
+            for (int i = 0; i < seq.size(); i++) {
+                boolean yaHayFicha = seq.get(i).equals(sequence.get(i));
+                if (yaHayFicha) {
+                    seqYaFormada = true;
+                } else {
+                    seqYaFormada = false;
+                }
+            }
+            if (seqYaFormada) {
                 return true;
             }
         }
         return false;
     }
-
+    private boolean verificarGane() {
+        for (int i = 0; i < teams.size(); i++) {
+            Equipos t = teams.get(i);
+            if (t.secuenciasFormadas == 2) {
+                ArrayList<Jugador> equipoGanador = t.jugadores;
+                // Agregar 3 puntos a cada jugador del equipo ganador
+                for (Jugador jugador : equipoGanador) {
+                    System.out.println("Procesando jugador: " + jugador.getNombreCompleto());
+                    jugador.addPuntos(3);
+                    System.out.println("Puntos de " + jugador.getNombreCompleto() + " después de agregar: " + jugador.getPuntos());
+                    sistemaUsuarios.guardarJugadores();
+                }
+                JOptionPane.showMessageDialog(juego, "¡HAY GANADOR! EL EQUIPO " + (i + 1) + " COMPLETÓ DOS SECUENCIAS.");
+                return true;
+            }
+        }
+        return false;
+    }
+    //VERIFICACIÓN DE SECUENCIAAS SI HAY ESQUINAS
+    private void secuenciaEsquinas() {
+        int fichasSameEquipo = -1;
+        int fichasSeguidas = 0;
+        ArrayList<CasillaTablero> sequence = new ArrayList<>();
+        if (tabTokens[1][1] != null) {
+            fichasSameEquipo = tabTokens[1][1].equipo;
+            fichasSeguidas = 2;
+            sequence.add(getCasillaTableros(tabLabels[1][1]));
+        }
+        for (int r = 2; r < 10; r++) {
+            if (r == 9 && fichasSameEquipo != -1) {
+                fichasSeguidas++;
+            }
+            if (fichasSeguidas == 5) {
+                if (secuenciasBloq(sequence)) {
+                } else {
+                    teams.get(jugadorActualTurno.team - 1).secuenciasFormadas++;
+                    resaltarSeq(sequence);
+                }
+            }
+            if (tabTokens[r][r] != null) {
+                if (tabTokens[r][r].isBloqueada) {
+                    if (tabTokens[r][r].equipo != fichasSameEquipo) {
+                        fichasSameEquipo = -1;
+                        fichasSeguidas = 0;
+                        sequence = new ArrayList<>();
+                        continue;
+                    }
+                    int fila = r + 1;
+                    int colu = r + 1;
+                    boolean limit = (fila >= 10);
+                    if (limit) {
+                        fichasSeguidas++;
+                        continue;
+                    }
+                    Tokens nextFicha = tabTokens[fila][colu];
+                    if (nextFicha != null) {
+                        if (nextFicha.equipo == fichasSameEquipo) {
+                            if (nextFicha.isBloqueada) {
+                                fichasSameEquipo = -1;
+                                fichasSeguidas = 0;
+                                sequence = new ArrayList<>();
+                                continue;
+                            } else {
+                                fichasSeguidas++;
+                                sequence.add(getCasillaTableros(tabLabels[r][r]));
+                                continue;
+                            }
+                        } else {
+                            fichasSeguidas++;
+                            sequence.add(getCasillaTableros(tabLabels[r][r]));
+                            continue;
+                        }
+                    } else {
+                        fichasSeguidas++;
+                        sequence.add(getCasillaTableros(tabLabels[r][r]));
+                        continue;
+                    }
+                }
+                if (fichasSameEquipo != tabTokens[r][r].equipo) {
+                    fichasSameEquipo = tabTokens[r][r].equipo;
+                    fichasSeguidas = 1;
+                    sequence = new ArrayList<>();
+                    sequence.add(getCasillaTableros(tabLabels[r][r]));
+                    continue;
+                }
+                if (fichasSameEquipo == tabTokens[r][r].equipo) {
+                    fichasSeguidas++;
+                    sequence.add(getCasillaTableros(tabLabels[r][r]));
+                }
+            } else {
+                fichasSeguidas = 0;
+                fichasSameEquipo = -1;
+                sequence = new ArrayList<>();
+            }
+        }
+        fichasSameEquipo = -1;
+        fichasSeguidas = 0;
+        sequence = new ArrayList<>();
+        if (tabTokens[1][8] != null) {
+            fichasSameEquipo = tabTokens[1][8].equipo;
+            fichasSeguidas = 2;
+            sequence.add(getCasillaTableros(tabLabels[1][8]));
+        }
+        for (int r = 2; r < 10; r++) {
+            if (r == 9 && fichasSameEquipo != -1) {
+                fichasSeguidas++;
+            }
+            if (fichasSeguidas == 5) {
+                if (secuenciasBloq(sequence)) {
+                } else {
+                    teams.get(jugadorActualTurno.team - 1).secuenciasFormadas++;
+                    resaltarSeq(sequence);
+                }
+            }
+            if (tabTokens[r][9 - r] != null) {
+                if (tabTokens[r][9 - r].isBloqueada) {
+                    if (tabTokens[r][9 - r].equipo != fichasSameEquipo) {
+                        fichasSameEquipo = -1;
+                        fichasSeguidas = 0;
+                        sequence = new ArrayList<>();
+                        continue;
+                    }
+                    int fila = r + 1;
+                    int colu = (9 - r) - 1;
+                    boolean limit = (fila >= 10 || colu < 0);
+                    if (limit) {
+                        fichasSeguidas++;
+                        continue;
+                    }
+                    Tokens nextFicha = tabTokens[fila][colu];
+                    if (nextFicha != null) {
+                        if (nextFicha.equipo == fichasSameEquipo) {
+                            if (nextFicha.isBloqueada) {
+                                fichasSameEquipo = -1;
+                                fichasSeguidas = 0;
+                                sequence = new ArrayList<>();
+                                continue;
+                            } else {
+                                fichasSeguidas++;
+                                sequence.add(getCasillaTableros(tabLabels[r][9 - r]));
+                                continue;
+                            }
+                        } else {
+                            fichasSeguidas++;
+                            sequence.add(getCasillaTableros(tabLabels[r][9 - r]));
+                            continue;
+                        }
+                    } else {
+                        fichasSeguidas++;
+                        sequence.add(getCasillaTableros(tabLabels[r][9 - r]));
+                        continue;
+                    }
+                }
+                if (fichasSameEquipo != tabTokens[r][9 - r].equipo) {
+                    fichasSameEquipo = tabTokens[r][9 - r].equipo;
+                    fichasSeguidas = 1;
+                    sequence = new ArrayList<>();
+                    sequence.add(getCasillaTableros(tabLabels[r][9 - r]));
+                    continue;
+                }
+                if (fichasSameEquipo == tabTokens[r][9 - r].equipo) {
+                    fichasSeguidas++;
+                    sequence.add(getCasillaTableros(tabLabels[r][9 - r]));
+                }
+            } else {
+                fichasSeguidas = 0;
+                fichasSameEquipo = -1;
+                sequence = new ArrayList<>();
+            }
+        }
+    }
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {

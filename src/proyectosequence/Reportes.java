@@ -1,5 +1,7 @@
 package proyectosequence;
 
+import java.util.ArrayList;
+
 /**
  *
  * @author danie
@@ -8,13 +10,16 @@ public class Reportes extends javax.swing.JFrame {
 
     SistemaUsuarios sistemausuarios;
 
-    public Reportes(SistemaUsuarios sistemausuarios) {
+    public Reportes() {
         initComponents();
-        this.sistemausuarios = sistemausuarios;
         setDefaultCloseOperation(DISPOSE_ON_CLOSE);
-        tahistorialjuegos.setEditable(false);
-        setResizable(false);
-        setLocationRelativeTo(this);
+        sistemausuarios = new SistemaUsuarios();
+        ArrayList<Jugador> usuarios = sistemausuarios.getListaUsuarios();
+        String[] reportes = new String[usuarios.size()];
+        for (int i = 0; i < usuarios.size(); i++) {
+            reportes[i] = "\nUsuario: " + usuarios.get(i).getUsername() + ", \nPuntos: " + usuarios.get(i).getPuntos() + "\nFecha: " + usuarios.get(i).getFormattedFechaCreacion();
+        }
+        tahistorialjuegos.setListData(reportes);
     }
 
     /**
@@ -30,68 +35,44 @@ public class Reportes extends javax.swing.JFrame {
         jLabel1 = new javax.swing.JLabel();
         btnregresarconfig = new javax.swing.JButton();
         jLabel6 = new javax.swing.JLabel();
-        jScrollPane2 = new javax.swing.JScrollPane();
-        tahistorialjuegos = new javax.swing.JTextArea();
+        jScrollPane1 = new javax.swing.JScrollPane();
+        tahistorialjuegos = new javax.swing.JList<>();
+        jLabel2 = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
         jPanel1.setBackground(new java.awt.Color(0, 0, 0));
+        jPanel1.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
         jLabel1.setBackground(new java.awt.Color(255, 255, 255));
         jLabel1.setFont(new java.awt.Font("MS Reference Sans Serif", 1, 36)); // NOI18N
         jLabel1.setForeground(new java.awt.Color(255, 255, 255));
         jLabel1.setText("Reportes");
+        jPanel1.add(jLabel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(370, 10, -1, 62));
 
         btnregresarconfig.setBackground(new java.awt.Color(153, 0, 0));
-        btnregresarconfig.setFont(new java.awt.Font("Segoe UI Black", 1, 24)); // NOI18N
+        btnregresarconfig.setFont(new java.awt.Font("Ravie", 1, 24)); // NOI18N
+        btnregresarconfig.setForeground(new java.awt.Color(255, 204, 255));
         btnregresarconfig.setText("Regresar");
         btnregresarconfig.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btnregresarconfigActionPerformed(evt);
             }
         });
+        jPanel1.add(btnregresarconfig, new org.netbeans.lib.awtextra.AbsoluteConstraints(600, 590, 210, 80));
 
         jLabel6.setBackground(new java.awt.Color(255, 255, 255));
         jLabel6.setFont(new java.awt.Font("MS Reference Sans Serif", 1, 24)); // NOI18N
-        jLabel6.setForeground(new java.awt.Color(255, 255, 255));
-        jLabel6.setText("Descripcion de mis ultimos juegos");
+        jLabel6.setText("descripción de mis últimos juegos");
+        jPanel1.add(jLabel6, new org.netbeans.lib.awtextra.AbsoluteConstraints(500, 70, 680, 60));
 
-        tahistorialjuegos.setColumns(20);
-        tahistorialjuegos.setFont(new java.awt.Font("Segoe UI", 3, 24)); // NOI18N
-        tahistorialjuegos.setRows(5);
-        jScrollPane2.setViewportView(tahistorialjuegos);
+        tahistorialjuegos.setFont(new java.awt.Font("Serif", 0, 24)); // NOI18N
+        jScrollPane1.setViewportView(tahistorialjuegos);
 
-        javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
-        jPanel1.setLayout(jPanel1Layout);
-        jPanel1Layout.setHorizontalGroup(
-            jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel1Layout.createSequentialGroup()
-                .addGap(30, 30, 30)
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jLabel6, javax.swing.GroupLayout.PREFERRED_SIZE, 680, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addGap(340, 340, 340)
-                        .addComponent(jLabel1))))
-            .addGroup(jPanel1Layout.createSequentialGroup()
-                .addGap(30, 30, 30)
-                .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 800, javax.swing.GroupLayout.PREFERRED_SIZE))
-            .addGroup(jPanel1Layout.createSequentialGroup()
-                .addGap(370, 370, 370)
-                .addComponent(btnregresarconfig, javax.swing.GroupLayout.PREFERRED_SIZE, 170, javax.swing.GroupLayout.PREFERRED_SIZE))
-        );
-        jPanel1Layout.setVerticalGroup(
-            jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel1Layout.createSequentialGroup()
-                .addGap(10, 10, 10)
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addGap(50, 50, 50)
-                        .addComponent(jLabel6, javax.swing.GroupLayout.PREFERRED_SIZE, 60, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 62, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 230, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(10, 10, 10)
-                .addComponent(btnregresarconfig, javax.swing.GroupLayout.PREFERRED_SIZE, 50, javax.swing.GroupLayout.PREFERRED_SIZE))
-        );
+        jPanel1.add(jScrollPane1, new org.netbeans.lib.awtextra.AbsoluteConstraints(160, 300, 1020, 270));
+
+        jLabel2.setIcon(new javax.swing.ImageIcon(getClass().getResource("/bg/Reportes.png"))); // NOI18N
+        jPanel1.add(jLabel2, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 1300, 780));
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -101,7 +82,7 @@ public class Reportes extends javax.swing.JFrame {
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+            .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
         );
 
         pack();
@@ -109,8 +90,7 @@ public class Reportes extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void btnregresarconfigActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnregresarconfigActionPerformed
-        MenuInicio menuinicio = new MenuInicio();
-        menuinicio.setVisible(true);
+
         this.dispose();
     }//GEN-LAST:event_btnregresarconfigActionPerformed
 
@@ -121,9 +101,10 @@ public class Reportes extends javax.swing.JFrame {
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnregresarconfig;
     private javax.swing.JLabel jLabel1;
+    private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel6;
     private javax.swing.JPanel jPanel1;
-    private javax.swing.JScrollPane jScrollPane2;
-    private javax.swing.JTextArea tahistorialjuegos;
+    private javax.swing.JScrollPane jScrollPane1;
+    private javax.swing.JList<String> tahistorialjuegos;
     // End of variables declaration//GEN-END:variables
 }

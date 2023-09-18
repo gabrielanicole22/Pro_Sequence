@@ -22,6 +22,7 @@ public class TeamSelection extends javax.swing.JFrame {
     ArrayList<Equipos> equipos;
     Color SELECT_COLOR = new Color(83, 152, 254);
     private Color colorOriginal;
+    boolean mismoColorEquipo = false;
 
     public TeamSelection() {
         initComponents();
@@ -90,6 +91,7 @@ public class TeamSelection extends javax.swing.JFrame {
     private void initComponents() {
 
         mensajito = new javax.swing.JDialog();
+        jPanel1 = new javax.swing.JPanel();
         jLabel1 = new javax.swing.JLabel();
         jLabel2 = new javax.swing.JLabel();
         cb_players = new javax.swing.JComboBox<>();
@@ -100,6 +102,8 @@ public class TeamSelection extends javax.swing.JFrame {
         mensajeLabel = new javax.swing.JLabel();
         jToggleButton1 = new javax.swing.JToggleButton();
         jToggleButton2 = new javax.swing.JToggleButton();
+        jRadioButton1 = new javax.swing.JRadioButton();
+        jLabel3 = new javax.swing.JLabel();
 
         javax.swing.GroupLayout mensajitoLayout = new javax.swing.GroupLayout(mensajito.getContentPane());
         mensajito.getContentPane().setLayout(mensajitoLayout);
@@ -114,22 +118,41 @@ public class TeamSelection extends javax.swing.JFrame {
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
+        jPanel1.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
+
+        jLabel1.setFont(new java.awt.Font("Papyrus", 1, 24)); // NOI18N
         jLabel1.setText("Escoge los jugadores:");
+        jPanel1.add(jLabel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(40, 210, -1, -1));
 
+        jLabel2.setFont(new java.awt.Font("Papyrus", 1, 24)); // NOI18N
         jLabel2.setText("Escoge los equipos:");
+        jPanel1.add(jLabel2, new org.netbeans.lib.awtextra.AbsoluteConstraints(40, 280, -1, -1));
 
+        cb_players.setBackground(new java.awt.Color(255, 204, 204));
+        cb_players.setFont(new java.awt.Font("Segoe UI", 0, 18)); // NOI18N
+        cb_players.setForeground(new java.awt.Color(102, 0, 0));
         cb_players.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 cb_playersActionPerformed(evt);
             }
         });
+        jPanel1.add(cb_players, new org.netbeans.lib.awtextra.AbsoluteConstraints(300, 210, 270, 40));
+
+        cb_teams.setBackground(new java.awt.Color(255, 204, 204));
+        cb_teams.setFont(new java.awt.Font("Segoe UI", 0, 18)); // NOI18N
+        cb_teams.setForeground(new java.awt.Color(102, 0, 0));
+        jPanel1.add(cb_teams, new org.netbeans.lib.awtextra.AbsoluteConstraints(300, 280, 270, 40));
 
         jTextArea1.setBackground(new java.awt.Color(153, 0, 102));
         jTextArea1.setColumns(20);
+        jTextArea1.setFont(new java.awt.Font("Segoe UI Semibold", 0, 24)); // NOI18N
         jTextArea1.setForeground(new java.awt.Color(255, 255, 255));
         jTextArea1.setRows(5);
         jScrollPane1.setViewportView(jTextArea1);
 
+        jPanel1.add(jScrollPane1, new org.netbeans.lib.awtextra.AbsoluteConstraints(680, 210, 550, 340));
+
+        btnAgregarPlayer.setFont(new java.awt.Font("Quiska", 0, 36)); // NOI18N
         btnAgregarPlayer.setText("OKi");
         btnAgregarPlayer.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
@@ -147,9 +170,12 @@ public class TeamSelection extends javax.swing.JFrame {
                 btnAgregarPlayerActionPerformed(evt);
             }
         });
+        jPanel1.add(btnAgregarPlayer, new org.netbeans.lib.awtextra.AbsoluteConstraints(370, 370, 120, 70));
 
-        mensajeLabel.setFont(new java.awt.Font("Segoe UI", 0, 18)); // NOI18N
+        mensajeLabel.setFont(new java.awt.Font("Oswald Light", 0, 24)); // NOI18N
+        mensajeLabel.setForeground(new java.awt.Color(153, 0, 0));
         mensajeLabel.setText("jLabel3");
+        jPanel1.add(mensajeLabel, new org.netbeans.lib.awtextra.AbsoluteConstraints(700, 610, -1, -1));
 
         jToggleButton1.setText("Escoger los colores por equipo");
         jToggleButton1.addActionListener(new java.awt.event.ActionListener() {
@@ -157,6 +183,7 @@ public class TeamSelection extends javax.swing.JFrame {
                 jToggleButton1ActionPerformed(evt);
             }
         });
+        jPanel1.add(jToggleButton1, new org.netbeans.lib.awtextra.AbsoluteConstraints(220, 480, -1, -1));
 
         jToggleButton2.setText("Escoger los colores individualmente");
         jToggleButton2.addActionListener(new java.awt.event.ActionListener() {
@@ -164,70 +191,29 @@ public class TeamSelection extends javax.swing.JFrame {
                 jToggleButton2ActionPerformed(evt);
             }
         });
+        jPanel1.add(jToggleButton2, new org.netbeans.lib.awtextra.AbsoluteConstraints(220, 530, -1, -1));
+
+        jRadioButton1.setFont(new java.awt.Font("Papyrus", 1, 24)); // NOI18N
+        jRadioButton1.setText("Utilizar el mismo color por equipo");
+        jRadioButton1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jRadioButton1ActionPerformed(evt);
+            }
+        });
+        jPanel1.add(jRadioButton1, new org.netbeans.lib.awtextra.AbsoluteConstraints(150, 600, -1, -1));
+
+        jLabel3.setIcon(new javax.swing.ImageIcon(getClass().getResource("/bg/TeamSelection.png"))); // NOI18N
+        jPanel1.add(jLabel3, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 1300, 780));
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(layout.createSequentialGroup()
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(layout.createSequentialGroup()
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addGroup(layout.createSequentialGroup()
-                                .addGap(93, 93, 93)
-                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                                        .addComponent(jLabel2)
-                                        .addGap(18, 18, 18)
-                                        .addComponent(cb_teams, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                                    .addGroup(layout.createSequentialGroup()
-                                        .addComponent(jLabel1)
-                                        .addGap(18, 18, 18)
-                                        .addComponent(cb_players, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 75, Short.MAX_VALUE))
-                            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                                    .addComponent(jToggleButton2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                    .addComponent(jToggleButton1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                                .addGap(60, 60, 60)))
-                        .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 313, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addGroup(layout.createSequentialGroup()
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addGroup(layout.createSequentialGroup()
-                                .addGap(282, 282, 282)
-                                .addComponent(mensajeLabel))
-                            .addGroup(layout.createSequentialGroup()
-                                .addGap(307, 307, 307)
-                                .addComponent(btnAgregarPlayer)))
-                        .addGap(0, 0, Short.MAX_VALUE)))
-                .addContainerGap())
+            .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(layout.createSequentialGroup()
-                .addGap(22, 22, 22)
-                .addComponent(mensajeLabel)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(layout.createSequentialGroup()
-                        .addGap(59, 59, 59)
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                            .addComponent(jLabel1)
-                            .addComponent(cb_players, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addGap(18, 18, 18)
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                            .addComponent(jLabel2)
-                            .addComponent(cb_teams, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addGap(40, 40, 40)
-                        .addComponent(jToggleButton1)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(jToggleButton2))
-                    .addGroup(layout.createSequentialGroup()
-                        .addGap(28, 28, 28)
-                        .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 213, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 128, Short.MAX_VALUE)
-                .addComponent(btnAgregarPlayer)
-                .addGap(27, 27, 27))
+            .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
         );
 
         pack();
@@ -243,8 +229,6 @@ public class TeamSelection extends javax.swing.JFrame {
         cb_players.removeItem(cb_players.getSelectedItem());
         
         equipos.get(selectedTeam - 1).agregar(playerSeleccionado);
-        System.out.println(equipos.get(selectedTeam - 1).tamaño());
-        System.out.println(equipos.get(selectedTeam - 1).estaCompleto());
         if (equipos.get(selectedTeam - 1).estaCompleto()) {
             cb_teams.removeItem("" + selectedTeam);
         }
@@ -261,7 +245,7 @@ public class TeamSelection extends javax.swing.JFrame {
             JOptionPane.showMessageDialog(null, "INICIA LA PARTIDA");
             mensajito.setVisible(false);
 
-            new SequenceGamee(equipos, cantCartas, true).setVisible(true);
+            new SequenceGamee(equipos, cantCartas, mismoColorEquipo).setVisible(true);
             this.dispose();
         }
     }//GEN-LAST:event_btnAgregarPlayerActionPerformed
@@ -294,6 +278,12 @@ public class TeamSelection extends javax.swing.JFrame {
     private void jToggleButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jToggleButton2ActionPerformed
         new ColoresIndividuales().setVisible(true);
     }//GEN-LAST:event_jToggleButton2ActionPerformed
+
+    private void jRadioButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jRadioButton1ActionPerformed
+        // TODO add your handling code here:
+        boolean nuevoState = !mismoColorEquipo;
+        mismoColorEquipo = nuevoState;
+    }//GEN-LAST:event_jRadioButton1ActionPerformed
 
     private void reiniciarSeleccion() {
         cb_players.removeAllItems();
@@ -375,12 +365,17 @@ public class TeamSelection extends javax.swing.JFrame {
         jTextArea1.setText(mensaje);
         return mensaje;
     }
+    
+    
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnAgregarPlayer;
     private javax.swing.JComboBox<String> cb_players;
     private javax.swing.JComboBox<String> cb_teams;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
+    private javax.swing.JLabel jLabel3;
+    private javax.swing.JPanel jPanel1;
+    private javax.swing.JRadioButton jRadioButton1;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JTextArea jTextArea1;
     private javax.swing.JToggleButton jToggleButton1;

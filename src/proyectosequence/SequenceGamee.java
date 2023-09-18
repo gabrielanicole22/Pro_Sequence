@@ -20,7 +20,7 @@ public class SequenceGamee extends javax.swing.JFrame {
     Color SELECT_COLOR = new Color(83, 152, 254);
     private Color colorOriginal;
 
-    public SequenceGamee(ArrayList<Equipos> teams, int numCartas, boolean sameColor) {
+    public SequenceGamee(ArrayList<Equipos> teams, int numCartas, boolean mismoColorPorEquipo) {
         initComponents();
         colorOriginal = btnDescartarCarta.getForeground();
         //this.setSize(1200, 750);
@@ -32,6 +32,24 @@ public class SequenceGamee extends javax.swing.JFrame {
         tab.cambioDeTurno();
         tab.temporizador();
         tab.posicionarCartas();
+        setDefaultCloseOperation(DISPOSE_ON_CLOSE);
+        if (mismoColorPorEquipo) {
+            int teamss = 0;
+            for (Equipos currentTeam : teams) {
+                String iconName = "";
+                if (teamss == 0) {
+                    iconName = "azul";
+                } else if (teamss == 1) {
+                    iconName = "dark_pink";
+                } else {
+                    iconName = "zulito";
+                }
+                for (Jugador p : currentTeam.jugadores) {
+                    p.setIcon(iconName);
+                }
+                teamss++;
+            }
+        }
     }
 
     @SuppressWarnings("unchecked")
@@ -41,11 +59,11 @@ public class SequenceGamee extends javax.swing.JFrame {
         jPanel1 = new javax.swing.JPanel();
         timerLbl = new javax.swing.JLabel();
         ultimaCarta = new javax.swing.JLabel();
-        ultimaCard = new javax.swing.JLabel();
         tableroPanel = new javax.swing.JPanel();
         cartasBaraja = new javax.swing.JPanel();
         turnLabel = new javax.swing.JLabel();
         btnDescartarCarta = new javax.swing.JButton();
+        jLabel1 = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setTitle("* * * SEQUENCE GAME * * *");
@@ -55,22 +73,17 @@ public class SequenceGamee extends javax.swing.JFrame {
         jPanel1.setBackground(new java.awt.Color(0, 153, 51));
         jPanel1.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
-        timerLbl.setFont(new java.awt.Font("Rockwell Condensed", 0, 36)); // NOI18N
-        timerLbl.setForeground(new java.awt.Color(0, 0, 0));
+        timerLbl.setFont(new java.awt.Font("Poor Richard", 0, 24)); // NOI18N
         timerLbl.setText("temporizador");
-        jPanel1.add(timerLbl, new org.netbeans.lib.awtextra.AbsoluteConstraints(115, 68, -1, -1));
+        jPanel1.add(timerLbl, new org.netbeans.lib.awtextra.AbsoluteConstraints(60, 120, -1, -1));
 
+        ultimaCarta.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         ultimaCarta.setIcon(new javax.swing.ImageIcon(getClass().getResource("/cartas/partetraseracarta.png"))); // NOI18N
-        jPanel1.add(ultimaCarta, new org.netbeans.lib.awtextra.AbsoluteConstraints(183, 282, 166, -1));
-
-        ultimaCard.setFont(new java.awt.Font("Rockwell Condensed", 0, 36)); // NOI18N
-        ultimaCard.setForeground(new java.awt.Color(0, 0, 0));
-        ultimaCard.setText("Última Carta Jugada");
-        jPanel1.add(ultimaCard, new org.netbeans.lib.awtextra.AbsoluteConstraints(115, 233, -1, -1));
+        jPanel1.add(ultimaCarta, new org.netbeans.lib.awtextra.AbsoluteConstraints(150, 340, 100, 150));
 
         tableroPanel.setBackground(new java.awt.Color(0, 0, 0));
         tableroPanel.setLayout(new java.awt.GridLayout(1, 1));
-        jPanel1.add(tableroPanel, new org.netbeans.lib.awtextra.AbsoluteConstraints(399, 6, 582, 520));
+        jPanel1.add(tableroPanel, new org.netbeans.lib.awtextra.AbsoluteConstraints(400, 20, 510, 520));
 
         cartasBaraja.setBackground(new java.awt.Color(204, 255, 204));
 
@@ -87,12 +100,13 @@ public class SequenceGamee extends javax.swing.JFrame {
 
         jPanel1.add(cartasBaraja, new org.netbeans.lib.awtextra.AbsoluteConstraints(391, 577, -1, -1));
 
-        turnLabel.setBackground(new java.awt.Color(51, 153, 0));
-        turnLabel.setFont(new java.awt.Font("Rockwell Condensed", 0, 36)); // NOI18N
-        turnLabel.setForeground(new java.awt.Color(0, 0, 0));
-        turnLabel.setText("Turno");
-        jPanel1.add(turnLabel, new org.netbeans.lib.awtextra.AbsoluteConstraints(391, 532, 264, -1));
+        turnLabel.setBackground(new java.awt.Color(153, 255, 153));
+        turnLabel.setFont(new java.awt.Font("Ravie", 0, 30)); // NOI18N
+        turnLabel.setForeground(new java.awt.Color(204, 255, 204));
+        turnLabel.setText("Turno: ");
+        jPanel1.add(turnLabel, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 540, 650, -1));
 
+        btnDescartarCarta.setBackground(new java.awt.Color(102, 153, 255));
         btnDescartarCarta.setText("Descartar Carta");
         btnDescartarCarta.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseEntered(java.awt.event.MouseEvent evt) {
@@ -107,20 +121,23 @@ public class SequenceGamee extends javax.swing.JFrame {
                 btnDescartarCartaActionPerformed(evt);
             }
         });
-        jPanel1.add(btnDescartarCarta, new org.netbeans.lib.awtextra.AbsoluteConstraints(196, 587, 134, 42));
+        jPanel1.add(btnDescartarCarta, new org.netbeans.lib.awtextra.AbsoluteConstraints(90, 620, 210, 60));
+
+        jLabel1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/bg/tablero.png"))); // NOI18N
+        jPanel1.add(jLabel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 1200, 800));
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, 1166, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, 1200, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(0, 0, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, 800, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(0, 0, Short.MAX_VALUE))
         );
 
@@ -176,11 +193,11 @@ public class SequenceGamee extends javax.swing.JFrame {
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnDescartarCarta;
     public javax.swing.JPanel cartasBaraja;
+    private javax.swing.JLabel jLabel1;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel tableroPanel;
     public javax.swing.JLabel timerLbl;
     public javax.swing.JLabel turnLabel;
-    public javax.swing.JLabel ultimaCard;
     public javax.swing.JLabel ultimaCarta;
     // End of variables declaration//GEN-END:variables
 }

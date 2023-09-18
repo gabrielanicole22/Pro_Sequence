@@ -15,7 +15,7 @@ public class Equipos {
 
     ArrayList<Jugador> jugadores;
     int cant;
-
+    int secuenciasFormadas;
     public Equipos(int tamaño) {
         this.cant = tamaño;
         this.jugadores = new ArrayList<>();
