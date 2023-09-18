@@ -751,8 +751,6 @@ private void verificarSecuencias() {
             }
         }
     }
-
-    // Resto del código para las esquinas verticales y horizontales
 }
 
     //VERIFICACIÓN DE ESQUINASSS
