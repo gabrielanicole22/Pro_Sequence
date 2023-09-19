@@ -190,6 +190,11 @@ public class TabCartas extends javax.swing.JPanel {
                             if (clickedFicha == null) {
                                 return;
                             }
+                            
+                            if(tabLabels[clickedCoords.row][clickedCoords.column].getBackground() == transparentColor){
+                                JOptionPane.showMessageDialog(null, "No puedes romper una secuencia ya formada.");
+                                return;
+                            }
 
                             if (clickedFicha.equipo == jugadorActualTurno.team) {
                                 JOptionPane.showMessageDialog(juego, "Usa esta herramienta para ayudar a tu equipo");
@@ -216,19 +221,18 @@ public class TabCartas extends javax.swing.JPanel {
                             return;
                         }
 
-//                        boolean valid = cartaObtenida.equals(obtenerCarta((JLabel) e.getSource()));
-//                        boolean casillaOcupada = tabTokens[clickedCoords.row][clickedCoords.column] == null;
-//                        boolean isEmpty = tabTokens[clickedCoords.row][clickedCoords.column] == null;
-                        boolean valid=true;
+                        boolean valid = cartaObtenida.equals(obtenerCarta((JLabel) e.getSource()));
+                        boolean casillaOcupada = tabTokens[clickedCoords.row][clickedCoords.column] == null;
+                        boolean isEmpty = tabTokens[clickedCoords.row][clickedCoords.column] == null;
                         
-//                        if (!casillaOcupada) {
-//                            JOptionPane.showMessageDialog(juego, "Error: CASILLA OCUPADA.");
-//                            return;
-//                        }                        
-//                        if (!isEmpty) {
-//                            JOptionPane.showMessageDialog(juego, "Por favor seleccione una casilla que no este ocupada.");
-//                            return;
-//                        }
+                        if (!casillaOcupada) {
+                            JOptionPane.showMessageDialog(juego, "Error: CASILLA OCUPADA.");
+                            return;
+                        }                        
+                        if (!isEmpty) {
+                            JOptionPane.showMessageDialog(juego, "Por favor seleccione una casilla que no este ocupada.");
+                            return;
+                        }
                         if (!valid) {
                             return;
                         }
@@ -352,7 +356,7 @@ public class TabCartas extends javax.swing.JPanel {
             return c;
 
         } else {
-            System.out.println("Se ha reiniciado la baraja.");
+            JOptionPane.showMessageDialog(null, "La baraja ha sido reiniciada.");
             cartasMano = manejadorCartas.cargadoCartas();
             int pos = r.nextInt(0, cartasMano.size());
             Cartas c = cartasMano.get(pos);
@@ -975,9 +979,7 @@ public class TabCartas extends javax.swing.JPanel {
                 ArrayList<Jugador> equipoGanador = t.jugadores;
                 // Agregar 3 puntos a cada jugador del equipo ganador
                 for (Jugador jugador : equipoGanador) {
-                    System.out.println("Procesando jugador: " + jugador.getNombreCompleto());
                     jugador.addPuntos(3);
-                    System.out.println("Puntos de " + jugador.getNombreCompleto() + " después de agregar: " + jugador.getPuntos());
                 }
                 // Crear el log con los nombres de todos los jugadores del equipo ganador
                 
@@ -989,12 +991,10 @@ public class TabCartas extends javax.swing.JPanel {
                     logBuilder.append(equipoGanador.get(j).getNombreCompleto());
                 }
                 String logCreado = logBuilder.toString();
-                System.out.println(logCreado);
 
                 // Actualizar los logs de todos los jugadores del equipo ganador
                 for (Jugador jugador : equipoGanador) {
                     jugador.setLogs(logCreado);
-                    System.out.println("Logs creados de " + jugador.usuario + ": " + jugador.getLogs());
                 }
 
                 hayGanador = true;
@@ -1015,12 +1015,10 @@ public class TabCartas extends javax.swing.JPanel {
                         logPerdedorBuilder.append(equipoPerdedor.get(j).getNombreCompleto());
                     }
                     String logPerdedor = logPerdedorBuilder.toString();
-                    System.out.println(logPerdedor);
 
                     // Actualizar los logs de todos los jugadores del equipo perdedor
                     for (Jugador jugador : equipoPerdedor) {
                         jugador.setLogs(logPerdedor);
-                        System.out.println("Logs creados de " + jugador.usuario + ": " + jugador.getLogs());
                     }
                 }
             }

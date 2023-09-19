@@ -46,7 +46,6 @@ public class MenuInicio extends javax.swing.JFrame {
         btnConfiguracion = new javax.swing.JLabel();
         btnReportes = new javax.swing.JLabel();
         btnCerrarSesion = new javax.swing.JLabel();
-        btnPruebaCargar = new javax.swing.JLabel();
         fondo = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
@@ -118,22 +117,6 @@ public class MenuInicio extends javax.swing.JFrame {
             }
         });
         jPanel1.add(btnCerrarSesion, new org.netbeans.lib.awtextra.AbsoluteConstraints(400, 560, -1, -1));
-
-        btnPruebaCargar.setFont(new java.awt.Font("Leaves And Ground", 0, 70)); // NOI18N
-        btnPruebaCargar.setForeground(new java.awt.Color(255, 255, 204));
-        btnPruebaCargar.setText("CargarUsuarios(prueba)");
-        btnPruebaCargar.addMouseListener(new java.awt.event.MouseAdapter() {
-            public void mouseClicked(java.awt.event.MouseEvent evt) {
-                btnPruebaCargarMouseClicked(evt);
-            }
-            public void mouseEntered(java.awt.event.MouseEvent evt) {
-                btnPruebaCargarMouseEntered(evt);
-            }
-            public void mouseExited(java.awt.event.MouseEvent evt) {
-                btnPruebaCargarMouseExited(evt);
-            }
-        });
-        jPanel1.add(btnPruebaCargar, new org.netbeans.lib.awtextra.AbsoluteConstraints(400, 630, -1, -1));
 
         fondo.setIcon(new javax.swing.ImageIcon(getClass().getResource("/bg/MenuInicio.png"))); // NOI18N
         jPanel1.add(fondo, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 1300, 760));
@@ -236,40 +219,10 @@ public class MenuInicio extends javax.swing.JFrame {
         setCursor(Cursor.DEFAULT_CURSOR);
     }//GEN-LAST:event_btnCerrarSesionMouseExited
 
-    private void btnPruebaCargarMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnPruebaCargarMouseClicked
-        // TODO add your handling code here:
-        ArrayList<Jugador> usuarios = sistemaUsuarios.getListaUsuarios();
-        StringBuilder usuariosText = new StringBuilder("Usuarios existentes:\n\n");
-
-        for (Usuario usuario : usuarios) {
-            usuariosText.append("Usuario: ").append(usuario.getUsername()).append("\n");
-            usuariosText.append("Nombre: ").append(usuario.getNombreCompleto()).append("\n");
-            usuariosText.append("Fecha de Creación: ").append(usuario.getFormattedFechaCreacion()).append("\n");
-            usuariosText.append("Ficha Dirección: ").append(usuario.fichaFile.getAbsolutePath()).append("\n");
-            usuariosText.append("Cantidad de Jugadores: ").append(usuario.cantJugadores).append("\n\n");
-            usuariosText.append("Puntos: ").append(usuario.puntos).append("\n\n");            
-        }
-        JOptionPane.showMessageDialog(this, usuariosText.toString(), "Lista de Usuarios", JOptionPane.INFORMATION_MESSAGE);
-    }//GEN-LAST:event_btnPruebaCargarMouseClicked
-
-    private void btnPruebaCargarMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnPruebaCargarMouseEntered
-        // TODO add your handling code here:
-        btnPruebaCargar.setForeground(SELECT_COLOR);
-        setCursor(Cursor.HAND_CURSOR);
-    }//GEN-LAST:event_btnPruebaCargarMouseEntered
-
-    private void btnPruebaCargarMouseExited(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnPruebaCargarMouseExited
-        // TODO add your handling code here:
-        btnPruebaCargar.setForeground(colorOriginal);
-        setCursor(Cursor.DEFAULT_CURSOR);
-
-    }//GEN-LAST:event_btnPruebaCargarMouseExited
-
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JLabel btnCerrarSesion;
     private javax.swing.JLabel btnConfiguracion;
     private javax.swing.JLabel btnJugar;
-    private javax.swing.JLabel btnPruebaCargar;
     private javax.swing.JLabel btnReportes;
     private javax.swing.JLabel fondo;
     private javax.swing.JPanel jPanel1;
