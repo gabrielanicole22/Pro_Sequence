@@ -18,7 +18,7 @@ import javax.swing.ImageIcon;
  * @author Gabriela Mejía
  */
 public abstract class Usuario implements Serializable {
-
+    boolean mismoColorxTeam;
     public String usuario, contra, nombreCompleto, logs;
     public int puntos, cantJugadores;
     File fichaFile;
@@ -26,7 +26,7 @@ public abstract class Usuario implements Serializable {
     Date fechaCreacion;
     
 
-    public Usuario(String usuario, String contra, String nombreCompleto, long fechaCreacion, int puntos, String fichaFilename, int cantJugadores, String logs) {
+    public Usuario(String usuario, String contra, String nombreCompleto, long fechaCreacion, int puntos, String fichaFilename, int cantJugadores, String logs, boolean mismoColorxTeam) {
         this.usuario = usuario;
         this.contra = contra;
         this.nombreCompleto = nombreCompleto;
@@ -35,6 +35,7 @@ public abstract class Usuario implements Serializable {
         this.puntos = puntos;
         this.fichaFile = new File("src/fichas/" + fichaFilename);
         this.cantJugadores = cantJugadores;
+        this.mismoColorxTeam=mismoColorxTeam;
         this.logs=logs;
         try {
             this.fichaIcon = new ImageIcon(ImageIO.read(fichaFile));
@@ -54,6 +55,7 @@ public abstract class Usuario implements Serializable {
         raf.writeUTF(fichaFile.getName());
         raf.writeInt(cantJugadores);
         raf.writeUTF(logs);
+        raf.writeBoolean(mismoColorxTeam);
     }
     
     

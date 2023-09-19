@@ -80,7 +80,8 @@ public class SistemaUsuarios {
                 String fichaDirec = raf.readUTF();
                 int cantJugadorews = raf.readInt();
                 String logs = raf.readUTF();
-                Jugador p = new Jugador(usuario, contra, nombre, fechaCreacion, puntos, fichaDirec, cantJugadorews, logs);
+                boolean mismoColorxTeam = raf.readBoolean();
+                Jugador p = new Jugador(usuario, contra, nombre, fechaCreacion, puntos, fichaDirec, cantJugadorews, logs, mismoColorxTeam);
                 jugadores.add(p);
             }
             raf.close();
@@ -112,7 +113,7 @@ public class SistemaUsuarios {
             return false;
         }
         long fechaCreacion = new Date().getTime();
-        Jugador p = new Jugador(name, password, completeName, fechaCreacion, 0, obtenerRuta(), 4, "");
+        Jugador p = new Jugador(name, password, completeName, fechaCreacion, 0, obtenerRuta(), 4, "",false);
         jugadores.add(p);
         RandomAccessFile raf = null;
         try {
@@ -254,5 +255,10 @@ public class SistemaUsuarios {
         } catch (Exception e) {
             e.printStackTrace();
         }
+    }
+    
+    public void setLoggedUserColorexEquipo(boolean mismoColorxTeam){
+        usuarioLogeado.mismoColorxTeam = mismoColorxTeam;
+        guardarJugadores();
     }
 }

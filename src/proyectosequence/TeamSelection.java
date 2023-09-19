@@ -6,6 +6,7 @@ package proyectosequence;
 
 import java.awt.Color;
 import java.awt.Cursor;
+import java.awt.Dimension;
 import java.util.ArrayList;
 import javax.swing.JOptionPane;
 
@@ -28,8 +29,9 @@ public class TeamSelection extends javax.swing.JFrame {
         initComponents();
         colorOriginal = btnAgregarPlayer.getForeground();
         mensajeLabel.setText("Esperando a que se llenen los equipos...");
-        this.sistemaUsuarios=sistemausuarios;
-        
+        this.sistemaUsuarios = sistemausuarios;
+
+        mismoColorEquipo = sistemaUsuarios.getUsuarioLogeado().mismoColorxTeam;
         int Confi = sistemaUsuarios.getPlayersConfig();
         setDefaultCloseOperation(DISPOSE_ON_CLOSE);
 
@@ -65,17 +67,21 @@ public class TeamSelection extends javax.swing.JFrame {
         }
 
         ArrayList<Jugador> jugadores = sistemaUsuarios.getListaUsuarios();
-
+        cb_players.removeAllItems();
         for (Jugador p : jugadores) {
             p.team = -1;
             cb_players.addItem(p.usuario);
         }
+        cb_teams.removeAllItems();
         equipos = new ArrayList<>();
         for (int i = 1; i <= cantEquipos; i++) {
             cb_teams.addItem("" + i);
             equipos.add(new Equipos(cantPlayers));
         }
         textoInfoArea();
+        mensajito.setMinimumSize(new Dimension(500, 450));
+        mensajito.setVisible(true);
+        mensajito.setLocation((int) getSize().getWidth() / 2, (int) getLocation().y);
     }
 
     private boolean equipoLleno() {
@@ -101,7 +107,6 @@ public class TeamSelection extends javax.swing.JFrame {
         jTextArea1 = new javax.swing.JTextArea();
         btnAgregarPlayer = new javax.swing.JButton();
         mensajeLabel = new javax.swing.JLabel();
-        jRadioButton1 = new javax.swing.JRadioButton();
         jLabel3 = new javax.swing.JLabel();
 
         javax.swing.GroupLayout mensajitoLayout = new javax.swing.GroupLayout(mensajito.getContentPane());
@@ -176,15 +181,6 @@ public class TeamSelection extends javax.swing.JFrame {
         mensajeLabel.setText("jLabel3");
         jPanel1.add(mensajeLabel, new org.netbeans.lib.awtextra.AbsoluteConstraints(700, 610, -1, -1));
 
-        jRadioButton1.setFont(new java.awt.Font("Papyrus", 1, 24)); // NOI18N
-        jRadioButton1.setText("Utilizar el mismo color por equipo");
-        jRadioButton1.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jRadioButton1ActionPerformed(evt);
-            }
-        });
-        jPanel1.add(jRadioButton1, new org.netbeans.lib.awtextra.AbsoluteConstraints(150, 600, -1, -1));
-
         jLabel3.setIcon(new javax.swing.ImageIcon(getClass().getResource("/bg/TeamSelection.png"))); // NOI18N
         jPanel1.add(jLabel3, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 1300, 780));
 
@@ -210,7 +206,7 @@ public class TeamSelection extends javax.swing.JFrame {
 
         playerSeleccionado.team = selectedTeam;
         cb_players.removeItem(cb_players.getSelectedItem());
-        
+
         equipos.get(selectedTeam - 1).agregar(playerSeleccionado);
         if (equipos.get(selectedTeam - 1).estaCompleto()) {
             cb_teams.removeItem("" + selectedTeam);
@@ -224,11 +220,19 @@ public class TeamSelection extends javax.swing.JFrame {
                 reiniciarSeleccion();
                 return;
             }
-            mensajeLabel.setText("Equipos llenos, empieza la partida");
-            JOptionPane.showMessageDialog(null, "INICIA LA PARTIDA");
             mensajito.setVisible(false);
-
-            new SequenceGamee(equipos, cantCartas, mismoColorEquipo, sistemaUsuarios).setVisible(true);
+            int opcionJOption = JOptionPane.showConfirmDialog(mensajito, "Estos son tus equipos formados, ¿Estás de acuerdo?\n\n" + textoInfoArea());
+            if (opcionJOption == 0) {
+                new SequenceGamee(equipos, cantCartas, mismoColorEquipo, sistemaUsuarios).setVisible(true);
+                dispose();
+            }
+            if (opcionJOption == 1) {
+                mensajito.dispose();
+            }
+            if (opcionJOption == 2) {
+                mensajito.dispose();
+                setVisible(true);
+            }
             this.dispose();
         }
     }//GEN-LAST:event_btnAgregarPlayerActionPerformed
@@ -252,12 +256,6 @@ public class TeamSelection extends javax.swing.JFrame {
     private void cb_playersActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cb_playersActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_cb_playersActionPerformed
-
-    private void jRadioButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jRadioButton1ActionPerformed
-        // TODO add your handling code here:
-        boolean nuevoState = !mismoColorEquipo;
-        mismoColorEquipo = nuevoState;
-    }//GEN-LAST:event_jRadioButton1ActionPerformed
 
     private void reiniciarSeleccion() {
         cb_players.removeAllItems();
@@ -293,10 +291,8 @@ public class TeamSelection extends javax.swing.JFrame {
     /**
      * @param args the command line arguments
      */
-
     private String textoInfoArea() {
         String mensaje = "";
-
         for (int i = 0; i < equipos.size(); i++) {
             Equipos equipo = equipos.get(i);
             mensaje += "Equipo #" + (i + 1) + " - " + equipo.tamaño() + " *** PLAYERS ***\n";
@@ -308,8 +304,7 @@ public class TeamSelection extends javax.swing.JFrame {
         jTextArea1.setText(mensaje);
         return mensaje;
     }
-    
-    
+
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnAgregarPlayer;
     private javax.swing.JComboBox<String> cb_players;
@@ -318,7 +313,6 @@ public class TeamSelection extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JPanel jPanel1;
-    private javax.swing.JRadioButton jRadioButton1;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JTextArea jTextArea1;
     private javax.swing.JLabel mensajeLabel;

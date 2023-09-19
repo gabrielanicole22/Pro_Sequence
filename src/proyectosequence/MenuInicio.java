@@ -179,6 +179,7 @@ public class MenuInicio extends javax.swing.JFrame {
         // TODO add your handling code here:
         Configuracion configuracion = new Configuracion();
         configuracion.setVisible(true);
+        this.dispose();        
     }//GEN-LAST:event_btnConfiguracionMouseClicked
 
     private void btnConfiguracionMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnConfiguracionMouseEntered
@@ -197,6 +198,7 @@ public class MenuInicio extends javax.swing.JFrame {
         // TODO add your handling code here:
         Reportes reportes = new Reportes(sistemaUsuarios);
         reportes.setVisible(true);
+        this.dispose();
     }//GEN-LAST:event_btnReportesMouseClicked
 
     private void btnReportesMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnReportesMouseEntered

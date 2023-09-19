@@ -14,7 +14,7 @@ import javax.swing.JOptionPane;
  * @author danie
  */
 public class Configuracion extends javax.swing.JFrame {
-
+    boolean mismoColorxEquipo;
     SistemaUsuarios sistemaUsuarios;
     Color SELECT_COLOR = new Color(83, 152, 254);
     private Color colorOriginal;
@@ -27,9 +27,10 @@ public class Configuracion extends javax.swing.JFrame {
         setDefaultCloseOperation(DISPOSE_ON_CLOSE);
         sistemaUsuarios = new SistemaUsuarios();
         int configCantJugadores = sistemaUsuarios.getPlayersConfig();
+        mismoColorxEquipo = sistemaUsuarios.getUsuarioLogeado().mismoColorxTeam;
+        ArrayList<String> fichasDisponibles = sistemaUsuarios.getFichas();
         ColorItem renderer = new ColorItem();
         cb_Color.setRenderer(renderer);
-        ArrayList<String> fichasDisponibles = sistemaUsuarios.getFichas();
 
         for (String ficha : fichasDisponibles) {
             String name = ficha.split(".png")[0];
@@ -70,6 +71,7 @@ public class Configuracion extends javax.swing.JFrame {
     private void initComponents() {
 
         jPanel1 = new javax.swing.JPanel();
+        jCheckBox1 = new javax.swing.JCheckBox();
         jLabel1 = new javax.swing.JLabel();
         btn8players = new javax.swing.JButton();
         btnRegresarAMenuPrincipal = new javax.swing.JButton();
@@ -86,6 +88,15 @@ public class Configuracion extends javax.swing.JFrame {
 
         jPanel1.setBackground(new java.awt.Color(0, 0, 0));
         jPanel1.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
+
+        jCheckBox1.setFont(new java.awt.Font("Raleway Medium", 0, 24)); // NOI18N
+        jCheckBox1.setText("Utilizar el mismo color por equipo");
+        jCheckBox1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jCheckBox1ActionPerformed(evt);
+            }
+        });
+        jPanel1.add(jCheckBox1, new org.netbeans.lib.awtextra.AbsoluteConstraints(740, 500, -1, -1));
 
         jLabel1.setBackground(new java.awt.Color(102, 102, 102));
         jLabel1.setFont(new java.awt.Font("Tahoma", 3, 24)); // NOI18N
@@ -267,39 +278,42 @@ public class Configuracion extends javax.swing.JFrame {
         setLocationRelativeTo(null);
     }// </editor-fold>//GEN-END:initComponents
 
-    private void configurarJugadores(int numJugadores) {
-        sistemaUsuarios.setPlayersConfig(numJugadores);
-        JOptionPane.showMessageDialog(null, "Configuración guardada exitosamente", "Slayy", JOptionPane.INFORMATION_MESSAGE);
-        this.dispose();
-    }
-
     private void btn8playersActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn8playersActionPerformed
-        configurarJugadores(8);
+        sistemaUsuarios.setPlayersConfig(8);
+        JOptionPane.showMessageDialog(null, "Configuración guardada exitosamente", "Slayy", JOptionPane.INFORMATION_MESSAGE);
     }//GEN-LAST:event_btn8playersActionPerformed
 
     private void btnRegresarAMenuPrincipalActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnRegresarAMenuPrincipalActionPerformed
-
-        this.dispose();
+        MenuInicio menu = new MenuInicio();
+        menu.setVisible(true);
+        dispose();
     }//GEN-LAST:event_btnRegresarAMenuPrincipalActionPerformed
 
     private void btn3playersActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn3playersActionPerformed
         // TODO add your handling code here:
-        configurarJugadores(3);
+        sistemaUsuarios.setPlayersConfig(3);
+        JOptionPane.showMessageDialog(null, "Configuración guardada exitosamente", "Slayy", JOptionPane.INFORMATION_MESSAGE);
     }//GEN-LAST:event_btn3playersActionPerformed
 
     private void btn4playersActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn4playersActionPerformed
         // TODO add your handling code here:
-        configurarJugadores(4);
+
+                sistemaUsuarios.setPlayersConfig(4);
+        JOptionPane.showMessageDialog(null, "Configuración guardada exitosamente", "Slayy", JOptionPane.INFORMATION_MESSAGE);
     }//GEN-LAST:event_btn4playersActionPerformed
 
     private void btn6playersActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn6playersActionPerformed
         // TODO add your handling code here:
-        configurarJugadores(6);
+        sistemaUsuarios.setPlayersConfig(6);
+        JOptionPane.showMessageDialog(null, "Configuración guardada exitosamente", "Slayy", JOptionPane.INFORMATION_MESSAGE);
+
     }//GEN-LAST:event_btn6playersActionPerformed
 
     private void btn2playersActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn2playersActionPerformed
         // TODO add your handling code here:
-        configurarJugadores(2);
+        sistemaUsuarios.setPlayersConfig(2);
+        JOptionPane.showMessageDialog(null, "Configuración guardada exitosamente", "Slayy", JOptionPane.INFORMATION_MESSAGE);
+
     }//GEN-LAST:event_btn2playersActionPerformed
 
     private void btnGuardarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnGuardarActionPerformed
@@ -307,7 +321,9 @@ public class Configuracion extends javax.swing.JFrame {
         String selectedIcon = (String) cb_Color.getSelectedItem();
         sistemaUsuarios.setusuarioLogeadoFicha(selectedIcon);
         JOptionPane.showMessageDialog(null, "Ficha actualizada correctamente!");
-        this.dispose();
+        MenuInicio menu = new MenuInicio();
+        menu.setVisible(true);
+        dispose();
     }//GEN-LAST:event_btnGuardarActionPerformed
 
     private void btn2playersMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btn2playersMouseEntered
@@ -402,6 +418,14 @@ public class Configuracion extends javax.swing.JFrame {
         // TODO add your handling code here:
     }//GEN-LAST:event_btnRegresarAMenuPrincipalMouseClicked
 
+    private void jCheckBox1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jCheckBox1ActionPerformed
+        // TODO add your handling code here:
+        System.out.println(mismoColorxEquipo);
+        mismoColorxEquipo = !mismoColorxEquipo;
+        System.out.println(mismoColorxEquipo);
+        sistemaUsuarios.setLoggedUserColorexEquipo(mismoColorxEquipo);        
+    }//GEN-LAST:event_jCheckBox1ActionPerformed
+
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btn2players;
     private javax.swing.JButton btn3players;
@@ -411,6 +435,7 @@ public class Configuracion extends javax.swing.JFrame {
     private javax.swing.JButton btnGuardar;
     private javax.swing.JButton btnRegresarAMenuPrincipal;
     private javax.swing.JComboBox<String> cb_Color;
+    private javax.swing.JCheckBox jCheckBox1;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;

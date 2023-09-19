@@ -39,11 +39,11 @@ public class SequenceGamee extends javax.swing.JFrame {
             for (Equipos currentTeam : teams) {
                 String iconName = "";
                 if (teamss == 0) {
-                    iconName = "azul";
+                    iconName = "azulIngeniería";
                 } else if (teamss == 1) {
-                    iconName = "dark_pink";
+                    iconName = "redTV";
                 } else {
-                    iconName = "zulito";
+                    iconName = "amarillo";
                 }
                 for (Jugador p : currentTeam.jugadores) {
                     p.setIcon(iconName);
