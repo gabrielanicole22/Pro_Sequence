@@ -59,8 +59,18 @@ public class Configuracion extends javax.swing.JFrame {
             case 8:
                 btn8players.setBackground(Color.PINK);
         }
+        
+        cambiarColorOpcionPorEquipo();
+        
     }
 
+    private void cambiarColorOpcionPorEquipo(){
+        if(mismoColorxEquipo==true){
+            lblColorEquipo.setBackground(Color.GREEN);
+        }else{
+            lblColorEquipo.setBackground(Color.RED);
+        }
+    }
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -78,6 +88,7 @@ public class Configuracion extends javax.swing.JFrame {
         btn3players = new javax.swing.JButton();
         btn4players = new javax.swing.JButton();
         btn6players = new javax.swing.JButton();
+        lblColorEquipo = new javax.swing.JLabel();
         jLabel3 = new javax.swing.JLabel();
         btn2players = new javax.swing.JButton();
         cb_Color = new javax.swing.JComboBox<>();
@@ -204,6 +215,9 @@ public class Configuracion extends javax.swing.JFrame {
             }
         });
         jPanel1.add(btn6players, new org.netbeans.lib.awtextra.AbsoluteConstraints(650, 300, 120, 70));
+
+        lblColorEquipo.setOpaque(true);
+        jPanel1.add(lblColorEquipo, new org.netbeans.lib.awtextra.AbsoluteConstraints(740, 470, 370, 30));
 
         jLabel3.setBackground(new java.awt.Color(102, 102, 102));
         jLabel3.setFont(new java.awt.Font("Tahoma", 3, 24)); // NOI18N
@@ -423,7 +437,8 @@ public class Configuracion extends javax.swing.JFrame {
         System.out.println("antes: "+mismoColorxEquipo);
         mismoColorxEquipo = !mismoColorxEquipo;
         System.out.println("ahora: "+mismoColorxEquipo+"\n");
-        sistemaUsuarios.setLoggedUserColorexEquipo(mismoColorxEquipo);        
+        sistemaUsuarios.setLoggedUserColorexEquipo(mismoColorxEquipo); 
+        cambiarColorOpcionPorEquipo();
     }//GEN-LAST:event_jCheckBox1ActionPerformed
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
@@ -440,5 +455,6 @@ public class Configuracion extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
     private javax.swing.JPanel jPanel1;
+    private javax.swing.JLabel lblColorEquipo;
     // End of variables declaration//GEN-END:variables
 }
