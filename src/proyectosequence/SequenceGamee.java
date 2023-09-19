@@ -33,7 +33,7 @@ public class SequenceGamee extends javax.swing.JFrame {
         tab.cambioDeTurno();
         tab.temporizador();
         tab.posicionarCartas();
-        setDefaultCloseOperation(DISPOSE_ON_CLOSE);
+        setDefaultCloseOperation(DO_NOTHING_ON_CLOSE);
         if (mismoColorPorEquipo) {
             int teamss = 0;
             for (Equipos currentTeam : teams) {

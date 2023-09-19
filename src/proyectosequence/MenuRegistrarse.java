@@ -23,7 +23,7 @@ public class MenuRegistrarse extends javax.swing.JFrame {
         colorOriginal = btnRegistrar.getForeground();
 
         sistemaUsuarios = new SistemaUsuarios();
-        setDefaultCloseOperation(DISPOSE_ON_CLOSE);
+        setDefaultCloseOperation(DO_NOTHING_ON_CLOSE);
     }
 
     @SuppressWarnings("unchecked")

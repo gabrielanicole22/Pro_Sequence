@@ -33,7 +33,7 @@ public class TeamSelection extends javax.swing.JFrame {
 
         mismoColorEquipo = sistemaUsuarios.getUsuarioLogeado().mismoColorxTeam;
         int Confi = sistemaUsuarios.getPlayersConfig();
-        setDefaultCloseOperation(DISPOSE_ON_CLOSE);
+        setDefaultCloseOperation(DO_NOTHING_ON_CLOSE);
 
         switch (Confi) {
             case 2:
@@ -99,6 +99,7 @@ public class TeamSelection extends javax.swing.JFrame {
 
         mensajito = new javax.swing.JDialog();
         jPanel1 = new javax.swing.JPanel();
+        btnBack = new javax.swing.JButton();
         jLabel1 = new javax.swing.JLabel();
         jLabel2 = new javax.swing.JLabel();
         cb_players = new javax.swing.JComboBox<>();
@@ -113,16 +114,37 @@ public class TeamSelection extends javax.swing.JFrame {
         mensajito.getContentPane().setLayout(mensajitoLayout);
         mensajitoLayout.setHorizontalGroup(
             mensajitoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 400, Short.MAX_VALUE)
+            .addGap(0, 350, Short.MAX_VALUE)
         );
         mensajitoLayout.setVerticalGroup(
             mensajitoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 300, Short.MAX_VALUE)
+            .addGap(0, 285, Short.MAX_VALUE)
         );
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
         jPanel1.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
+
+        btnBack.setBackground(new java.awt.Color(255, 153, 204));
+        btnBack.setFont(new java.awt.Font("Quiska", 0, 18)); // NOI18N
+        btnBack.setText("Regresar");
+        btnBack.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                btnBackMouseClicked(evt);
+            }
+            public void mouseEntered(java.awt.event.MouseEvent evt) {
+                btnBackMouseEntered(evt);
+            }
+            public void mouseExited(java.awt.event.MouseEvent evt) {
+                btnBackMouseExited(evt);
+            }
+        });
+        btnBack.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnBackActionPerformed(evt);
+            }
+        });
+        jPanel1.add(btnBack, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 600, 160, 70));
 
         jLabel1.setFont(new java.awt.Font("Papyrus", 1, 24)); // NOI18N
         jLabel1.setText("Escoge los jugadores:");
@@ -257,6 +279,29 @@ public class TeamSelection extends javax.swing.JFrame {
         // TODO add your handling code here:
     }//GEN-LAST:event_cb_playersActionPerformed
 
+    private void btnBackActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnBackActionPerformed
+        // TODO add your handling code here:
+        MenuInicio menu = new MenuInicio();
+        menu.setVisible(true);
+        this.dispose();
+    }//GEN-LAST:event_btnBackActionPerformed
+
+    private void btnBackMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnBackMouseClicked
+        // TODO add your handling code here:
+    }//GEN-LAST:event_btnBackMouseClicked
+
+    private void btnBackMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnBackMouseEntered
+        // TODO add your handling code here:
+        btnBack.setForeground(SELECT_COLOR);
+        setCursor(Cursor.HAND_CURSOR);
+    }//GEN-LAST:event_btnBackMouseEntered
+
+    private void btnBackMouseExited(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnBackMouseExited
+        // TODO add your handling code here:
+        btnBack.setForeground(colorOriginal);
+        setCursor(Cursor.DEFAULT_CURSOR);
+    }//GEN-LAST:event_btnBackMouseExited
+
     private void reiniciarSeleccion() {
         cb_players.removeAllItems();
         cb_teams.removeAllItems();
@@ -307,6 +352,7 @@ public class TeamSelection extends javax.swing.JFrame {
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnAgregarPlayer;
+    private javax.swing.JButton btnBack;
     private javax.swing.JComboBox<String> cb_players;
     private javax.swing.JComboBox<String> cb_teams;
     private javax.swing.JLabel jLabel1;

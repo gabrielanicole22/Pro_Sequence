@@ -26,7 +26,7 @@ public class MenuLogin extends javax.swing.JFrame {
         colorOriginal = btnIngresar.getForeground();
 
         sistemaUsuarios = new SistemaUsuarios();
-        setDefaultCloseOperation(DISPOSE_ON_CLOSE);
+        setDefaultCloseOperation(DO_NOTHING_ON_CLOSE);
     }
 
     /**

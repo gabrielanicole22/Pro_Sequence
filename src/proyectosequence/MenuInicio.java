@@ -28,7 +28,7 @@ public class MenuInicio extends javax.swing.JFrame {
         equipos = new ArrayList<>();
         sistemaUsuarios = new SistemaUsuarios();
         setResizable(false);
-        setDefaultCloseOperation(DISPOSE_ON_CLOSE);
+        setDefaultCloseOperation(DO_NOTHING_ON_CLOSE);
         colorOriginal = btnJugar.getForeground();
     }
 
@@ -160,7 +160,7 @@ public class MenuInicio extends javax.swing.JFrame {
             return;
         }
         new TeamSelection(sistemaUsuarios).setVisible(true);
-        //this.dispose();
+        this.dispose();
     }//GEN-LAST:event_btnJugarMouseClicked
 
     private void btnJugarMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnJugarMouseEntered

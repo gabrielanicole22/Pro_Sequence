@@ -24,7 +24,7 @@ public class Configuracion extends javax.swing.JFrame {
         initComponents();
         colorOriginal = btn2players.getForeground();
         colorOriginal2 = btnGuardar.getForeground();
-        setDefaultCloseOperation(DISPOSE_ON_CLOSE);
+        setDefaultCloseOperation(DO_NOTHING_ON_CLOSE);
         sistemaUsuarios = new SistemaUsuarios();
         int configCantJugadores = sistemaUsuarios.getPlayersConfig();
         mismoColorxEquipo = sistemaUsuarios.getUsuarioLogeado().mismoColorxTeam;

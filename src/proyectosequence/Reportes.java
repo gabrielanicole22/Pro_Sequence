@@ -13,20 +13,20 @@ public class Reportes extends javax.swing.JFrame {
     public Reportes(SistemaUsuarios sistemausuarios) {
         this.sistemausuarios=sistemausuarios;
         initComponents();
-        setDefaultCloseOperation(DISPOSE_ON_CLOSE);
+        setDefaultCloseOperation(DO_NOTHING_ON_CLOSE);
         tahistorialjuegos.setEditable(false);
         sistemausuarios = new SistemaUsuarios();
         ArrayList<Jugador> usuarios = sistemausuarios.getListaUsuarios();
         String[] reportes = new String[usuarios.size()];
         for (int i = 0; i < usuarios.size(); i++) {
-            reportes[i] = "\nUsuario: " + usuarios.get(i).getUsername() + ", \nPuntos: " + usuarios.get(i).getPuntos() + "\nFecha: " + usuarios.get(i).getFormattedFechaCreacion();
+            reportes[i] = "\nUsuario: " + usuarios.get(i).getUsername() + ", \nPuntos: " + usuarios.get(i).getPuntos() + "\nFecha de Creación: " + usuarios.get(i).getFormattedFechaCreacion();
         }
         taUsuarios.setListData(reportes);
         
         Jugador usuariologeado = sistemausuarios.getUsuarioLogeado();
         lblUsuarioLogeado.setText("Usuario logeado " + usuariologeado.getNombreCompleto());
         ponerHistorialJuegos(usuariologeado);
-        System.out.println("El usuario logeado es: " + usuariologeado.getNombreCompleto() + " con usuario: " + usuariologeado.getUsername());
+        System.out.println("El usuario loggeado es: " + usuariologeado.getNombreCompleto() + " con usuario: " + usuariologeado.getUsername());
         System.out.println("Los logs del usuario "+usuariologeado.usuario+ " son: " + usuariologeado.getLogs());
 
     }
@@ -72,7 +72,7 @@ public class Reportes extends javax.swing.JFrame {
                 btnregresarconfigActionPerformed(evt);
             }
         });
-        jPanel1.add(btnregresarconfig, new org.netbeans.lib.awtextra.AbsoluteConstraints(560, 680, 210, 80));
+        jPanel1.add(btnregresarconfig, new org.netbeans.lib.awtextra.AbsoluteConstraints(570, 630, 210, 80));
 
         lblUsuarioLogeado.setBackground(new java.awt.Color(255, 255, 255));
         lblUsuarioLogeado.setFont(new java.awt.Font("MS Reference Sans Serif", 1, 24)); // NOI18N
@@ -80,12 +80,10 @@ public class Reportes extends javax.swing.JFrame {
         jPanel1.add(lblUsuarioLogeado, new org.netbeans.lib.awtextra.AbsoluteConstraints(500, 70, 680, 60));
 
         lblRanking.setFont(new java.awt.Font("Serif", 0, 24)); // NOI18N
-        lblRanking.setForeground(new java.awt.Color(0, 0, 0));
         lblRanking.setText("RANKING");
         jPanel1.add(lblRanking, new org.netbeans.lib.awtextra.AbsoluteConstraints(160, 290, -1, -1));
 
         lblLogs.setFont(new java.awt.Font("Serif", 0, 24)); // NOI18N
-        lblLogs.setForeground(new java.awt.Color(0, 0, 0));
         lblLogs.setText("LOGS");
         jPanel1.add(lblLogs, new org.netbeans.lib.awtextra.AbsoluteConstraints(160, 460, -1, -1));
 
@@ -99,7 +97,7 @@ public class Reportes extends javax.swing.JFrame {
         tahistorialjuegos.setRows(5);
         jScrollPane3.setViewportView(tahistorialjuegos);
 
-        jPanel1.add(jScrollPane3, new org.netbeans.lib.awtextra.AbsoluteConstraints(160, 500, 1020, 170));
+        jPanel1.add(jScrollPane3, new org.netbeans.lib.awtextra.AbsoluteConstraints(160, 500, 1020, 120));
 
         jLabel2.setIcon(new javax.swing.ImageIcon(getClass().getResource("/bg/Reportes.png"))); // NOI18N
         jPanel1.add(jLabel2, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 1300, 780));
@@ -129,7 +127,8 @@ public class Reportes extends javax.swing.JFrame {
     }
 
     private void btnregresarconfigActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnregresarconfigActionPerformed
-
+        MenuInicio menu = new MenuInicio();
+        menu.setVisible(true);
         this.dispose();
     }//GEN-LAST:event_btnregresarconfigActionPerformed
 
