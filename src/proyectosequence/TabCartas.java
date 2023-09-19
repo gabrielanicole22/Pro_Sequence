@@ -274,6 +274,7 @@ public class TabCartas extends javax.swing.JPanel {
         }
         repartirCartas(); // Reparte las cartas a los jugadores.
         juego.timerLbl.setText("Tiempo Restante: 2:00");
+        juego.lblTurnoEquipo.setText("");
     }
 
 // Obtiene la posición de la casilla en el tablero a partir de una etiqueta.
@@ -472,6 +473,7 @@ public class TabCartas extends javax.swing.JPanel {
 
             juego.turnLabel.setText("Turno de: " + jugadorActualTurno.usuario);
             token.setIcon(jugadorActualTurno.fichaIcon);
+            juego.lblTurnoEquipo.setText("Equipo " + (equipoturnoActual+1));
             return;
         }
 
@@ -503,7 +505,9 @@ public class TabCartas extends javax.swing.JPanel {
         jugadorActualTurno = nextPlayer;
         juego.cartastablero.posicionarCartas(jugadorActualTurno);
         juego.turnLabel.setText("Turno de: " + jugadorActualTurno.usuario);
-            token.setIcon(jugadorActualTurno.fichaIcon);
+        juego.lblTurnoEquipo.setText("Equipo " + (equipoturnoActual + 1));
+
+        token.setIcon(jugadorActualTurno.fichaIcon);
 
         cartasDescartadas = 0; //Reinicia el contador de cartas descartadas 
     }

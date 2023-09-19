@@ -59,6 +59,7 @@ public class SequenceGamee extends javax.swing.JFrame {
     private void initComponents() {
 
         jPanel1 = new javax.swing.JPanel();
+        lblTurnoEquipo = new javax.swing.JLabel();
         fichaJugador = new javax.swing.JLabel();
         timerLbl = new javax.swing.JLabel();
         ultimaCarta = new javax.swing.JLabel();
@@ -75,6 +76,11 @@ public class SequenceGamee extends javax.swing.JFrame {
 
         jPanel1.setBackground(new java.awt.Color(0, 153, 51));
         jPanel1.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
+
+        lblTurnoEquipo.setFont(new java.awt.Font("Source Code Pro", 0, 18)); // NOI18N
+        lblTurnoEquipo.setForeground(new java.awt.Color(255, 255, 255));
+        lblTurnoEquipo.setText("jLabel2");
+        jPanel1.add(lblTurnoEquipo, new org.netbeans.lib.awtextra.AbsoluteConstraints(150, 60, -1, -1));
         jPanel1.add(fichaJugador, new org.netbeans.lib.awtextra.AbsoluteConstraints(260, 110, 80, 50));
 
         timerLbl.setFont(new java.awt.Font("Poor Richard", 0, 24)); // NOI18N
@@ -200,6 +206,7 @@ public class SequenceGamee extends javax.swing.JFrame {
     public javax.swing.JLabel fichaJugador;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JPanel jPanel1;
+    public javax.swing.JLabel lblTurnoEquipo;
     private javax.swing.JPanel tableroPanel;
     public javax.swing.JLabel timerLbl;
     public javax.swing.JLabel turnLabel;
