@@ -420,9 +420,9 @@ public class Configuracion extends javax.swing.JFrame {
 
     private void jCheckBox1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jCheckBox1ActionPerformed
         // TODO add your handling code here:
-        System.out.println(mismoColorxEquipo);
+        System.out.println("antes: "+mismoColorxEquipo);
         mismoColorxEquipo = !mismoColorxEquipo;
-        System.out.println(mismoColorxEquipo);
+        System.out.println("ahora: "+mismoColorxEquipo+"\n");
         sistemaUsuarios.setLoggedUserColorexEquipo(mismoColorxEquipo);        
     }//GEN-LAST:event_jCheckBox1ActionPerformed
 
