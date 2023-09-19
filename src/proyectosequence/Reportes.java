@@ -14,6 +14,7 @@ public class Reportes extends javax.swing.JFrame {
         this.sistemausuarios=sistemausuarios;
         initComponents();
         setDefaultCloseOperation(DISPOSE_ON_CLOSE);
+        tahistorialjuegos.setEditable(false);
         sistemausuarios = new SistemaUsuarios();
         ArrayList<Jugador> usuarios = sistemausuarios.getListaUsuarios();
         String[] reportes = new String[usuarios.size()];
@@ -43,6 +44,8 @@ public class Reportes extends javax.swing.JFrame {
         jLabel1 = new javax.swing.JLabel();
         btnregresarconfig = new javax.swing.JButton();
         lblUsuarioLogeado = new javax.swing.JLabel();
+        lblRanking = new javax.swing.JLabel();
+        lblLogs = new javax.swing.JLabel();
         jScrollPane1 = new javax.swing.JScrollPane();
         taUsuarios = new javax.swing.JList<>();
         jScrollPane3 = new javax.swing.JScrollPane();
@@ -69,23 +72,34 @@ public class Reportes extends javax.swing.JFrame {
                 btnregresarconfigActionPerformed(evt);
             }
         });
-        jPanel1.add(btnregresarconfig, new org.netbeans.lib.awtextra.AbsoluteConstraints(600, 590, 210, 80));
+        jPanel1.add(btnregresarconfig, new org.netbeans.lib.awtextra.AbsoluteConstraints(560, 680, 210, 80));
 
         lblUsuarioLogeado.setBackground(new java.awt.Color(255, 255, 255));
         lblUsuarioLogeado.setFont(new java.awt.Font("MS Reference Sans Serif", 1, 24)); // NOI18N
         lblUsuarioLogeado.setText("descripción de mis últimos juegos");
         jPanel1.add(lblUsuarioLogeado, new org.netbeans.lib.awtextra.AbsoluteConstraints(500, 70, 680, 60));
 
+        lblRanking.setFont(new java.awt.Font("Serif", 0, 24)); // NOI18N
+        lblRanking.setForeground(new java.awt.Color(0, 0, 0));
+        lblRanking.setText("RANKING");
+        jPanel1.add(lblRanking, new org.netbeans.lib.awtextra.AbsoluteConstraints(160, 290, -1, -1));
+
+        lblLogs.setFont(new java.awt.Font("Serif", 0, 24)); // NOI18N
+        lblLogs.setForeground(new java.awt.Color(0, 0, 0));
+        lblLogs.setText("LOGS");
+        jPanel1.add(lblLogs, new org.netbeans.lib.awtextra.AbsoluteConstraints(160, 460, -1, -1));
+
         taUsuarios.setFont(new java.awt.Font("Serif", 0, 24)); // NOI18N
         jScrollPane1.setViewportView(taUsuarios);
 
-        jPanel1.add(jScrollPane1, new org.netbeans.lib.awtextra.AbsoluteConstraints(160, 300, 1020, 140));
+        jPanel1.add(jScrollPane1, new org.netbeans.lib.awtextra.AbsoluteConstraints(160, 320, 1020, 140));
 
         tahistorialjuegos.setColumns(20);
+        tahistorialjuegos.setFont(new java.awt.Font("Serif", 0, 24)); // NOI18N
         tahistorialjuegos.setRows(5);
         jScrollPane3.setViewportView(tahistorialjuegos);
 
-        jPanel1.add(jScrollPane3, new org.netbeans.lib.awtextra.AbsoluteConstraints(160, 450, 1020, 130));
+        jPanel1.add(jScrollPane3, new org.netbeans.lib.awtextra.AbsoluteConstraints(160, 500, 1020, 170));
 
         jLabel2.setIcon(new javax.swing.ImageIcon(getClass().getResource("/bg/Reportes.png"))); // NOI18N
         jPanel1.add(jLabel2, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 1300, 780));
@@ -130,6 +144,8 @@ public class Reportes extends javax.swing.JFrame {
     private javax.swing.JPanel jPanel1;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JScrollPane jScrollPane3;
+    private javax.swing.JLabel lblLogs;
+    private javax.swing.JLabel lblRanking;
     private javax.swing.JLabel lblUsuarioLogeado;
     private javax.swing.JList<String> taUsuarios;
     private javax.swing.JTextArea tahistorialjuegos;

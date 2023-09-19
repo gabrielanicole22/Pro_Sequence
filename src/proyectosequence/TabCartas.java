@@ -17,7 +17,9 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.Random;
 
 public class TabCartas extends javax.swing.JPanel {
@@ -212,18 +214,19 @@ public class TabCartas extends javax.swing.JPanel {
                             return;
                         }
 
-                        //boolean valid = cartaObtenida.equals(obtenerCarta((JLabel) e.getSource()));
-                        //boolean casillaOcupada = tabTokens[clickedCoords.row][clickedCoords.column] == null;
-                        boolean isEmpty = tabTokens[clickedCoords.row][clickedCoords.column] == null;
-                        boolean valid = true;
+//                        boolean valid = cartaObtenida.equals(obtenerCarta((JLabel) e.getSource()));
+//                        boolean casillaOcupada = tabTokens[clickedCoords.row][clickedCoords.column] == null;
+//                        boolean isEmpty = tabTokens[clickedCoords.row][clickedCoords.column] == null;
+                        boolean valid=true;
+                        
 //                        if (!casillaOcupada) {
 //                            JOptionPane.showMessageDialog(juego, "Error: CASILLA OCUPADA.");
 //                            return;
 //                        }                        
-                        if (!isEmpty) {
-                            JOptionPane.showMessageDialog(juego, "Por favor seleccione una casilla que no este ocupada.");
-                            return;
-                        }
+//                        if (!isEmpty) {
+//                            JOptionPane.showMessageDialog(juego, "Por favor seleccione una casilla que no este ocupada.");
+//                            return;
+//                        }
                         if (!valid) {
                             return;
                         }
@@ -947,49 +950,20 @@ public class TabCartas extends javax.swing.JPanel {
         return false;
     }
 
-    String logCreado = "";
 
-//    // Revisa si ya se gano y agrega los logs
-//    private boolean verificarGane() {
-//    for (int i = 0; i < teams.size(); i++) {
-//        Equipos t = teams.get(i);
-//        if (t.secuenciasFormadas == 2) {
-//            ArrayList<Jugador> equipoGanador = t.jugadores;
-//            // Agregar 3 puntos a cada jugador del equipo ganador
-//            for (Jugador jugador : equipoGanador) {
-//                System.out.println("Procesando jugador: " + jugador.getNombreCompleto());
-//                jugador.addPuntos(3);
-//                System.out.println("Puntos de " + jugador.getNombreCompleto() + " después de agregar: " + jugador.getPuntos());
-//            }
-//            // Crear el log con los nombres de todos los jugadores del equipo ganador
-//            StringBuilder logBuilder = new StringBuilder();
-//            logBuilder.append("¡HAY GANADOR! El equipo ").append(i + 1).append(" ha ganado. Jugadores: ");
-//            for (int j = 0; j < equipoGanador.size(); j++) {
-//                if (j > 0) {
-//                    logBuilder.append(", ");
-//                }
-//                logBuilder.append(equipoGanador.get(j).getNombreCompleto());
-//            }
-//            logCreado = logBuilder.toString();
-//            System.out.println(logCreado);
-//            
-//            // Actualizar los logs de todos los jugadores del equipo ganador
-//            for (Jugador jugador : equipoGanador) {
-//                jugador.setLogs(logCreado);
-//                System.out.println("Logs creados de "+jugador.usuario+": "+jugador.getLogs());
-//            }
-//            
-//            sistemaUsuarios.guardarJugadores();
-//            
-//            JOptionPane.showMessageDialog(juego, logCreado);
-//            return true;
-//        }
-//    }
-//    return false;
-//}
-    
+// Revisar si se gano y hacer logs    
     StringBuilder logBuilder = new StringBuilder();
     private boolean verificarGane() {
+        
+        // Obtener la fecha actual
+        Date fechaActual = new Date();
+
+        // Crear un formato para la fecha
+        SimpleDateFormat formatoFecha = new SimpleDateFormat("dd/MM/yyyy HH:mm:ss");
+
+        // Formatear la fecha actual como una cadena
+        String fechaFormateada = formatoFecha.format(fechaActual);
+        
         boolean hayGanador = false;
 
         for (int i = 0; i < teams.size(); i++) {
@@ -1004,7 +978,7 @@ public class TabCartas extends javax.swing.JPanel {
                 }
                 // Crear el log con los nombres de todos los jugadores del equipo ganador
                 
-                logBuilder.append("¡HAY GANADOR! El equipo ").append(i + 1).append(" ha ganado. Jugadores: ");
+                logBuilder.append(fechaFormateada+" ¡HAY GANADOR! El equipo ").append(i + 1).append(" ha ganado. Jugadores: ");
                 for (int j = 0; j < equipoGanador.size(); j++) {
                     if (j > 0) {
                         logBuilder.append(", ");
@@ -1030,7 +1004,7 @@ public class TabCartas extends javax.swing.JPanel {
                 if (teams.get(i).secuenciasFormadas != 2) {
                     ArrayList<Jugador> equipoPerdedor = teams.get(i).jugadores;
                     StringBuilder logPerdedorBuilder = new StringBuilder();
-                    logPerdedorBuilder.append("¡EQUIPO ").append(i + 1).append(" HA PERDIDO! Jugadores: ");
+                    logPerdedorBuilder.append(fechaFormateada+ " ¡EQUIPO ").append(i + 1).append(" HA PERDIDO! Jugadores: ");
                     for (int j = 0; j < equipoPerdedor.size(); j++) {
                         if (j > 0) {
                             logPerdedorBuilder.append(", ");
