@@ -74,7 +74,7 @@ public abstract class Usuario implements Serializable {
     }
 
     public void setLogs(String logs){
-        this.logs=this.logs+"\n"+logs;
+        this.logs=logs+"\n"+this.logs;
     }
     public String getLogs(){
         return logs;

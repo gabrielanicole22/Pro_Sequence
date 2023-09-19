@@ -91,7 +91,7 @@ public class TabCartas extends javax.swing.JPanel {
 
         cartasMano = manejadorCartas.cargadoCartas(); // Carga las cartas disponibles.
         seqs = new ArrayList<>();
-        this.sistemaUsuarios=sistemausuarios;
+        this.sistemaUsuarios = sistemausuarios;
         // Meter las secuencias por equipo en el array de secuencias
         secuenciasDeEquipos[1] = secuenciasEquipo1;
         secuenciasDeEquipos[2] = secuenciasEquipo2;
@@ -606,152 +606,152 @@ public class TabCartas extends javax.swing.JPanel {
             }
         }
     }
-    
-private void verificarSecuencias() {
-    secuenciaEsquinas();
 
-    esquinasHorizontales();
-    // Verificar secuencias horizontales
-    for (int fila = 0; fila < 10; fila++) {
-        for (int columna = 0; columna < 6; columna++) {
-            ArrayList<CasillaTablero> sequence = new ArrayList<>();
-            int fichasSeguidas = 0;
-            int equipoActual = -1;
+    private void verificarSecuencias() {
+        secuenciaEsquinas();
 
-            for (int i = 0; i < 5; i++) {
-                Tokens tokenActual = tabTokens[fila][columna + i];
-                if (tokenActual == null) {
-                    fichasSeguidas = 0;
-                    sequence.clear();
-                    break;
+        esquinasHorizontales();
+        // Verificar secuencias horizontales
+        for (int fila = 0; fila < 10; fila++) {
+            for (int columna = 0; columna < 6; columna++) {
+                ArrayList<CasillaTablero> sequence = new ArrayList<>();
+                int fichasSeguidas = 0;
+                int equipoActual = -1;
+
+                for (int i = 0; i < 5; i++) {
+                    Tokens tokenActual = tabTokens[fila][columna + i];
+                    if (tokenActual == null) {
+                        fichasSeguidas = 0;
+                        sequence.clear();
+                        break;
+                    }
+
+                    if (equipoActual == -1) {
+                        equipoActual = tokenActual.equipo;
+                    }
+
+                    if (tokenActual.equipo != equipoActual || tokenActual.isBloqueada) {
+                        fichasSeguidas = 0;
+                        sequence.clear();
+                        equipoActual = -1;
+                    } else {
+                        fichasSeguidas++;
+                        sequence.add(getCasillaTableros(tabLabels[fila][columna + i]));
+                    }
                 }
 
-                if (equipoActual == -1) {
-                    equipoActual = tokenActual.equipo;
+                if (fichasSeguidas == 5 && !secuenciasBloq(sequence)) {
+                    teams.get(jugadorActualTurno.team - 1).secuenciasFormadas++;
+                    resaltarSeq(sequence);
                 }
-
-                if (tokenActual.equipo != equipoActual || tokenActual.isBloqueada) {
-                    fichasSeguidas = 0;
-                    sequence.clear();
-                    equipoActual = -1;
-                } else {
-                    fichasSeguidas++;
-                    sequence.add(getCasillaTableros(tabLabels[fila][columna + i]));
-                }
-            }
-
-            if (fichasSeguidas == 5 && !secuenciasBloq(sequence)) {
-                teams.get(jugadorActualTurno.team - 1).secuenciasFormadas++;
-                resaltarSeq(sequence);
             }
         }
-    }
-    esquinasVerticales();
-    // Verificar secuencias verticales
-    for (int columna = 0; columna < 10; columna++) {
+        esquinasVerticales();
+        // Verificar secuencias verticales
+        for (int columna = 0; columna < 10; columna++) {
+            for (int fila = 0; fila < 6; fila++) {
+                ArrayList<CasillaTablero> sequence = new ArrayList<>();
+                int fichasSeguidas = 0;
+                int equipoActual = -1;
+
+                for (int i = 0; i < 5; i++) {
+                    Tokens tokenActual = tabTokens[fila + i][columna];
+                    if (tokenActual == null) {
+                        fichasSeguidas = 0;
+                        sequence.clear();
+                        break;
+                    }
+
+                    if (equipoActual == -1) {
+                        equipoActual = tokenActual.equipo;
+                    }
+
+                    if (tokenActual.equipo != equipoActual || tokenActual.isBloqueada) {
+                        fichasSeguidas = 0;
+                        sequence.clear();
+                        equipoActual = -1;
+                    } else {
+                        fichasSeguidas++;
+                        sequence.add(getCasillaTableros(tabLabels[fila + i][columna]));
+                    }
+                }
+
+                if (fichasSeguidas == 5 && !secuenciasBloq(sequence)) {
+                    teams.get(jugadorActualTurno.team - 1).secuenciasFormadas++;
+                    resaltarSeq(sequence);
+                }
+            }
+        }
+
+        // Verificar secuencias diagonales
         for (int fila = 0; fila < 6; fila++) {
-            ArrayList<CasillaTablero> sequence = new ArrayList<>();
-            int fichasSeguidas = 0;
-            int equipoActual = -1;
+            for (int columna = 0; columna < 6; columna++) {
+                // Verificar diagonal hacia la derecha y abajo
+                ArrayList<CasillaTablero> sequenceDiagonalDerAbajo = new ArrayList<>();
+                int fichasSeguidasDerAbajo = 0;
+                int equipoActualDerAbajo = -1;
 
-            for (int i = 0; i < 5; i++) {
-                Tokens tokenActual = tabTokens[fila + i][columna];
-                if (tokenActual == null) {
-                    fichasSeguidas = 0;
-                    sequence.clear();
-                    break;
+                for (int i = 0; i < 5; i++) {
+                    Tokens tokenActual = tabTokens[fila + i][columna + i];
+                    if (tokenActual == null) {
+                        fichasSeguidasDerAbajo = 0;
+                        sequenceDiagonalDerAbajo.clear();
+                        break;
+                    }
+
+                    if (equipoActualDerAbajo == -1) {
+                        equipoActualDerAbajo = tokenActual.equipo;
+                    }
+
+                    if (tokenActual.equipo != equipoActualDerAbajo || tokenActual.isBloqueada) {
+                        fichasSeguidasDerAbajo = 0;
+                        sequenceDiagonalDerAbajo.clear();
+                        equipoActualDerAbajo = -1;
+                    } else {
+                        fichasSeguidasDerAbajo++;
+                        sequenceDiagonalDerAbajo.add(getCasillaTableros(tabLabels[fila + i][columna + i]));
+                    }
                 }
 
-                if (equipoActual == -1) {
-                    equipoActual = tokenActual.equipo;
+                if (fichasSeguidasDerAbajo == 5 && !secuenciasBloq(sequenceDiagonalDerAbajo)) {
+                    teams.get(jugadorActualTurno.team - 1).secuenciasFormadas++;
+                    resaltarSeq(sequenceDiagonalDerAbajo);
                 }
 
-                if (tokenActual.equipo != equipoActual || tokenActual.isBloqueada) {
-                    fichasSeguidas = 0;
-                    sequence.clear();
-                    equipoActual = -1;
-                } else {
-                    fichasSeguidas++;
-                    sequence.add(getCasillaTableros(tabLabels[fila + i][columna]));
-                }
-            }
+                // Verificar diagonal hacia la izquierda y abajo
+                ArrayList<CasillaTablero> sequenceDiagonalIzqAbajo = new ArrayList<>();
+                int fichasSeguidasIzqAbajo = 0;
+                int equipoActualIzqAbajo = -1;
 
-            if (fichasSeguidas == 5 && !secuenciasBloq(sequence)) {
-                teams.get(jugadorActualTurno.team - 1).secuenciasFormadas++;
-                resaltarSeq(sequence);
+                for (int i = 0; i < 5; i++) {
+                    Tokens tokenActual = tabTokens[fila + i][columna + 4 - i];
+                    if (tokenActual == null) {
+                        fichasSeguidasIzqAbajo = 0;
+                        sequenceDiagonalIzqAbajo.clear();
+                        break;
+                    }
+
+                    if (equipoActualIzqAbajo == -1) {
+                        equipoActualIzqAbajo = tokenActual.equipo;
+                    }
+
+                    if (tokenActual.equipo != equipoActualIzqAbajo || tokenActual.isBloqueada) {
+                        fichasSeguidasIzqAbajo = 0;
+                        sequenceDiagonalIzqAbajo.clear();
+                        equipoActualIzqAbajo = -1;
+                    } else {
+                        fichasSeguidasIzqAbajo++;
+                        sequenceDiagonalIzqAbajo.add(getCasillaTableros(tabLabels[fila + i][columna + 4 - i]));
+                    }
+                }
+
+                if (fichasSeguidasIzqAbajo == 5 && !secuenciasBloq(sequenceDiagonalIzqAbajo)) {
+                    teams.get(jugadorActualTurno.team - 1).secuenciasFormadas++;
+                    resaltarSeq(sequenceDiagonalIzqAbajo);
+                }
             }
         }
     }
-
-    // Verificar secuencias diagonales
-    for (int fila = 0; fila < 6; fila++) {
-        for (int columna = 0; columna < 6; columna++) {
-            // Verificar diagonal hacia la derecha y abajo
-            ArrayList<CasillaTablero> sequenceDiagonalDerAbajo = new ArrayList<>();
-            int fichasSeguidasDerAbajo = 0;
-            int equipoActualDerAbajo = -1;
-
-            for (int i = 0; i < 5; i++) {
-                Tokens tokenActual = tabTokens[fila + i][columna + i];
-                if (tokenActual == null) {
-                    fichasSeguidasDerAbajo = 0;
-                    sequenceDiagonalDerAbajo.clear();
-                    break;
-                }
-
-                if (equipoActualDerAbajo == -1) {
-                    equipoActualDerAbajo = tokenActual.equipo;
-                }
-
-                if (tokenActual.equipo != equipoActualDerAbajo || tokenActual.isBloqueada) {
-                    fichasSeguidasDerAbajo = 0;
-                    sequenceDiagonalDerAbajo.clear();
-                    equipoActualDerAbajo = -1;
-                } else {
-                    fichasSeguidasDerAbajo++;
-                    sequenceDiagonalDerAbajo.add(getCasillaTableros(tabLabels[fila + i][columna + i]));
-                }
-            }
-
-            if (fichasSeguidasDerAbajo == 5 && !secuenciasBloq(sequenceDiagonalDerAbajo)) {
-                teams.get(jugadorActualTurno.team - 1).secuenciasFormadas++;
-                resaltarSeq(sequenceDiagonalDerAbajo);
-            }
-
-            // Verificar diagonal hacia la izquierda y abajo
-            ArrayList<CasillaTablero> sequenceDiagonalIzqAbajo = new ArrayList<>();
-            int fichasSeguidasIzqAbajo = 0;
-            int equipoActualIzqAbajo = -1;
-
-            for (int i = 0; i < 5; i++) {
-                Tokens tokenActual = tabTokens[fila + i][columna + 4 - i];
-                if (tokenActual == null) {
-                    fichasSeguidasIzqAbajo = 0;
-                    sequenceDiagonalIzqAbajo.clear();
-                    break;
-                }
-
-                if (equipoActualIzqAbajo == -1) {
-                    equipoActualIzqAbajo = tokenActual.equipo;
-                }
-
-                if (tokenActual.equipo != equipoActualIzqAbajo || tokenActual.isBloqueada) {
-                    fichasSeguidasIzqAbajo = 0;
-                    sequenceDiagonalIzqAbajo.clear();
-                    equipoActualIzqAbajo = -1;
-                } else {
-                    fichasSeguidasIzqAbajo++;
-                    sequenceDiagonalIzqAbajo.add(getCasillaTableros(tabLabels[fila + i][columna + 4 - i]));
-                }
-            }
-
-            if (fichasSeguidasIzqAbajo == 5 && !secuenciasBloq(sequenceDiagonalIzqAbajo)) {
-                teams.get(jugadorActualTurno.team - 1).secuenciasFormadas++;
-                resaltarSeq(sequenceDiagonalIzqAbajo);
-            }
-        }
-    }
-}
 
     //VERIFICACIÓN DE ESQUINASSS
     private void esquinasVerticales() {
@@ -946,47 +946,114 @@ private void verificarSecuencias() {
         }
         return false;
     }
-   
-    String logCreado="";
 
+    String logCreado = "";
+
+//    // Revisa si ya se gano y agrega los logs
+//    private boolean verificarGane() {
+//    for (int i = 0; i < teams.size(); i++) {
+//        Equipos t = teams.get(i);
+//        if (t.secuenciasFormadas == 2) {
+//            ArrayList<Jugador> equipoGanador = t.jugadores;
+//            // Agregar 3 puntos a cada jugador del equipo ganador
+//            for (Jugador jugador : equipoGanador) {
+//                System.out.println("Procesando jugador: " + jugador.getNombreCompleto());
+//                jugador.addPuntos(3);
+//                System.out.println("Puntos de " + jugador.getNombreCompleto() + " después de agregar: " + jugador.getPuntos());
+//            }
+//            // Crear el log con los nombres de todos los jugadores del equipo ganador
+//            StringBuilder logBuilder = new StringBuilder();
+//            logBuilder.append("¡HAY GANADOR! El equipo ").append(i + 1).append(" ha ganado. Jugadores: ");
+//            for (int j = 0; j < equipoGanador.size(); j++) {
+//                if (j > 0) {
+//                    logBuilder.append(", ");
+//                }
+//                logBuilder.append(equipoGanador.get(j).getNombreCompleto());
+//            }
+//            logCreado = logBuilder.toString();
+//            System.out.println(logCreado);
+//            
+//            // Actualizar los logs de todos los jugadores del equipo ganador
+//            for (Jugador jugador : equipoGanador) {
+//                jugador.setLogs(logCreado);
+//                System.out.println("Logs creados de "+jugador.usuario+": "+jugador.getLogs());
+//            }
+//            
+//            sistemaUsuarios.guardarJugadores();
+//            
+//            JOptionPane.showMessageDialog(juego, logCreado);
+//            return true;
+//        }
+//    }
+//    return false;
+//}
+    
+    StringBuilder logBuilder = new StringBuilder();
     private boolean verificarGane() {
-    for (int i = 0; i < teams.size(); i++) {
-        Equipos t = teams.get(i);
-        if (t.secuenciasFormadas == 2) {
-            ArrayList<Jugador> equipoGanador = t.jugadores;
-            // Agregar 3 puntos a cada jugador del equipo ganador
-            for (Jugador jugador : equipoGanador) {
-                System.out.println("Procesando jugador: " + jugador.getNombreCompleto());
-                jugador.addPuntos(3);
-                System.out.println("Puntos de " + jugador.getNombreCompleto() + " después de agregar: " + jugador.getPuntos());
-            }
-            // Crear el log con los nombres de todos los jugadores del equipo ganador
-            StringBuilder logBuilder = new StringBuilder();
-            logBuilder.append("¡HAY GANADOR! El equipo ").append(i + 1).append(" ha ganado. Jugadores: ");
-            for (int j = 0; j < equipoGanador.size(); j++) {
-                if (j > 0) {
-                    logBuilder.append(", ");
-                }
-                logBuilder.append(equipoGanador.get(j).getNombreCompleto());
-            }
-            logCreado = logBuilder.toString();
-            System.out.println(logCreado);
-            
-            // Actualizar los logs de todos los jugadores del equipo ganador
-            for (Jugador jugador : equipoGanador) {
-                jugador.setLogs(logCreado);
-                System.out.println("Logs creados de "+jugador.usuario+": "+jugador.getLogs());
-            }
-            
-            sistemaUsuarios.guardarJugadores();
-            
-            JOptionPane.showMessageDialog(juego, logCreado);
-            return true;
-        }
-    }
-    return false;
-}
+        boolean hayGanador = false;
 
+        for (int i = 0; i < teams.size(); i++) {
+            Equipos t = teams.get(i);
+            if (t.secuenciasFormadas == 2) {
+                ArrayList<Jugador> equipoGanador = t.jugadores;
+                // Agregar 3 puntos a cada jugador del equipo ganador
+                for (Jugador jugador : equipoGanador) {
+                    System.out.println("Procesando jugador: " + jugador.getNombreCompleto());
+                    jugador.addPuntos(3);
+                    System.out.println("Puntos de " + jugador.getNombreCompleto() + " después de agregar: " + jugador.getPuntos());
+                }
+                // Crear el log con los nombres de todos los jugadores del equipo ganador
+                
+                logBuilder.append("¡HAY GANADOR! El equipo ").append(i + 1).append(" ha ganado. Jugadores: ");
+                for (int j = 0; j < equipoGanador.size(); j++) {
+                    if (j > 0) {
+                        logBuilder.append(", ");
+                    }
+                    logBuilder.append(equipoGanador.get(j).getNombreCompleto());
+                }
+                String logCreado = logBuilder.toString();
+                System.out.println(logCreado);
+
+                // Actualizar los logs de todos los jugadores del equipo ganador
+                for (Jugador jugador : equipoGanador) {
+                    jugador.setLogs(logCreado);
+                    System.out.println("Logs creados de " + jugador.usuario + ": " + jugador.getLogs());
+                }
+
+                hayGanador = true;
+            }
+        }
+
+        if (hayGanador) {
+            // Generar logs para los equipos que no ganaron
+            for (int i = 0; i < teams.size(); i++) {
+                if (teams.get(i).secuenciasFormadas != 2) {
+                    ArrayList<Jugador> equipoPerdedor = teams.get(i).jugadores;
+                    StringBuilder logPerdedorBuilder = new StringBuilder();
+                    logPerdedorBuilder.append("¡EQUIPO ").append(i + 1).append(" HA PERDIDO! Jugadores: ");
+                    for (int j = 0; j < equipoPerdedor.size(); j++) {
+                        if (j > 0) {
+                            logPerdedorBuilder.append(", ");
+                        }
+                        logPerdedorBuilder.append(equipoPerdedor.get(j).getNombreCompleto());
+                    }
+                    String logPerdedor = logPerdedorBuilder.toString();
+                    System.out.println(logPerdedor);
+
+                    // Actualizar los logs de todos los jugadores del equipo perdedor
+                    for (Jugador jugador : equipoPerdedor) {
+                        jugador.setLogs(logPerdedor);
+                        System.out.println("Logs creados de " + jugador.usuario + ": " + jugador.getLogs());
+                    }
+                }
+            }
+
+            sistemaUsuarios.guardarJugadores();
+            JOptionPane.showMessageDialog(juego, logBuilder);
+        }
+
+        return hayGanador;
+    }
 
     //VERIFICACIÓN DE SECUENCIAAS SI HAY ESQUINAS
     private void secuenciaEsquinas() {
