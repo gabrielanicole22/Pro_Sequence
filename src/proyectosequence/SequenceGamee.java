@@ -14,26 +14,13 @@ import java.util.ArrayList;
  * @author Gabriela
  */
 public class SequenceGamee extends javax.swing.JFrame {
-
     TabCartas tab;
     public CartasTablero cartastablero;
     Color SELECT_COLOR = new Color(83, 152, 254);
     private Color colorOriginal;
     SistemaUsuarios sistemausuarios;
+
     public SequenceGamee(ArrayList<Equipos> teams, int numCartas, boolean mismoColorPorEquipo, SistemaUsuarios sistemausuarios) {
-        initComponents();
-        colorOriginal = btnDescartarCarta.getForeground();
-        //this.setSize(1200, 750);
-        this.sistemausuarios=sistemausuarios;
-        tab = new TabCartas(this, teams, numCartas, sistemausuarios);
-        tableroPanel.add(tab);
-        cartastablero = new CartasTablero(this);
-        cartasBaraja.setLayout(new BorderLayout());
-        cartasBaraja.add(cartastablero);
-        tab.cambioDeTurno();
-        tab.temporizador();
-        tab.posicionarCartas();
-        setDefaultCloseOperation(DO_NOTHING_ON_CLOSE);
         if (mismoColorPorEquipo) {
             int teamss = 0;
             for (Equipos currentTeam : teams) {
@@ -51,6 +38,20 @@ public class SequenceGamee extends javax.swing.JFrame {
                 teamss++;
             }
         }
+        initComponents();
+        setDefaultCloseOperation(DO_NOTHING_ON_CLOSE);
+
+        colorOriginal = btnDescartarCarta.getForeground();
+        //this.setSize(1200, 750);
+        this.sistemausuarios = sistemausuarios;
+        tab = new TabCartas(this, teams, numCartas, sistemausuarios);
+        tableroPanel.add(tab);
+        cartastablero = new CartasTablero(this);
+        cartasBaraja.setLayout(new BorderLayout());
+        cartasBaraja.add(cartastablero);
+        tab.cambioDeTurno();
+        tab.temporizador();
+        tab.posicionarCartas();
     }
 
     @SuppressWarnings("unchecked")

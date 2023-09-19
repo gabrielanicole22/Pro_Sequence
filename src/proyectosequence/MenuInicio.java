@@ -198,13 +198,13 @@ public class MenuInicio extends javax.swing.JFrame {
 
     private void btnCerrarSesionMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnCerrarSesionMouseClicked
         // TODO add your handling code here:
-        int opcion = JOptionPane.showConfirmDialog(this, "¿Estás seguro de que quieres cerrar sesión?", "CERRAR SESIÓN", JOptionPane.OK_CANCEL_OPTION);
-        if (opcion == JOptionPane.OK_OPTION) {
+        int opcion = JOptionPane.showConfirmDialog(this, "¿Estás seguro de que deseas cerrar sesión?", "Confirmación", JOptionPane.YES_NO_OPTION);
+        if (opcion == JOptionPane.YES_OPTION) {
             sistemaUsuarios.setUsuarioLogeado(null);
             MenuPrincipal menu = new MenuPrincipal();
             menu.setVisible(true);
+            dispose();
         }
-        this.dispose();
     }//GEN-LAST:event_btnCerrarSesionMouseClicked
 
     private void btnCerrarSesionMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnCerrarSesionMouseEntered
