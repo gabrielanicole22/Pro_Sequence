@@ -19,12 +19,13 @@ public class SequenceGamee extends javax.swing.JFrame {
     public CartasTablero cartastablero;
     Color SELECT_COLOR = new Color(83, 152, 254);
     private Color colorOriginal;
-
-    public SequenceGamee(ArrayList<Equipos> teams, int numCartas, boolean mismoColorPorEquipo) {
+    SistemaUsuarios sistemausuarios;
+    public SequenceGamee(ArrayList<Equipos> teams, int numCartas, boolean mismoColorPorEquipo, SistemaUsuarios sistemausuarios) {
         initComponents();
         colorOriginal = btnDescartarCarta.getForeground();
         //this.setSize(1200, 750);
-        tab = new TabCartas(this, teams, numCartas);
+        this.sistemausuarios=sistemausuarios;
+        tab = new TabCartas(this, teams, numCartas, sistemausuarios);
         tableroPanel.add(tab);
         cartastablero = new CartasTablero(this);
         cartasBaraja.setLayout(new BorderLayout());

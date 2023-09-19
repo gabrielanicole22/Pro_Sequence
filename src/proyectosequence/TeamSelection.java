@@ -24,11 +24,12 @@ public class TeamSelection extends javax.swing.JFrame {
     private Color colorOriginal;
     boolean mismoColorEquipo = false;
 
-    public TeamSelection() {
+    public TeamSelection(SistemaUsuarios sistemausuarios) {
         initComponents();
         colorOriginal = btnAgregarPlayer.getForeground();
         mensajeLabel.setText("Esperando a que se llenen los equipos...");
-        sistemaUsuarios = new SistemaUsuarios();
+        this.sistemaUsuarios=sistemausuarios;
+        
         int Confi = sistemaUsuarios.getPlayersConfig();
         setDefaultCloseOperation(DISPOSE_ON_CLOSE);
 
@@ -100,8 +101,6 @@ public class TeamSelection extends javax.swing.JFrame {
         jTextArea1 = new javax.swing.JTextArea();
         btnAgregarPlayer = new javax.swing.JButton();
         mensajeLabel = new javax.swing.JLabel();
-        jToggleButton1 = new javax.swing.JToggleButton();
-        jToggleButton2 = new javax.swing.JToggleButton();
         jRadioButton1 = new javax.swing.JRadioButton();
         jLabel3 = new javax.swing.JLabel();
 
@@ -177,22 +176,6 @@ public class TeamSelection extends javax.swing.JFrame {
         mensajeLabel.setText("jLabel3");
         jPanel1.add(mensajeLabel, new org.netbeans.lib.awtextra.AbsoluteConstraints(700, 610, -1, -1));
 
-        jToggleButton1.setText("Escoger los colores por equipo");
-        jToggleButton1.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jToggleButton1ActionPerformed(evt);
-            }
-        });
-        jPanel1.add(jToggleButton1, new org.netbeans.lib.awtextra.AbsoluteConstraints(220, 480, -1, -1));
-
-        jToggleButton2.setText("Escoger los colores individualmente");
-        jToggleButton2.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jToggleButton2ActionPerformed(evt);
-            }
-        });
-        jPanel1.add(jToggleButton2, new org.netbeans.lib.awtextra.AbsoluteConstraints(220, 530, -1, -1));
-
         jRadioButton1.setFont(new java.awt.Font("Papyrus", 1, 24)); // NOI18N
         jRadioButton1.setText("Utilizar el mismo color por equipo");
         jRadioButton1.addActionListener(new java.awt.event.ActionListener() {
@@ -245,7 +228,7 @@ public class TeamSelection extends javax.swing.JFrame {
             JOptionPane.showMessageDialog(null, "INICIA LA PARTIDA");
             mensajito.setVisible(false);
 
-            new SequenceGamee(equipos, cantCartas, mismoColorEquipo).setVisible(true);
+            new SequenceGamee(equipos, cantCartas, mismoColorEquipo, sistemaUsuarios).setVisible(true);
             this.dispose();
         }
     }//GEN-LAST:event_btnAgregarPlayerActionPerformed
@@ -269,15 +252,6 @@ public class TeamSelection extends javax.swing.JFrame {
     private void cb_playersActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cb_playersActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_cb_playersActionPerformed
-
-    private void jToggleButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jToggleButton1ActionPerformed
-        new ColoresPorEquipo().setVisible(true);
-        this.hide();
-    }//GEN-LAST:event_jToggleButton1ActionPerformed
-
-    private void jToggleButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jToggleButton2ActionPerformed
-        new ColoresIndividuales().setVisible(true);
-    }//GEN-LAST:event_jToggleButton2ActionPerformed
 
     private void jRadioButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jRadioButton1ActionPerformed
         // TODO add your handling code here:
@@ -319,37 +293,6 @@ public class TeamSelection extends javax.swing.JFrame {
     /**
      * @param args the command line arguments
      */
-    public static void main(String args[]) {
-        /* Set the Nimbus look and feel */
-        //<editor-fold defaultstate="collapsed" desc=" Look and feel setting code (optional) ">
-        /* If Nimbus (introduced in Java SE 6) is not available, stay with the default look and feel.
-         * For details see http://download.oracle.com/javase/tutorial/uiswing/lookandfeel/plaf.html 
-         */
-        try {
-            for (javax.swing.UIManager.LookAndFeelInfo info : javax.swing.UIManager.getInstalledLookAndFeels()) {
-                if ("Nimbus".equals(info.getName())) {
-                    javax.swing.UIManager.setLookAndFeel(info.getClassName());
-                    break;
-                }
-            }
-        } catch (ClassNotFoundException ex) {
-            java.util.logging.Logger.getLogger(TeamSelection.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (InstantiationException ex) {
-            java.util.logging.Logger.getLogger(TeamSelection.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (IllegalAccessException ex) {
-            java.util.logging.Logger.getLogger(TeamSelection.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (javax.swing.UnsupportedLookAndFeelException ex) {
-            java.util.logging.Logger.getLogger(TeamSelection.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        }
-        //</editor-fold>
-
-        /* Create and display the form */
-        java.awt.EventQueue.invokeLater(new Runnable() {
-            public void run() {
-                new TeamSelection().setVisible(true);
-            }
-        });
-    }
 
     private String textoInfoArea() {
         String mensaje = "";
@@ -378,8 +321,6 @@ public class TeamSelection extends javax.swing.JFrame {
     private javax.swing.JRadioButton jRadioButton1;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JTextArea jTextArea1;
-    private javax.swing.JToggleButton jToggleButton1;
-    private javax.swing.JToggleButton jToggleButton2;
     private javax.swing.JLabel mensajeLabel;
     private javax.swing.JDialog mensajito;
     // End of variables declaration//GEN-END:variables

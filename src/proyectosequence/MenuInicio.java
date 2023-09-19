@@ -159,7 +159,7 @@ public class MenuInicio extends javax.swing.JFrame {
             JOptionPane.showMessageDialog(null, "Cantidad insuficiente de usuarios registrados (" + sistemaUsuarios.getTotalPlayers() + "). Necesitas " + sistemaUsuarios.getPlayersConfig() + " usuarios.");
             return;
         }
-        new TeamSelection().setVisible(true);
+        new TeamSelection(sistemaUsuarios).setVisible(true);
         //this.dispose();
     }//GEN-LAST:event_btnJugarMouseClicked
 
@@ -195,7 +195,7 @@ public class MenuInicio extends javax.swing.JFrame {
 
     private void btnReportesMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnReportesMouseClicked
         // TODO add your handling code here:
-        Reportes reportes = new Reportes();
+        Reportes reportes = new Reportes(sistemaUsuarios);
         reportes.setVisible(true);
     }//GEN-LAST:event_btnReportesMouseClicked
 

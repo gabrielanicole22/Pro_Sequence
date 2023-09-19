@@ -10,7 +10,8 @@ public class Reportes extends javax.swing.JFrame {
 
     SistemaUsuarios sistemausuarios;
 
-    public Reportes() {
+    public Reportes(SistemaUsuarios sistemausuarios) {
+        this.sistemausuarios=sistemausuarios;
         initComponents();
         setDefaultCloseOperation(DISPOSE_ON_CLOSE);
         sistemausuarios = new SistemaUsuarios();
@@ -19,7 +20,14 @@ public class Reportes extends javax.swing.JFrame {
         for (int i = 0; i < usuarios.size(); i++) {
             reportes[i] = "\nUsuario: " + usuarios.get(i).getUsername() + ", \nPuntos: " + usuarios.get(i).getPuntos() + "\nFecha: " + usuarios.get(i).getFormattedFechaCreacion();
         }
-        tahistorialjuegos.setListData(reportes);
+        taUsuarios.setListData(reportes);
+        
+        Jugador usuariologeado = sistemausuarios.getUsuarioLogeado();
+        lblUsuarioLogeado.setText("Usuario logeado " + usuariologeado.getNombreCompleto());
+        ponerHistorialJuegos(usuariologeado);
+        System.out.println("El usuario logeado es: " + usuariologeado.getNombreCompleto() + " con usuario: " + usuariologeado.getUsername());
+        System.out.println("Los logs del usuario "+usuariologeado.usuario+ " son: " + usuariologeado.getLogs());
+
     }
 
     /**
@@ -34,9 +42,11 @@ public class Reportes extends javax.swing.JFrame {
         jPanel1 = new javax.swing.JPanel();
         jLabel1 = new javax.swing.JLabel();
         btnregresarconfig = new javax.swing.JButton();
-        jLabel6 = new javax.swing.JLabel();
+        lblUsuarioLogeado = new javax.swing.JLabel();
         jScrollPane1 = new javax.swing.JScrollPane();
-        tahistorialjuegos = new javax.swing.JList<>();
+        taUsuarios = new javax.swing.JList<>();
+        jScrollPane3 = new javax.swing.JScrollPane();
+        tahistorialjuegos = new javax.swing.JTextArea();
         jLabel2 = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
@@ -61,15 +71,21 @@ public class Reportes extends javax.swing.JFrame {
         });
         jPanel1.add(btnregresarconfig, new org.netbeans.lib.awtextra.AbsoluteConstraints(600, 590, 210, 80));
 
-        jLabel6.setBackground(new java.awt.Color(255, 255, 255));
-        jLabel6.setFont(new java.awt.Font("MS Reference Sans Serif", 1, 24)); // NOI18N
-        jLabel6.setText("descripción de mis últimos juegos");
-        jPanel1.add(jLabel6, new org.netbeans.lib.awtextra.AbsoluteConstraints(500, 70, 680, 60));
+        lblUsuarioLogeado.setBackground(new java.awt.Color(255, 255, 255));
+        lblUsuarioLogeado.setFont(new java.awt.Font("MS Reference Sans Serif", 1, 24)); // NOI18N
+        lblUsuarioLogeado.setText("descripción de mis últimos juegos");
+        jPanel1.add(lblUsuarioLogeado, new org.netbeans.lib.awtextra.AbsoluteConstraints(500, 70, 680, 60));
 
-        tahistorialjuegos.setFont(new java.awt.Font("Serif", 0, 24)); // NOI18N
-        jScrollPane1.setViewportView(tahistorialjuegos);
+        taUsuarios.setFont(new java.awt.Font("Serif", 0, 24)); // NOI18N
+        jScrollPane1.setViewportView(taUsuarios);
 
-        jPanel1.add(jScrollPane1, new org.netbeans.lib.awtextra.AbsoluteConstraints(160, 300, 1020, 270));
+        jPanel1.add(jScrollPane1, new org.netbeans.lib.awtextra.AbsoluteConstraints(160, 300, 1020, 140));
+
+        tahistorialjuegos.setColumns(20);
+        tahistorialjuegos.setRows(5);
+        jScrollPane3.setViewportView(tahistorialjuegos);
+
+        jPanel1.add(jScrollPane3, new org.netbeans.lib.awtextra.AbsoluteConstraints(160, 450, 1020, 130));
 
         jLabel2.setIcon(new javax.swing.ImageIcon(getClass().getResource("/bg/Reportes.png"))); // NOI18N
         jPanel1.add(jLabel2, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 1300, 780));
@@ -89,6 +105,15 @@ public class Reportes extends javax.swing.JFrame {
         setLocationRelativeTo(null);
     }// </editor-fold>//GEN-END:initComponents
 
+    private void ponerHistorialJuegos(Jugador usuarioLogeado) {
+        String logsUsuarioLogeado = usuarioLogeado.getLogs();
+        if (logsUsuarioLogeado.equals("")) {
+            tahistorialjuegos.setText("No se han jugado partidas aun.");
+        } else {
+            tahistorialjuegos.setText(logsUsuarioLogeado);
+        }
+    }
+
     private void btnregresarconfigActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnregresarconfigActionPerformed
 
         this.dispose();
@@ -102,9 +127,11 @@ public class Reportes extends javax.swing.JFrame {
     private javax.swing.JButton btnregresarconfig;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
-    private javax.swing.JLabel jLabel6;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JScrollPane jScrollPane1;
-    private javax.swing.JList<String> tahistorialjuegos;
+    private javax.swing.JScrollPane jScrollPane3;
+    private javax.swing.JLabel lblUsuarioLogeado;
+    private javax.swing.JList<String> taUsuarios;
+    private javax.swing.JTextArea tahistorialjuegos;
     // End of variables declaration//GEN-END:variables
 }

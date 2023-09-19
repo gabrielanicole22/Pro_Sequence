@@ -19,13 +19,14 @@ import javax.swing.ImageIcon;
  */
 public abstract class Usuario implements Serializable {
 
-    public String usuario, contra, nombreCompleto;
+    public String usuario, contra, nombreCompleto, logs;
     public int puntos, cantJugadores;
     File fichaFile;
     ImageIcon fichaIcon;
     Date fechaCreacion;
+    
 
-    public Usuario(String usuario, String contra, String nombreCompleto, long fechaCreacion, int puntos, String fichaFilename, int cantJugadores) {
+    public Usuario(String usuario, String contra, String nombreCompleto, long fechaCreacion, int puntos, String fichaFilename, int cantJugadores, String logs) {
         this.usuario = usuario;
         this.contra = contra;
         this.nombreCompleto = nombreCompleto;
@@ -34,6 +35,7 @@ public abstract class Usuario implements Serializable {
         this.puntos = puntos;
         this.fichaFile = new File("src/fichas/" + fichaFilename);
         this.cantJugadores = cantJugadores;
+        this.logs=logs;
         try {
             this.fichaIcon = new ImageIcon(ImageIO.read(fichaFile));
         } catch (Exception e) {
@@ -51,6 +53,7 @@ public abstract class Usuario implements Serializable {
         raf.writeInt(puntos);
         raf.writeUTF(fichaFile.getName());
         raf.writeInt(cantJugadores);
+        raf.writeUTF(logs);
     }
     
     
@@ -70,6 +73,12 @@ public abstract class Usuario implements Serializable {
         return dateFormat.format(fechaCreacion);
     }
 
+    public void setLogs(String logs){
+        this.logs=this.logs+"\n"+logs;
+    }
+    public String getLogs(){
+        return logs;
+    }
     public void setNombreCompleto(String nombreCompleto) {
         this.nombreCompleto = nombreCompleto;
     }

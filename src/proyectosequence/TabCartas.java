@@ -39,7 +39,6 @@ public class TabCartas extends javax.swing.JPanel {
 
     SequenceGamee juego;
     Image fondito;
-
     Jugador jugadorActualTurno = null;
     int equipoturnoActual;
     int[] equipot;
@@ -82,7 +81,7 @@ public class TabCartas extends javax.swing.JPanel {
     //ImageIcon background = new ImageIcon(urlBackground);
     //ImageIcon ficha = new ImageIcon(urlFicha);
 
-    public TabCartas(SequenceGamee juego, ArrayList<Equipos> teams, int numCartas) {
+    public TabCartas(SequenceGamee juego, ArrayList<Equipos> teams, int numCartas, SistemaUsuarios sistemausuarios) {
         initComponents(); // Inicializa los componentes del panel.
         fondito = new ImageIcon("src/cartas/fondo.jpg").getImage(); // Carga la imagen de fondo.
         this.teams = teams; // Asigna la lista de equipos.
@@ -92,7 +91,7 @@ public class TabCartas extends javax.swing.JPanel {
 
         cartasMano = manejadorCartas.cargadoCartas(); // Carga las cartas disponibles.
         seqs = new ArrayList<>();
-        sistemaUsuarios = new SistemaUsuarios();
+        this.sistemaUsuarios=sistemausuarios;
         // Meter las secuencias por equipo en el array de secuencias
         secuenciasDeEquipos[1] = secuenciasEquipo1;
         secuenciasDeEquipos[2] = secuenciasEquipo2;
@@ -947,25 +946,47 @@ private void verificarSecuencias() {
         }
         return false;
     }
+   
+    String logCreado="";
 
     private boolean verificarGane() {
-        for (int i = 0; i < teams.size(); i++) {
-            Equipos t = teams.get(i);
-            if (t.secuenciasFormadas == 2) {
-                ArrayList<Jugador> equipoGanador = t.jugadores;
-                // Agregar 3 puntos a cada jugador del equipo ganador
-                for (Jugador jugador : equipoGanador) {
-                    System.out.println("Procesando jugador: " + jugador.getNombreCompleto());
-                    jugador.addPuntos(3);
-                    System.out.println("Puntos de " + jugador.getNombreCompleto() + " después de agregar: " + jugador.getPuntos());
-                    sistemaUsuarios.guardarJugadores();
-                }
-                JOptionPane.showMessageDialog(juego, "¡HAY GANADOR! EL EQUIPO " + (i + 1) + " COMPLETÓ DOS SECUENCIAS.");
-                return true;
+    for (int i = 0; i < teams.size(); i++) {
+        Equipos t = teams.get(i);
+        if (t.secuenciasFormadas == 2) {
+            ArrayList<Jugador> equipoGanador = t.jugadores;
+            // Agregar 3 puntos a cada jugador del equipo ganador
+            for (Jugador jugador : equipoGanador) {
+                System.out.println("Procesando jugador: " + jugador.getNombreCompleto());
+                jugador.addPuntos(3);
+                System.out.println("Puntos de " + jugador.getNombreCompleto() + " después de agregar: " + jugador.getPuntos());
             }
+            // Crear el log con los nombres de todos los jugadores del equipo ganador
+            StringBuilder logBuilder = new StringBuilder();
+            logBuilder.append("¡HAY GANADOR! El equipo ").append(i + 1).append(" ha ganado. Jugadores: ");
+            for (int j = 0; j < equipoGanador.size(); j++) {
+                if (j > 0) {
+                    logBuilder.append(", ");
+                }
+                logBuilder.append(equipoGanador.get(j).getNombreCompleto());
+            }
+            logCreado = logBuilder.toString();
+            System.out.println(logCreado);
+            
+            // Actualizar los logs de todos los jugadores del equipo ganador
+            for (Jugador jugador : equipoGanador) {
+                jugador.setLogs(logCreado);
+                System.out.println("Logs creados de "+jugador.usuario+": "+jugador.getLogs());
+            }
+            
+            sistemaUsuarios.guardarJugadores();
+            
+            JOptionPane.showMessageDialog(juego, logCreado);
+            return true;
         }
-        return false;
     }
+    return false;
+}
+
 
     //VERIFICACIÓN DE SECUENCIAAS SI HAY ESQUINAS
     private void secuenciaEsquinas() {
