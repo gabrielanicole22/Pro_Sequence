@@ -44,7 +44,7 @@ public class SequenceGamee extends javax.swing.JFrame {
         colorOriginal = btnDescartarCarta.getForeground();
         //this.setSize(1200, 750);
         this.sistemausuarios = sistemausuarios;
-        tab = new TabCartas(this, teams, numCartas, sistemausuarios);
+        tab = new TabCartas(this, teams, numCartas, sistemausuarios,fichaJugador);
         tableroPanel.add(tab);
         cartastablero = new CartasTablero(this);
         cartasBaraja.setLayout(new BorderLayout());
@@ -59,6 +59,7 @@ public class SequenceGamee extends javax.swing.JFrame {
     private void initComponents() {
 
         jPanel1 = new javax.swing.JPanel();
+        fichaJugador = new javax.swing.JLabel();
         timerLbl = new javax.swing.JLabel();
         ultimaCarta = new javax.swing.JLabel();
         tableroPanel = new javax.swing.JPanel();
@@ -74,6 +75,7 @@ public class SequenceGamee extends javax.swing.JFrame {
 
         jPanel1.setBackground(new java.awt.Color(0, 153, 51));
         jPanel1.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
+        jPanel1.add(fichaJugador, new org.netbeans.lib.awtextra.AbsoluteConstraints(260, 110, 80, 50));
 
         timerLbl.setFont(new java.awt.Font("Poor Richard", 0, 24)); // NOI18N
         timerLbl.setText("temporizador");
@@ -195,6 +197,7 @@ public class SequenceGamee extends javax.swing.JFrame {
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnDescartarCarta;
     public javax.swing.JPanel cartasBaraja;
+    public javax.swing.JLabel fichaJugador;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel tableroPanel;

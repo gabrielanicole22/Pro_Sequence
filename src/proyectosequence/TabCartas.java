@@ -69,6 +69,8 @@ public class TabCartas extends javax.swing.JPanel {
     ImageIcon[][] imagenestab = new ImageIcon[filas][columnas];
     JLabel[][] tabLabels = new JLabel[filas][columnas];
     Tokens[][] tabTokens = new Tokens[filas][columnas];
+    
+    JLabel token;
 
     @Override
     protected void paintComponent(Graphics g) {
@@ -83,14 +85,14 @@ public class TabCartas extends javax.swing.JPanel {
     //ImageIcon background = new ImageIcon(urlBackground);
     //ImageIcon ficha = new ImageIcon(urlFicha);
 
-    public TabCartas(SequenceGamee juego, ArrayList<Equipos> teams, int numCartas, SistemaUsuarios sistemausuarios) {
+    public TabCartas(SequenceGamee juego, ArrayList<Equipos> teams, int numCartas, SistemaUsuarios sistemausuarios,JLabel ficha) {
         initComponents(); // Inicializa los componentes del panel.
         fondito = new ImageIcon("src/cartas/fondo.jpg").getImage(); // Carga la imagen de fondo.
         this.teams = teams; // Asigna la lista de equipos.
         cantCartas = numCartas; // Establece la cantidad de cartas.
         this.juego = juego; // Asigna la referencia al juego.
         equipot = new int[teams.size()]; // Inicializa el arreglo de equipos.
-
+        this.token=ficha;
         cartasMano = manejadorCartas.cargadoCartas(); // Carga las cartas disponibles.
         seqs = new ArrayList<>();
         this.sistemaUsuarios = sistemausuarios;
@@ -469,6 +471,7 @@ public class TabCartas extends javax.swing.JPanel {
             equipoturnoActual = 0;
 
             juego.turnLabel.setText("Turno de: " + jugadorActualTurno.usuario);
+            token.setIcon(jugadorActualTurno.fichaIcon);
             return;
         }
 
@@ -500,6 +503,7 @@ public class TabCartas extends javax.swing.JPanel {
         jugadorActualTurno = nextPlayer;
         juego.cartastablero.posicionarCartas(jugadorActualTurno);
         juego.turnLabel.setText("Turno de: " + jugadorActualTurno.usuario);
+            token.setIcon(jugadorActualTurno.fichaIcon);
 
         cartasDescartadas = 0; //Reinicia el contador de cartas descartadas 
     }
