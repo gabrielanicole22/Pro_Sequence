@@ -174,6 +174,7 @@ public class TabCartas extends javax.swing.JPanel {
                             ultimaCartaJugada();
                             verificarSecuencias();
                             if (verificarGane()) {
+                                new MenuInicio().setVisible(true);
                                 juego.dispose();
                                 return;
                             }
@@ -207,6 +208,7 @@ public class TabCartas extends javax.swing.JPanel {
                             ultimaCartaJugada();
                             verificarSecuencias();
                             if (verificarGane()) {
+                                new MenuInicio().setVisible(true);
                                 juego.dispose();
                                 return;
                             }
@@ -254,6 +256,7 @@ public class TabCartas extends javax.swing.JPanel {
                         juego.cartastablero.clicked = null;
                         verificarSecuencias();
                         if (verificarGane()) {
+                              new MenuInicio().setVisible(true);
                             juego.dispose();
                             return;
                         }
